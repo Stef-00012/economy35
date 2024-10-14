@@ -3,6 +3,7 @@ package Engine.Core;
 import javax.swing.JPanel;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.util.concurrent.PriorityBlockingQueue;
 
 /**
@@ -42,6 +43,9 @@ public class Painter extends JPanel {
         super.paintComponent(g);
 
         Graphics2D g2 = (Graphics2D) g;
+
+        g2.scale(0.2, 0.2); // Scale down by 50%
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         // Render each component in the queue.
         while (!renderQueue.isEmpty()) {

@@ -30,7 +30,7 @@ public class TestController extends RenderComponent {
         System.out.println(deltaTime);
         //System.exit(0);
 
-        posX += deltaTime * 10;
+        posX += deltaTime * 200;
     }
 
 }
