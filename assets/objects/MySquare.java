@@ -1,8 +1,7 @@
-package assets.scenes;
+package assets.objects;
 
 import java.awt.Color;
 
-import engine.Debug;
 import engine.Vector;
 import engine.core.managers.GameManager;
 import engine.core.nodes.GameNode;
@@ -30,7 +29,7 @@ public class MySquare extends GameNode {
 
     @Override
     public void onEnable() {
-        transform.setPosition(new Vector(200, 200));
+        //transform.setPosition(new Vector(200, 200));
         transform.setScale(new Vector(range, range));
     }
 
