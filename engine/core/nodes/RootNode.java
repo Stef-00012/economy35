@@ -1,5 +1,7 @@
 package engine.core.nodes;
 
+import javax.swing.Timer;
+
 import engine.Debug;
 import engine.core.errors.ParentDisabledException;
 import engine.core.managers.GameManager;
@@ -43,13 +45,14 @@ public class RootNode extends Node implements Runnable {
 
     @Override
     public void run() {
-        while (true) {
+        new Timer(4, e -> {
             // Call the GameManager's onTick method to manage game timing and events
             GameManager.onTick();
 
             // Update the root node and all child nodes
             _update();
-        }
+        }).start();
+
     }
 
 }
