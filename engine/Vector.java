@@ -1,6 +1,6 @@
-package Engine;
+package engine;
 
-public class Vector {
+public final class Vector {
     public final double x;
     public final double y;
 
@@ -22,6 +22,10 @@ public class Vector {
     public Vector(){
         this.x = 0; 
         this.y = 0;
+    }
+    public Vector(double value){
+        this.x = value; 
+        this.y = value;
     }
 
     //#region Operation methods
@@ -197,6 +201,22 @@ public class Vector {
             this.x * Math.cos(angle) - this.y * Math.sin(angle),
             this.x * Math.sin(angle) + this.y * Math.cos(angle)
         );
+    }
+
+    /**
+     * Casts the x variable to an integer
+     * @return The x of the vector as an integer 
+     */
+    public int getX(){
+        return (int)x;
+    }
+
+    /**
+     * Casts the y variable to an integer
+     * @return The y of the vector as an integer 
+     */
+    public int getY(){
+        return (int)x;
     }
 }
 
