@@ -1,23 +1,32 @@
 package assets.scenes;
 
+
 import java.awt.Color;
 
 import engine.Debug;
 import engine.Vector;
 import engine.core.nodes.Scene;
-import engine.core.nodes.components.defaults.Square;
+import engine.core.nodes.components.defaults.Transform;
 
 public class MainScene extends Scene {
+    Transform squareTransform = new Transform();
+
 
     @Override
     public void init() {
         Debug.log("Main Scene initialized");
-        addChild(new Square(new Vector(200, 200), 0));
 
-        Square s2 = new Square(new Vector(200, 200), 1);
-        s2.setColor(Color.MAGENTA);
-        s2.setPosition(new Vector(100, 100));
-        addChild(s2);
+        squareTransform.setPosition(new Vector(200, 200));
+
+        addChild(createSquare(150, Color.darkGray, 0));
+        addChild(createSquare(100, Color.gray, 1));
+        addChild(createSquare(50, Color.white, 2));
+    }
+
+    private MySquare createSquare(double range, Color c, int layer){
+        MySquare square = new MySquare(2, range, layer, c);
+        //square.transform.setParentTransform(squareTransform);
+        return square;
     }
     
 }

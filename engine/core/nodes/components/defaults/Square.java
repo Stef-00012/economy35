@@ -7,41 +7,32 @@ import engine.Vector;
 import engine.core.nodes.components.Renderer;
 
 public class Square extends Renderer {
-    private Vector position = Vector.ZERO;
-    private Vector scale = Vector.ZERO;
+    private Transform transform;
     private Color color;
 
-    public Square(Vector scale, int layer) {
+    public Square(Transform transform, int layer) {
         super(layer);
-        this.scale = scale;
+        this.transform = transform;
     }
 
     @Override
     public void render(Graphics2D g) {
         g.setColor(color);
-        g.fillRect(position.getX(), position.getY(), scale.getX(), scale.getY());
 
+        Vector scale = transform.getScale();
+        Vector pos = transform.getPosition().subtract(scale.divide(2)); // Center the square
+        double rotation = transform.getRotation();
+
+        g.rotate(rotation);
+        g.fillRect(pos.getX(), pos.getY(), scale.getX(), scale.getY());
+
+        // Reset color and rotation
+        g.rotate(-rotation);
         g.setColor(Color.black);
     }
     
 
     //#region Getters & Setters
-    public Vector getPosition() {
-        return position;
-    }
-
-    public void setPosition(Vector position) {
-        this.position = position;
-    }
-
-    public Vector getScale() {
-        return scale;
-    }
-
-    public void setScale(Vector scale) {
-        this.scale = scale;
-    }
-
     public Color getColor() {
         return color;
     }

@@ -1,6 +1,6 @@
 package engine;
 
-public class Vector {
+public final class Vector {
     public final double x;
     public final double y;
 
@@ -22,6 +22,10 @@ public class Vector {
     public Vector(){
         this.x = 0; 
         this.y = 0;
+    }
+    public Vector(double value){
+        this.x = value; 
+        this.y = value;
     }
 
     //#region Operation methods

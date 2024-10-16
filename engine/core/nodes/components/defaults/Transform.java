@@ -1,13 +1,12 @@
 package engine.core.nodes.components.defaults;
 
 import engine.Vector;
-import engine.core.nodes.Node;
 
 /**
  * Represents a transformation in a 2D space, including position, scale, and rotation.
  * It supports hierarchical transformations, allowing a child to inherit transformations from its parent.
  */
-public class Transform extends Node {
+public class Transform {
 
     // Local position, scale, and rotation
     private Vector position = Vector.ONE;

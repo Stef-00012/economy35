@@ -77,7 +77,7 @@ public abstract class Node {
     public void _update() {
         onUpdate();
 
-        if (!active || !parentNode.active) {
+        if (active && parentNode.active) {
             // Update child nodes
             updateChildNodes();
         }
