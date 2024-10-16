@@ -15,6 +15,10 @@ import engine.Vector;
 import engine.core.managers.GameManager;
 import engine.core.nodes.components.Renderer;
 
+/**
+ * Represents a sprite that can be rendered with transformations,
+ * including position, scale, and rotation. The sprite is loaded from an image file.
+ */
 public class Sprite extends Renderer {
     public boolean useFastResizing = false;
 
@@ -24,13 +28,20 @@ public class Sprite extends Renderer {
 
     private Vector previousScale;
 
+    /**
+     * Constructs a Sprite with the specified image source and transform.
+     *
+     * @param imageSrc The source file path of the image to load.
+     * @param transform The Transform object that defines the sprite's properties.
+     * @param layer     The rendering layer of the sprite.
+     */
     public Sprite(String imageSrc, Transform transform, int layer) {
         super(layer);
         try {
             image = ImageIO.read(new File(imageSrc));
         } catch (IOException e) {
-            e.printStackTrace();
-            System.exit(-1);
+            Debug.engineLogErr("Failed to load " + imageSrc);
+            System.exit(0);
         }
         this.transform = transform;
     }

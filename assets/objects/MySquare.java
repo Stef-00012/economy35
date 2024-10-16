@@ -7,6 +7,9 @@ import engine.core.managers.GameManager;
 import engine.core.nodes.GameNode;
 import engine.core.nodes.components.defaults.Square;
 
+/**
+ * Square that scales based on the sine function
+ */
 public class MySquare extends GameNode {
     private Square sr; // The square renderer
 
@@ -22,9 +25,9 @@ public class MySquare extends GameNode {
 
         t = 0;
 
-        sr = new Square(transform, layer);
-        addChild(sr);
-        sr.setColor(c);
+        sr = new Square(transform, layer); // Create the square renderer
+        addChild(sr); // Add the square renderer as a child of this node
+        sr.setColor(c); 
     }
 
     @Override

@@ -11,7 +11,7 @@ import engine.core.nodes.Scene;
 import engine.core.nodes.components.defaults.Transform;
 
 public class MainScene extends Scene {
-    Transform squareTransform = new Transform();
+    Transform squareTransform = new Transform(); // Container for all the squares
 
 
     @Override
