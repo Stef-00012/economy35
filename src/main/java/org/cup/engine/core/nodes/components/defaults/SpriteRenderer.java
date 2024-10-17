@@ -62,8 +62,7 @@ public class SpriteRenderer extends Renderer {
         g.rotate(rotation);
         ((Graphics) g).drawImage(image, pos.getX(), pos.getY(), scale.getX(), scale.getY(), observer);
 
-        // Reset color and rotation
+        // Reset rotation
         g.rotate(-rotation);
-        g.setColor(Color.black);
     }
 }

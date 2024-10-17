@@ -216,7 +216,7 @@ public final class Vector {
      * @return The y of the vector as an integer
      */
     public int getY(){
-        return (int)x;
+        return (int)y;
     }
 }
 

@@ -1,5 +1,6 @@
 package org.cup.assets.scenes;
 
+import org.cup.assets.objects.AnimationTest;
 import org.cup.assets.objects.MySquare;
 import org.cup.assets.objects.Player;
 import org.cup.engine.Vector;
@@ -23,7 +24,8 @@ public class MainScene extends Scene {
         addChild(createSquare(100, Color.gray, 1));
         addChild(createSquare(50, Color.white, 2));
 
-        addChild(new Player());
+        //addChild(new Player());
+        addChild(new AnimationTest());
     }
 
     @Override

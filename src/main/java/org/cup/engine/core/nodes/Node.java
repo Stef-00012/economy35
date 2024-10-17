@@ -49,14 +49,14 @@ public abstract class Node {
     public void _setup() throws ParentDisabledException {
         if (!isRoot() && !parentNode.active)
             throw new ParentDisabledException("Can't run node inside of a disabled object " + getClass().getName());
-
-        active = true;
-
+            
         // Initialize the node only once
         if (!hasBeenInitialized) {
             init();
             hasBeenInitialized = true;
         }
+
+        active = true;
 
         onEnable();
 

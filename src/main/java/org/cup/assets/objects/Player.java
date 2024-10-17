@@ -6,7 +6,7 @@ import org.cup.engine.core.nodes.GameNode;
 import org.cup.engine.core.nodes.components.defaults.SpriteRenderer;
 
 public class Player extends GameNode {
-    private SpriteRenderer sprite = new SpriteRenderer(PathHelper.getSpritePath("test.png"), transform, 5);
+    private SpriteRenderer sprite = new SpriteRenderer(PathHelper.getSpritePath("test-animation-1\\1.png"), transform, 5);
 
     @Override
     public void init() {

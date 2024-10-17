@@ -27,13 +27,4 @@ public abstract class Scene extends Node {
             System.out.println(e.getMessage());
         }
     }
-
-    /**
-     * Resets the scene by re-initializing and enabling it.
-     * This is useful for restoring the scene to its default state.
-     */
-    public void reset() {
-        init();   // Re-initialize the scene
-        enable(); // Re-enable the scene after initialization
-    }
 }
