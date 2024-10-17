@@ -26,6 +26,11 @@ public class MainScene extends Scene {
         addChild(new Player());
     }
 
+    @Override
+    public void onEnable() {
+        Debug.log("Main Scene enabled");
+    }
+
     private MySquare createSquare(double range, Color c, int layer){
         MySquare square = new MySquare(2, range, layer, c);
         square.transform.setParentTransform(squareTransform);

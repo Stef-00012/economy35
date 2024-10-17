@@ -9,7 +9,7 @@ import java.awt.*;
  * Represents a square that can be rendered with transformations,
  * including position, scale, and rotation.
  */
-public class Square extends Renderer {
+public class SquareRenderer extends Renderer {
     private Transform transform;
     private Color color;
 
@@ -19,7 +19,7 @@ public class Square extends Renderer {
      * @param transform The Transform object that defines the square's properties.
      * @param layer     The rendering layer of the square.
      */
-    public Square(Transform transform, int layer) {
+    public SquareRenderer(Transform transform, int layer) {
         super(layer);
         this.transform = transform;
     }

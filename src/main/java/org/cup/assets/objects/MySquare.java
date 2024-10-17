@@ -3,7 +3,7 @@ package org.cup.assets.objects;
 import org.cup.engine.Vector;
 import org.cup.engine.core.managers.GameManager;
 import org.cup.engine.core.nodes.GameNode;
-import org.cup.engine.core.nodes.components.defaults.Square;
+import org.cup.engine.core.nodes.components.defaults.SquareRenderer;
 
 import java.awt.*;
 
@@ -11,7 +11,7 @@ import java.awt.*;
  * Square that scales based on the sine function
  */
 public class MySquare extends GameNode {
-    private Square sr; // The square renderer
+    private SquareRenderer sr; // The square renderer
 
     private double speed;
     private double range;
@@ -25,7 +25,7 @@ public class MySquare extends GameNode {
 
         t = 0;
 
-        sr = new Square(transform, layer); // Create the square renderer
+        sr = new SquareRenderer(transform, layer); // Create the square renderer
         addChild(sr); // Add the square renderer as a child of this node
         sr.setColor(c);
     }

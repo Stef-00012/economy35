@@ -1,11 +1,12 @@
 package org.cup.assets.objects;
 
+import org.cup.assets.PathHelper;
 import org.cup.engine.Vector;
 import org.cup.engine.core.nodes.GameNode;
-import org.cup.engine.core.nodes.components.defaults.Sprite;
+import org.cup.engine.core.nodes.components.defaults.SpriteRenderer;
 
 public class Player extends GameNode {
-    private Sprite sprite = new Sprite(System.getProperty("user.dir") + "\\src\\main\\java\\org\\cup\\assets\\sprites\\test.png", transform, 5);
+    private SpriteRenderer sprite = new SpriteRenderer(PathHelper.getSpritePath("test.png"), transform, 5);
 
     @Override
     public void init() {

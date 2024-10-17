@@ -11,6 +11,5 @@ public class Main {
 
         MainScene m = new MainScene();
         game.addScene(m);
-        m.enable();
     }
 }

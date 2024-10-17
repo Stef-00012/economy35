@@ -15,7 +15,7 @@ import java.io.IOException;
  * Represents a sprite that can be rendered with transformations,
  * including position, scale, and rotation. The sprite is loaded from an image file.
  */
-public class Sprite extends Renderer {
+public class SpriteRenderer extends Renderer {
     public boolean useFastResizing = false;
 
     private Transform transform;
@@ -31,7 +31,7 @@ public class Sprite extends Renderer {
      * @param transform The Transform object that defines the sprite's properties.
      * @param layer     The rendering layer of the sprite.
      */
-    public Sprite(String imageSrc, Transform transform, int layer) {
+    public SpriteRenderer(String imageSrc, Transform transform, int layer) {
         super(layer);
         try {
             image = ImageIO.read(new File(imageSrc));

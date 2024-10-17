@@ -20,7 +20,7 @@ import java.util.ArrayList;
  */
 public abstract class Node {
     private Node parentNode; // If null, this is the root node
-    private ArrayList<Node> childNodes;
+    private final ArrayList<Node> childNodes;
 
     private boolean active;
     private boolean hasBeenInitialized;
@@ -28,6 +28,7 @@ public abstract class Node {
     public Node() {
         this.childNodes = new ArrayList<>();
         hasBeenInitialized = false;
+        active = false;
     }
 
     /**
