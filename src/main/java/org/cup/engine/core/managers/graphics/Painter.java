@@ -47,6 +47,7 @@ public class Painter extends JPanel {
 
     public Painter() {
         queue = new RenderingQueue();
+        this.setLayout(null);
     }
 
     /**
