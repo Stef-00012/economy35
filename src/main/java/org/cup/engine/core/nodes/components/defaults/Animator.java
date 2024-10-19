@@ -12,6 +12,9 @@ import org.cup.engine.core.Debug;
 import org.cup.engine.core.managers.GameManager;
 import org.cup.engine.core.nodes.components.Renderer;
 
+/**
+ * Handles multiple animations and controls the playback of a currently playing animation.
+ */
 public class Animator extends Renderer {
     private final HashMap<String, Animation> animations;
     private Animation currentlyPlaying;
@@ -23,6 +26,12 @@ public class Animator extends Renderer {
     private JPanel observer;
     private Image image;
 
+    /**
+     * Constructs an Animator with a specified transform and rendering layer.
+     *
+     * @param transform The Transform object for position and rotation.
+     * @param layer The rendering layer.
+     */
     public Animator(Transform transform, int layer) {
         super(layer);
         animations = new HashMap<>();
@@ -43,17 +52,24 @@ public class Animator extends Renderer {
 
         g.rotate(rotation);
 
-        if (scale != previousScale) {
-            currentlyPlaying.resizeSprites(pos);
+        // Resize sprites if the scale has changed or if a new animation is playing
+        if (!scale.equals(previousScale) && currentlyPlaying != null) {
+            currentlyPlaying.resizeSprites(scale);
             previousScale = scale;
         }
 
         ((Graphics) g).drawImage(image, pos.getX(), pos.getY(), scale.getX(), scale.getY(), observer);
 
-        // Reset color and rotation
+        // Reset rotation
         g.rotate(-rotation);
     }
 
+    /**
+     * Adds a new animation to the animator.
+     *
+     * @param name The name to identify the animation.
+     * @param animation The Animation object to add.
+     */
     public void addAnimation(String name, Animation animation) {
         if (animations.containsKey(name)) {
             Debug.warn("Animation already present in the animator as " + name + ". Now it has been replaced.");
@@ -61,13 +77,20 @@ public class Animator extends Renderer {
 
         animations.put(name, animation);
 
+        // Automatically play the first animation
         if (currentlyPlaying == null) {
             play(name);
         }
     }
 
-    public void play(String animationName){
-        Animation toPlay = animations.getOrDefault(animationName, null);
+    /**
+     * Plays the specified animation by name.
+     *
+     * @param animationName The name of the animation to play.
+     */
+    public void play(String animationName) {
+        Animation toPlay = animations.get(animationName);
+        boolean isFirstAnimation = currentlyPlaying == null;
     
         if (toPlay == null) {
             Debug.engineLogErr("Animation " + animationName + " not found in animator");
@@ -76,12 +99,15 @@ public class Animator extends Renderer {
     
         currentlyPlaying = toPlay;
         currentlyPlaying.reset();
-        //currentlyPlaying.resizeIfNecessary(transform.getScale());
-    
+
+        if(!isFirstAnimation){
+            currentlyPlaying.resizeSprites(transform.getScale());
+        }
+
+        // Set the initial image frame for rendering
         image = currentlyPlaying.nextFrame(); 
         lastSpriteChange = System.currentTimeMillis(); 
     }
-    
 
     @Override
     public void onUpdate() {
@@ -89,6 +115,7 @@ public class Animator extends Renderer {
             Debug.engineLogErr("There's no animation playing");
             return;
         }
+
         // Check if it's time to switch to the next frame
         if (System.currentTimeMillis() - lastSpriteChange > currentlyPlaying.getTimeBetweenFrames()) {
             if (currentlyPlaying.isLastFrame() && !currentlyPlaying.isLoop())
@@ -98,5 +125,4 @@ public class Animator extends Renderer {
             lastSpriteChange = System.currentTimeMillis(); // Update the last sprite change time
         }
     }
-
 }
