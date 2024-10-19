@@ -32,13 +32,12 @@ public class MainScene extends Scene {
 
     private void createAreas(){
         // sidewalk
-        // addChild(createSection(1280, 720/2, 0, 0, 1, Color.RED));
         addChild(createSection(1280, 20, 0, 700, 1, Color.BLACK));
     }
 
     private Rectangle createSection(int w, int h, int x, int y, int layer, Color c){
         Rectangle r = new Rectangle(w, h, x, y, layer, c);
-        // r.transform.setParentTransform(squareTransform);
+        r.transform.setParentTransform(squareTransform);
         return r;
     }
 
