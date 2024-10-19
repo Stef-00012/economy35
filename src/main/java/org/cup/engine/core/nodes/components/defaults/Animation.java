@@ -8,35 +8,36 @@ import javax.imageio.ImageIO;
 
 import org.cup.engine.Vector;
 import org.cup.engine.core.Debug;
-import org.cup.engine.core.managers.GameManager;
 
+/**
+ * Represents an animation consisting of multiple frames (sprites).
+ */
 public class Animation {
     private Image[] renderableSprites;
-    private float timeBetweenFrames;
+    private float timeBetweenFrames; // Time to wait between frames in milliseconds
     private boolean loop;
 
-    private int frameCount;
+    private int currentFrameIndex;
 
-    private Vector currentSize;
-
+    /**
+     * Constructs an Animation with the specified frames, timing, and looping
+     * behavior.
+     *
+     * @param sprites       Array of image file paths for the animation frames.
+     * @param timeBetweenFrames Time in milliseconds to wait between frames.
+     * @param loop              Whether the animation should loop.
+     */
     public Animation(String[] sprites, float timeBetweenFrames, boolean loop) {
         this.renderableSprites = new Image[sprites.length];
         this.timeBetweenFrames = timeBetweenFrames;
-        this.frameCount = 0;
+        this.currentFrameIndex = 0;
         this.loop = loop;
 
         if (sprites.length == 0) {
             Debug.engineLogErr("The animation is empty");
         }
 
-        for (int i = 0; i < sprites.length; i++) {
-            try {
-                renderableSprites[i] = ImageIO.read(new File(sprites[i]));
-            } catch (IOException e) {
-                Debug.engineLogErr("Failed to load " + sprites[i]);
-                System.exit(0);
-            }
-        }
+        loadImages(sprites);
     }
 
     public Animation(String[] sprites, boolean loop) {
@@ -47,57 +48,86 @@ public class Animation {
         this(sprites, true);
     }
 
-    public void resizeSprites(Vector size){
-        if(currentSize == null){
-            currentSize = new Vector(renderableSprites[0].getWidth(GameManager.graphicsManager.getPainter()));
+    private void loadImages(String[] sprites) {
+        for (int i = 0; i < sprites.length; i++) {
+            try {
+                renderableSprites[i] = ImageIO.read(new File(sprites[i]));
+            } catch (IOException e) {
+                Debug.engineLogErr("Failed to load " + sprites[i]);
+                System.exit(0);
+            }
         }
-        if(size.len() < currentSize.len()) return;
-
-        int x = size.getX();
-        int y = size.getY();
-        for(int i = 0; i < renderableSprites.length; i++){
-            Image scaledInstance = renderableSprites[i].getScaledInstance(x, y, Image.SCALE_SMOOTH);
-            renderableSprites[i] = scaledInstance;
-        }
-        currentSize = size;
     }
 
+    /**
+     * Resizes all frames to the specified size.
+     *
+     * @param size The new size for each frame.
+     */
+    public void resizeSprites(Vector size) {
+        for (int i = 0; i < renderableSprites.length; i++) {
+            // Use Image.SCALE_SMOOTH for better quality
+            Image scaledImage = renderableSprites[i].getScaledInstance((int) size.getX(), (int) size.getY(),
+                    Image.SCALE_SMOOTH);
+            renderableSprites[i] = scaledImage;
+        }
+    }
+
+    /**
+     * Retrieves the next frame in the animation sequence.
+     *
+     * @return The next frame as an Image.
+     */
     public Image nextFrame() {
         if (isLastFrame() && loop) {
-            frameCount = 0;
+            currentFrameIndex = 0; // Loop back to the start
         }
 
-        Image frame = renderableSprites[frameCount];
-
-        frameCount++;
-
+        Image frame = renderableSprites[currentFrameIndex];
+        currentFrameIndex++;
         return frame;
     }
 
-    public void resizeIfNecessary(Vector size) {
-        if (currentSize != size)
-            resizeSprites(size);
-    }
-
+    /**
+     * Checks if the current frame is the last frame of the animation.
+     *
+     * @return True if the current frame is the last; otherwise false.
+     */
     public boolean isLastFrame() {
-        return frameCount >= renderableSprites.length;
+        return currentFrameIndex >= renderableSprites.length;
     }
 
+    /**
+     * Resets the animation to the first frame.
+     */
     public void reset() {
-        frameCount = 0;
+        currentFrameIndex = 0;
     }
 
-    // #region Getters & Setters
+    /**
+     * Gets the time between frames in milliseconds.
+     *
+     * @return The time between frames.
+     */
     public float getTimeBetweenFrames() {
         return timeBetweenFrames;
     }
 
+    /**
+     * Sets the time between frames.
+     *
+     * @param speed The new time between frames in milliseconds.
+     */
     public void setTimeBetweenFrames(float speed) {
         this.timeBetweenFrames = speed;
     }
 
+    /**
+     * Checks if the animation loops.
+     *
+     * @return True if the animation loops; otherwise false.
+     */
     public boolean isLoop() {
         return loop;
     }
-    // #endregion
 }
