@@ -1,5 +1,7 @@
 package org.cup.engine.core.managers;
 
+import java.awt.event.KeyListener;
+
 import org.cup.engine.core.Game;
 import org.cup.engine.core.managers.graphics.GraphicsManager;
 
@@ -58,5 +60,9 @@ public class GameManager {
         long currentTime = System.nanoTime();
         deltaTime = (currentTime - lastUpdate) / 1_000_000_000.0;
         lastUpdate = currentTime;
+    }
+
+    public void addKeyListener(KeyListener listener){
+        GameManager.game.addKeyListener(listener);
     }
 }
