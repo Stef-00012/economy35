@@ -19,6 +19,12 @@ public class AnimationTest extends GameNode {
             firstAnimationPath + "3.png",
         }));
 
+        animator.addAnimation("reverse", new Animation(new String[]{
+            firstAnimationPath + "3.png",
+            firstAnimationPath + "2.png",
+            firstAnimationPath + "1.png",
+        }));
+
         addChild(animator);
         transform.setScale(new Vector(200, 200));
         transform.setPosition(new Vector(400, 200));
@@ -27,5 +33,16 @@ public class AnimationTest extends GameNode {
     @Override
     public void onEnable() {
         Debug.log("Animation test enabled");
+
+        new Thread(() -> {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+
+            animator.play("reverse");
+        }).start();
     }
 }
