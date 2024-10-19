@@ -1,10 +1,9 @@
 package org.cup.assets.scenes;
 
-import org.cup.assets.objects.AnimationTest;
-import org.cup.assets.objects.MySquare;
-import org.cup.assets.objects.Player;
+import org.cup.assets.objects.Rectangle;
 import org.cup.engine.Vector;
 import org.cup.engine.core.Debug;
+import org.cup.engine.core.managers.GameManager;
 import org.cup.engine.core.nodes.Scene;
 import org.cup.engine.core.nodes.components.defaults.Transform;
 
@@ -18,14 +17,11 @@ public class MainScene extends Scene {
     public void init() {
         Debug.log("Main Scene initialized");
 
-        squareTransform.setPosition(new Vector(200, 200));
+        // create all the placceholders
+        // for the game areas
+        createAreas();
 
-        addChild(createSquare(150, Color.darkGray, 0));
-        addChild(createSquare(100, Color.gray, 1));
-        addChild(createSquare(50, Color.white, 2));
-
-        //addChild(new Player());
-        addChild(new AnimationTest());
+        squareTransform.setPosition(new Vector(0, 0));
     }
 
     @Override
@@ -33,10 +29,17 @@ public class MainScene extends Scene {
         Debug.log("Main Scene enabled");
     }
 
-    private MySquare createSquare(double range, Color c, int layer){
-        MySquare square = new MySquare(2, range, layer, c);
-        square.transform.setParentTransform(squareTransform);
-        return square;
+
+    private void createAreas(){
+        // sidewalk
+        // addChild(createSection(1280, 720/2, 0, 0, 1, Color.RED));
+        addChild(createSection(1280, 20, 0, 700, 1, Color.BLACK));
+    }
+
+    private Rectangle createSection(int w, int h, int x, int y, int layer, Color c){
+        Rectangle r = new Rectangle(w, h, x, y, layer, c);
+        // r.transform.setParentTransform(squareTransform);
+        return r;
     }
 
 }

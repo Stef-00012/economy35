@@ -52,7 +52,9 @@ public class Game extends JFrame {
     public Game(String title, int width, int height, String icon, float scale, boolean antialiasing) {
         this.setTitle(title);
 
-        this.setSize(width, height);
+
+        // ! the 39 is for the best OS in the world: Microsoft Windows who needs 39px (not 40) for the title bar
+        this.setSize(width, height + 39);
         this.setResizable(false); // For the scope of this game it's better not to handle responsivenes
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
