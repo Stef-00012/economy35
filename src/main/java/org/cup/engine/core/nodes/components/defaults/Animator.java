@@ -12,6 +12,9 @@ import org.cup.engine.core.Debug;
 import org.cup.engine.core.managers.GameManager;
 import org.cup.engine.core.nodes.components.Renderer;
 
+/**
+ * Handles multiple animations and controls the playback of a currently playing animation.
+ */
 public class Animator extends Renderer {
     private final HashMap<String, Animation> animations;
     private Animation currentlyPlaying;
@@ -23,6 +26,12 @@ public class Animator extends Renderer {
     private JPanel observer;
     private Image image;
 
+    /**
+     * Constructs an Animator with a specified transform and rendering layer.
+     *
+     * @param transform The Transform object for position and rotation.
+     * @param layer The rendering layer.
+     */
     public Animator(Transform transform, int layer) {
         super(layer);
         animations = new HashMap<>();
@@ -55,6 +64,12 @@ public class Animator extends Renderer {
         g.rotate(-rotation);
     }
 
+    /**
+     * Adds a new animation to the animator.
+     *
+     * @param name The name to identify the animation.
+     * @param animation The Animation object to add.
+     */
     public void addAnimation(String name, Animation animation) {
         if (animations.containsKey(name)) {
             Debug.warn("Animation already present in the animator as " + name + ". Now it has been replaced.");
@@ -68,6 +83,11 @@ public class Animator extends Renderer {
         }
     }
 
+    /**
+     * Plays the specified animation by name.
+     *
+     * @param animationName The name of the animation to play.
+     */
     public void play(String animationName) {
         Animation toPlay = animations.get(animationName);
         boolean isFirstAnimation = currentlyPlaying == null;
