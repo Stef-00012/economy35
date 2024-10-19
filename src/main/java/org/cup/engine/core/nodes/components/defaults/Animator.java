@@ -43,8 +43,9 @@ public class Animator extends Renderer {
 
         g.rotate(rotation);
 
-        if (scale != previousScale) {
-            currentlyPlaying.resizeSprites(pos);
+        // Resize sprites if the scale has changed
+        if (!scale.equals(previousScale) && currentlyPlaying != null) {
+            currentlyPlaying.resizeSprites(scale);
             previousScale = scale;
         }
 
@@ -61,13 +62,14 @@ public class Animator extends Renderer {
 
         animations.put(name, animation);
 
+        // Automatically play the first animation
         if (currentlyPlaying == null) {
             play(name);
         }
     }
 
-    public void play(String animationName){
-        Animation toPlay = animations.getOrDefault(animationName, null);
+    public void play(String animationName) {
+        Animation toPlay = animations.get(animationName);
     
         if (toPlay == null) {
             Debug.engineLogErr("Animation " + animationName + " not found in animator");
@@ -76,12 +78,11 @@ public class Animator extends Renderer {
     
         currentlyPlaying = toPlay;
         currentlyPlaying.reset();
-        //currentlyPlaying.resizeIfNecessary(transform.getScale());
-    
+
+        // Set the initial image frame for rendering
         image = currentlyPlaying.nextFrame(); 
         lastSpriteChange = System.currentTimeMillis(); 
     }
-    
 
     @Override
     public void onUpdate() {
@@ -89,6 +90,7 @@ public class Animator extends Renderer {
             Debug.engineLogErr("There's no animation playing");
             return;
         }
+
         // Check if it's time to switch to the next frame
         if (System.currentTimeMillis() - lastSpriteChange > currentlyPlaying.getTimeBetweenFrames()) {
             if (currentlyPlaying.isLastFrame() && !currentlyPlaying.isLoop())
@@ -98,5 +100,4 @@ public class Animator extends Renderer {
             lastSpriteChange = System.currentTimeMillis(); // Update the last sprite change time
         }
     }
-
 }

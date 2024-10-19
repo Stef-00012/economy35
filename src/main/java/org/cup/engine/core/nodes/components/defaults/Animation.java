@@ -8,7 +8,6 @@ import javax.imageio.ImageIO;
 
 import org.cup.engine.Vector;
 import org.cup.engine.core.Debug;
-import org.cup.engine.core.managers.GameManager;
 
 public class Animation {
     private Image[] renderableSprites;
@@ -16,8 +15,6 @@ public class Animation {
     private boolean loop;
 
     private int frameCount;
-
-    private Vector currentSize;
 
     public Animation(String[] sprites, float timeBetweenFrames, boolean loop) {
         this.renderableSprites = new Image[sprites.length];
@@ -29,14 +26,7 @@ public class Animation {
             Debug.engineLogErr("The animation is empty");
         }
 
-        for (int i = 0; i < sprites.length; i++) {
-            try {
-                renderableSprites[i] = ImageIO.read(new File(sprites[i]));
-            } catch (IOException e) {
-                Debug.engineLogErr("Failed to load " + sprites[i]);
-                System.exit(0);
-            }
-        }
+        loadImages(sprites);
     }
 
     public Animation(String[] sprites, boolean loop) {
@@ -47,36 +37,33 @@ public class Animation {
         this(sprites, true);
     }
 
-    public void resizeSprites(Vector size){
-        if(currentSize == null){
-            currentSize = new Vector(renderableSprites[0].getWidth(GameManager.graphicsManager.getPainter()));
+    private void loadImages(String[] sprites) {
+        for (int i = 0; i < sprites.length; i++) {
+            try {
+                renderableSprites[i] = ImageIO.read(new File(sprites[i]));
+            } catch (IOException e) {
+                Debug.engineLogErr("Failed to load " + sprites[i]);
+                System.exit(0);
+            }
         }
-        if(size.len() < currentSize.len()) return;
+    }
 
-        int x = size.getX();
-        int y = size.getY();
-        for(int i = 0; i < renderableSprites.length; i++){
-            Image scaledInstance = renderableSprites[i].getScaledInstance(x, y, Image.SCALE_SMOOTH);
-            renderableSprites[i] = scaledInstance;
+    public void resizeSprites(Vector size) {
+        for (int i = 0; i < renderableSprites.length; i++) {
+            // Use Image.SCALE_SMOOTH for better quality
+            Image scaledImage = renderableSprites[i].getScaledInstance((int) size.getX(), (int) size.getY(), Image.SCALE_SMOOTH);
+            renderableSprites[i] = scaledImage;
         }
-        currentSize = size;
     }
 
     public Image nextFrame() {
         if (isLastFrame() && loop) {
-            frameCount = 0;
+            frameCount = 0; // Loop back to the start
         }
 
         Image frame = renderableSprites[frameCount];
-
         frameCount++;
-
         return frame;
-    }
-
-    public void resizeIfNecessary(Vector size) {
-        if (currentSize != size)
-            resizeSprites(size);
     }
 
     public boolean isLastFrame() {
@@ -87,7 +74,6 @@ public class Animation {
         frameCount = 0;
     }
 
-    // #region Getters & Setters
     public float getTimeBetweenFrames() {
         return timeBetweenFrames;
     }
@@ -99,5 +85,4 @@ public class Animation {
     public boolean isLoop() {
         return loop;
     }
-    // #endregion
 }
