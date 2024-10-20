@@ -1,5 +1,6 @@
 package org.cup.assets.scenes;
 
+import org.cup.assets.objects.Player;
 import org.cup.assets.objects.Rectangle;
 import org.cup.engine.Vector;
 import org.cup.engine.core.Debug;

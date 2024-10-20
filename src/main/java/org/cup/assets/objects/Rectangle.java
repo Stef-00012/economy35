@@ -1,8 +1,8 @@
 package org.cup.assets.objects;
 
 import org.cup.engine.Vector;
-import org.cup.engine.core.managers.GameManager;
 import org.cup.engine.core.nodes.GameNode;
+import org.cup.engine.core.nodes.components.Renderer;
 import org.cup.engine.core.nodes.components.defaults.SquareRenderer;
 
 import java.awt.*;
@@ -27,6 +27,7 @@ public class Rectangle extends GameNode {
         this.y = y;
 
         sr = new SquareRenderer(transform, layer);  // Create the square renderer
+        sr.setPivot(Renderer.TOP_LEFT_PIVOT);         // Use the top left pivot
         addChild(sr);                               // Add the square renderer as a child of this node
         sr.setColor(c);
     }

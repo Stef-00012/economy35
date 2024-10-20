@@ -30,7 +30,7 @@ public class SquareRenderer extends Renderer {
 
         // Get scale and position from the transform
         Vector scale = transform.getScale();
-        Vector pos = transform.getPosition();//.subtract(scale.divide(2)); // Center the square
+        Vector pos = calculateDrawingPosition(transform);
         double rotation = transform.getRotation();
 
         g.rotate(rotation);

@@ -20,21 +20,20 @@ import java.awt.*;
  * </p>
  */
 public abstract class Renderer extends Node {
-    public static Vector CENTER_PIVOT = new Vector(0.5, 0.5);
-
-    public static Vector TOP_PIVOT = new Vector(0.5, 0);
-    public static Vector DOWN_PIVOT = new Vector(0.5, 1);
-    public static Vector LEFT_PIVOT = new Vector(0, 0.5);
-    public static Vector RIGHT_PIVOT = new Vector(1, 0.5);
-
-    public static Vector TOP_LEFT_PIVOT = new Vector(0, 0);
-    public static Vector TOP_RIGHT_PIVOT = new Vector(1, 0);
-
-    public static Vector DOWN_RIGHT_PIVOT = new Vector(1, 1);
-    public static Vector DOWN_LEFT_PIVOT = new Vector(1, 1);
+    // #region Predefined Pivot Positions
+    public static final Vector CENTER_PIVOT = new Vector(0.5, 0.5);
+    public static final Vector TOP_PIVOT = new Vector(0.5, 0);
+    public static final Vector BOTTOM_PIVOT = new Vector(0.5, 1);
+    public static final Vector LEFT_PIVOT = new Vector(0, 0.5);
+    public static final Vector RIGHT_PIVOT = new Vector(1, 0.5);
+    public static final Vector TOP_LEFT_PIVOT = new Vector(0, 0);
+    public static final Vector TOP_RIGHT_PIVOT = new Vector(1, 0);
+    public static final Vector BOTTOM_LEFT_PIVOT = new Vector(0, 1);
+    public static final Vector BOTTOM_RIGHT_PIVOT = new Vector(1, 1);
+    // #endregion
 
     private int layer;
-    public Vector pivot = TOP_LEFT_PIVOT;
+    private Vector pivot = CENTER_PIVOT;
 
     /**
      * Constructs a {@code Renderer} with a specified rendering layer.
@@ -66,11 +65,12 @@ public abstract class Renderer extends Node {
 
     /**
      * Returns the position where the Graphics Renderer should start drawing
-     * by choosing the appropriate offset based on the pivot 
+     * by choosing the appropriate offset based on the pivot
+     * 
      * @param transform
      * @return
      */
-    public Vector calculatePivotPosition(Transform transform){
+    public Vector calculateDrawingPosition(Transform transform) {
         return transform.getPosition().subtract(Vector.multiplyVec(transform.getScale(), pivot));
     }
 
@@ -87,6 +87,22 @@ public abstract class Renderer extends Node {
         this.layer = layer;
         GameManager.graphicsManager.updateLayer(this);
     }
+
+    public Vector getPivot() {
+        return pivot;
+    }
+
+    /**
+     * Sets the pivot point for the renderer. The pivot point determines
+     * which part of the object is considered its origin when drawing.
+     * For example, a center pivot means the object will be drawn centered
+     * on its position.
+     *
+     * @param pivot A {@code Vector} representing the new pivot point.
+     */
+    public void setPivot(Vector pivot) {
+        this.pivot = pivot;
+    }
     // #endregion
 
     @Override
@@ -94,4 +110,3 @@ public abstract class Renderer extends Node {
         return "MyObject{" + "layer=" + layer + ", name='" + getParent().getClass().getSimpleName() + '\'' + '}';
     }
 }
-
