@@ -24,9 +24,9 @@ public class PathHelper {
         if (folder.exists() && folder.isDirectory()) {
             // Get the list of files and directories in the folder
             File[] files = folder.listFiles();
-
+            
             String[] filePaths = new String[files.length];
-
+            
             if (files != null) {
                 // Iterate through the files
                 for (int i = 0; i < filePaths.length; i++) {
@@ -37,6 +37,7 @@ public class PathHelper {
                     }
                 }
             }
+            return filePaths;
         } else {
             Debug.engineLogErr("The provided path is not a valid directory.");
         }
