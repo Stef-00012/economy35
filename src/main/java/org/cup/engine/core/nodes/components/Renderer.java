@@ -1,7 +1,9 @@
 package org.cup.engine.core.nodes.components;
 
+import org.cup.engine.Vector;
 import org.cup.engine.core.managers.GameManager;
 import org.cup.engine.core.nodes.Node;
+import org.cup.engine.core.nodes.components.defaults.Transform;
 
 import java.awt.*;
 
@@ -18,7 +20,21 @@ import java.awt.*;
  * </p>
  */
 public abstract class Renderer extends Node {
+    public static Vector CENTER_PIVOT = new Vector(0.5, 0.5);
+
+    public static Vector TOP_PIVOT = new Vector(0.5, 0);
+    public static Vector DOWN_PIVOT = new Vector(0.5, 1);
+    public static Vector LEFT_PIVOT = new Vector(0, 0.5);
+    public static Vector RIGHT_PIVOT = new Vector(1, 0.5);
+
+    public static Vector TOP_LEFT_PIVOT = new Vector(0, 0);
+    public static Vector TOP_RIGHT_PIVOT = new Vector(1, 0);
+
+    public static Vector DOWN_RIGHT_PIVOT = new Vector(1, 1);
+    public static Vector DOWN_LEFT_PIVOT = new Vector(1, 1);
+
     private int layer;
+    public Vector pivot = TOP_LEFT_PIVOT;
 
     /**
      * Constructs a {@code Renderer} with a specified rendering layer.
@@ -46,6 +62,16 @@ public abstract class Renderer extends Node {
     // #region Getters & Setters
     public int getLayer() {
         return layer;
+    }
+
+    /**
+     * Returns the position where the Graphics Renderer should start drawing
+     * by choosing the appropriate offset based on the pivot 
+     * @param transform
+     * @return
+     */
+    public Vector calculatePivotPosition(Transform transform){
+        return transform.getPosition().subtract(Vector.multiplyVec(transform.getScale(), pivot));
     }
 
     /**
