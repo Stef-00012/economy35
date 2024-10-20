@@ -15,6 +15,7 @@ public class Employee extends GameNode {
     private String spritesFolder = PathHelper.sprites + "placeholder-guy\\";
     private float speed = 200;
 
+    // State Machine
     private static final int IDLE = 0;
     private static final int TAKE_RESOURCE = 1;
     private static final int DELIVER_RESOURCE = 2;
@@ -43,19 +44,14 @@ public class Employee extends GameNode {
         transform.setScale(new Vector(200));
         transform.setPosition(new Vector(200, 720));
 
-        flipCharacter();
-
         // TEST
-        status = TAKE_RESOURCE;
-        animator.play("run");
-
+        takeResource();
         new Timer(10000, e -> {
-            if(status == IDLE){
-                status = TAKE_RESOURCE;
-                animator.play("run");
-                flipCharacter();
+            if (status == IDLE) {
+                takeResource();
             }
-        }).start();;
+        }).start();
+        ;
     }
 
     @Override
@@ -66,14 +62,15 @@ public class Employee extends GameNode {
         }
 
         Vector pos = transform.getPosition();
+        double step = speed * GameManager.getDeltaTime();
+
         if (status == TAKE_RESOURCE) {
             if (pos.x > machine.getPosition().x) {
                 // Move Towards the machine
-                transform.move(Vector.LEFT.multiply(speed * GameManager.getDeltaTime()));
+                transform.move(Vector.LEFT.multiply(step));
             } else {
                 // Take the package
-                status = DELIVER_RESOURCE;
-                flipCharacter();
+                deliverResource();
             }
             return;
         }
@@ -81,18 +78,33 @@ public class Employee extends GameNode {
         if (status == DELIVER_RESOURCE) {
             if (pos.x < packageDropZone.getPosition().x) {
                 // Move Towards the machine
-                transform.move(Vector.RIGHT.multiply(speed * GameManager.getDeltaTime()));
+                transform.move(Vector.RIGHT.multiply(step));
             } else {
                 // Drop the package
-                status = IDLE;
-                animator.play("idle");
+                idle();
             }
             return;
         }
 
     }
 
-    public void flipCharacter(){
+    public void flipCharacter() {
         transform.setScale(Vector.multiplyVec(new Vector(-1, 1), transform.getScale()));
+    }
+
+    private void takeResource() {
+        flipCharacter();
+        status = TAKE_RESOURCE;
+        animator.play("run");
+    }
+
+    private void deliverResource() {
+        status = DELIVER_RESOURCE;
+        flipCharacter();
+    }
+
+    private void idle() {
+        status = IDLE;
+                animator.play("idle");
     }
 }
