@@ -51,7 +51,7 @@ public class SpriteRenderer extends Renderer {
     @Override
     public void render(Graphics2D g) {
         Vector scale = transform.getScale();
-        Vector pos = transform.getPosition().subtract(scale.divide(2)); // Center the square
+        Vector pos = calculateDrawingPosition(transform);
         double rotation = transform.getRotation();
 
         if(scale != previousScale){
