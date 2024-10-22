@@ -1,5 +1,6 @@
 package org.cup.engine.core.nodes.components.defaults;
 
+import org.cup.engine.Utils;
 import org.cup.engine.Vector;
 import org.cup.engine.core.Debug;
 import org.cup.engine.core.managers.GameManager;
@@ -24,6 +25,8 @@ public class SpriteRenderer extends Renderer {
 
     private Vector previousScale;
 
+    private boolean scaleNextFrame;
+
     /**
      * Constructs a Sprite with the specified image source and transform.
      *
@@ -33,12 +36,8 @@ public class SpriteRenderer extends Renderer {
      */
     public SpriteRenderer(String imageSrc, Transform transform, int layer) {
         super(layer);
-        try {
-            image = ImageIO.read(new File(imageSrc));
-        } catch (IOException e) {
-            Debug.engineLogErr("Failed to load " + imageSrc);
-            System.exit(0);
-        }
+        image = Utils.tryGetImage(imageSrc);
+        scaleNextFrame = false;
         this.transform = transform;
     }
 
@@ -54,9 +53,10 @@ public class SpriteRenderer extends Renderer {
         Vector pos = calculateDrawingPosition(transform);
         double rotation = transform.getRotation();
 
-        if(scale != previousScale){
+        if(scale != previousScale || scaleNextFrame){
             image = image.getScaledInstance(scale.getX(), scale.getY(), useFastResizing ? Image.SCALE_FAST : Image.SCALE_SMOOTH);
             previousScale = scale;
+            scaleNextFrame = false;
         }
 
         g.rotate(rotation);
@@ -64,5 +64,14 @@ public class SpriteRenderer extends Renderer {
 
         // Reset rotation
         g.rotate(-rotation);
+    }
+
+    /**
+     * Changes the image src
+     * @param imageSrc The image location / path
+     */
+    public void setSprite(String imageSrc){
+        image = Utils.tryGetImage(imageSrc);
+        scaleNextFrame = true;
     }
 }
