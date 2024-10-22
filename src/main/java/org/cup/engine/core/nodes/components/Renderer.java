@@ -50,6 +50,12 @@ public abstract class Renderer extends Node {
         GameManager.graphicsManager.addToRenderingQueue(this);
     }
 
+    @Override
+    public void onDisable() {
+        // Removes itself from the rendering queue
+        GameManager.graphicsManager.removeFromRenderingQueue(this);
+    }
+
     /**
      * Renders the component. Subclasses must implement this method to define
      * how the component should be drawn on the screen.
