@@ -1,10 +1,8 @@
 package org.cup.assets.scenes;
 
-import org.cup.assets.objects.Player;
 import org.cup.assets.objects.Rectangle;
 import org.cup.engine.Vector;
 import org.cup.engine.core.Debug;
-import org.cup.engine.core.managers.GameManager;
 import org.cup.engine.core.nodes.Scene;
 import org.cup.engine.core.nodes.components.defaults.Transform;
 
