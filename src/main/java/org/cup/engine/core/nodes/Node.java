@@ -151,6 +151,10 @@ public abstract class Node {
         node.parentNode = null;
     }
 
+    /**
+     * Checks if this node is active
+     * @return {@code true} if both this node and the parent node are active , {@code false} otherwise
+     */
     public boolean isActive(){
         return active;
     }
