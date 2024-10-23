@@ -9,7 +9,7 @@ public class Main {
     public static void main(String[] args) {
         Game game = new Game("Graphics Playground", 1280, 720, "./logo.png", 1f, false);
 
-        MainScene m = new MainScene();
-        game.addScene(m);
+        MainScene main = new MainScene();
+        game.addScene(main);
     }
 }

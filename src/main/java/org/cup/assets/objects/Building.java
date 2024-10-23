@@ -18,7 +18,7 @@ public class Building extends GameNode {
 
 
     public void addRoom(){
-        Color col = nRooms % 2 == 0 ? Color.DARK_GRAY : Color.GRAY;
+        Color col = nRooms % 2 == 0 ? new Color(221, 221, 221) : Color.GRAY;
         Room room = new Room(roomWidth, roomHeight, 0, (-roomHeight * nRooms), 1, col);
         room.transform.setParentTransform(transform);
         nRooms++;
