@@ -151,6 +151,10 @@ public abstract class Node {
         node.parentNode = null;
     }
 
+    public boolean isActive(){
+        return active;
+    }
+
     // #region Methods filled by the subclasses
 
     /**
