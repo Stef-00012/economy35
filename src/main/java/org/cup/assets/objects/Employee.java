@@ -2,17 +2,15 @@ package org.cup.assets.objects;
 
 import org.cup.assets.PathHelper;
 import org.cup.engine.Vector;
-import org.cup.engine.core.Debug;
 import org.cup.engine.core.managers.GameManager;
 import org.cup.engine.core.nodes.GameNode;
 import org.cup.engine.core.nodes.components.Renderer;
 import org.cup.engine.core.nodes.components.defaults.Animation;
 import org.cup.engine.core.nodes.components.defaults.Animator;
 import org.cup.engine.core.nodes.components.defaults.Transform;
-import javax.swing.*;
 
 public class Employee extends GameNode {
-    private Animator animator = new Animator(transform, 1);
+    private Animator animator = new Animator(transform, 2);
     private String spritesFolder = PathHelper.sprites + "placeholder-guy\\";
     private float speed = 100;
 
@@ -47,7 +45,7 @@ public class Employee extends GameNode {
     @Override
     public void onUpdate() {
         if (status == IDLE) {
-            if(roomMachine.hasResource()){
+            if (roomMachine.hasResource()) {
                 takeResource();
             }
             return;
@@ -86,7 +84,8 @@ public class Employee extends GameNode {
     }
 
     public void takeResource() {
-        if(status != IDLE) return;
+        if (status != IDLE)
+            return;
         flipCharacter();
         status = TAKE_RESOURCE;
         animator.play("run");
@@ -102,7 +101,7 @@ public class Employee extends GameNode {
         animator.play("idle");
     }
 
-    public int getStatus(){
+    public int getStatus() {
         return status;
     }
 

@@ -13,14 +13,14 @@ public class Machine extends GameNode {
     private final String errorSprite = PathHelper.getSpritePath("machine\\machineError.png");
     private final String boxSprite = PathHelper.getSpritePath("machine\\machineBox.png");
 
-    private SpriteRenderer spriteRenderer = new SpriteRenderer(normalSprite, transform, 5);
+    private SpriteRenderer spriteRenderer = new SpriteRenderer(normalSprite, transform, 1);
 
     private Random randomGen = new Random();
 
     private int probability = 40; // Probability to drop the resource
 
     private double lastAttempt; // The time passed since the last time it has been chec
-    private double interval = 5000; // time of the interval(in milliseconds)
+    private double interval = 5000; // Time of the interval(in milliseconds)
 
     private boolean hasProducedResource;
 
@@ -62,11 +62,13 @@ public class Machine extends GameNode {
         }
     }
 
-    public boolean hasResource(){
+    // return if the machine ha a resource
+    public boolean hasResource() {
         return hasProducedResource;
     }
 
-    public void takeResource(){
+    // Reset the machine taking away its resource
+    public void takeResource() {
         spriteRenderer.setSprite(normalSprite);
         hasProducedResource = false;
         lastAttempt = System.currentTimeMillis();
