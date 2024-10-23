@@ -7,7 +7,9 @@ import org.cup.engine.core.Game;
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     public static void main(String[] args) {
-        Game game = new Game("Graphics Playground", 1280, 720, "./logo.png", 1f, false);
+        String logo = System.getProperty("user.dir")
+            + "\\src\\main\\java\\org\\cup\\logo.png";
+        Game game = new Game("Graphics Playground", 1280, 720, logo, 1f, false);
 
         MainScene main = new MainScene();
         game.addScene(main);
