@@ -1,8 +1,11 @@
 package org.cup.assets.scenes;
 
+import org.cup.assets.objects.Building;
+import org.cup.assets.objects.Player;
 import org.cup.assets.objects.Rectangle;
 import org.cup.engine.Vector;
 import org.cup.engine.core.Debug;
+import org.cup.engine.core.managers.GameManager;
 import org.cup.engine.core.nodes.Scene;
 import org.cup.engine.core.nodes.components.defaults.Transform;
 
@@ -10,7 +13,7 @@ import java.awt.*;
 
 public class MainScene extends Scene {
     Transform squareTransform = new Transform(); // Container for all the squares
-
+    Building building = new Building();
 
     @Override
     public void init() {
@@ -18,7 +21,11 @@ public class MainScene extends Scene {
 
         // create all the placceholders
         // for the game areas
-        createAreas();
+        // createAreas();
+        addChild(building);
+        building.addRoom();
+        building.addRoom();
+
 
         squareTransform.setPosition(new Vector(0, 0));
     }
@@ -53,15 +60,10 @@ public class MainScene extends Scene {
 
         // worker rooms
         for (int i = 1; i <= 3; i++) {
-            addWorkerRoom(i);
+            // addWorkerRoom(i);
         }
     }
-    
-    
-    private void addWorkerRoom(int roomNumber){
-        Color col = roomNumber % 2 == 0 ? Color.DARK_GRAY : Color.GRAY;
-        addChild(createSection(500, 175, 120, 720-20-(175 * (roomNumber + 1)), 1, col));
-    }
+
 
     private Rectangle createSection(int w, int h, int x, int y, int layer, Color c){
         Rectangle r = new Rectangle(w, h, x, y, layer, c);
