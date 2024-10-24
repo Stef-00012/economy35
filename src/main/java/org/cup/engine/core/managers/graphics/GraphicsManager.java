@@ -54,6 +54,8 @@ public class GraphicsManager {
      * Updates the graphics by triggering a repaint on the painter.
      */
     public void updateGraphics() {
+        painter.removeAll();
+        painter.revalidate();
         painter.updateUI();
     }
 }

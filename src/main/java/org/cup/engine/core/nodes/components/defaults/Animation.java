@@ -66,6 +66,7 @@ public class Animation {
      */
     public void resizeSprites(Vector size) {
         for (int i = 0; i < renderableSprites.length; i++) {
+            renderableSprites[i].flush();
             // Use Image.SCALE_SMOOTH for better quality
             Image scaledImage = renderableSprites[i].getScaledInstance((int) size.getX(), (int) size.getY(),
                     Image.SCALE_SMOOTH);
