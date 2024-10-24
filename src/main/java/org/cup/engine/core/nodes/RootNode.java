@@ -47,7 +47,7 @@ public class RootNode extends Node implements Runnable {
     @Override
     public void run() {
         GameManager.onTick(); // Resets the delta time
-        new Timer(4, e -> {
+        new Timer(10, e -> {
             // Call the GameManager's onTick method to manage game timing and events
             GameManager.onTick();
 
