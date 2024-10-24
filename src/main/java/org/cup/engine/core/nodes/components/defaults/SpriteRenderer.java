@@ -2,23 +2,17 @@ package org.cup.engine.core.nodes.components.defaults;
 
 import org.cup.engine.Utils;
 import org.cup.engine.Vector;
-import org.cup.engine.core.Debug;
 import org.cup.engine.core.managers.GameManager;
 import org.cup.engine.core.nodes.components.Renderer;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
-import java.io.IOException;
 
 /**
  * Represents a sprite that can be rendered with transformations,
  * including position, scale, and rotation. The sprite is loaded from an image file.
  */
 public class SpriteRenderer extends Renderer {
-    public boolean useFastResizing = false;
-
     private Transform transform;
     private Image image;
     private JPanel observer;
@@ -55,7 +49,7 @@ public class SpriteRenderer extends Renderer {
 
         if(scale != previousScale || scaleNextFrame){
             image.flush();
-            image = image.getScaledInstance(scale.getX(), scale.getY(), useFastResizing ? Image.SCALE_FAST : Image.SCALE_SMOOTH);
+            image = image.getScaledInstance(scale.getX(), scale.getY(), Image.SCALE_FAST);
             previousScale = scale;
             scaleNextFrame = false;
         }

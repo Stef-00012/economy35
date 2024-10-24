@@ -23,7 +23,7 @@ public class Animation {
      * Constructs an Animation with the specified frames, timing, and looping
      * behavior.
      *
-     * @param sprites       Array of image file paths for the animation frames.
+     * @param sprites           Array of image file paths for the animation frames.
      * @param timeBetweenFrames Time in milliseconds to wait between frames.
      * @param loop              Whether the animation should loop.
      */
@@ -69,7 +69,7 @@ public class Animation {
             renderableSprites[i].flush();
             // Use Image.SCALE_SMOOTH for better quality
             Image scaledImage = renderableSprites[i].getScaledInstance((int) size.getX(), (int) size.getY(),
-                    Image.SCALE_SMOOTH);
+                    Image.SCALE_FAST);
             renderableSprites[i] = scaledImage;
         }
     }
