@@ -56,7 +56,7 @@ public class GraphicsManager {
     public void updateGraphics() {
         painter.removeAll();
         painter.revalidate();
-        painter.updateUI();
+        painter.repaint();
     }
 }
 
