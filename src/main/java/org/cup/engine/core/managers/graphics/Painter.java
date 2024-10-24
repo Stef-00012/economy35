@@ -70,7 +70,7 @@ public class Painter extends JPanel {
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         }
 
-        //setDoubleBuffered(true);
+        setDoubleBuffered(true);
 
         for (int i = 0; i < size; i++) {
             Renderer component = queue.get(i);
