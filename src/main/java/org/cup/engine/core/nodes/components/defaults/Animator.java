@@ -6,6 +6,7 @@ import java.awt.Image;
 import java.util.HashMap;
 
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import org.cup.engine.Vector;
 import org.cup.engine.core.Debug;
@@ -101,7 +102,7 @@ public class Animator extends Renderer {
         currentlyPlaying.reset();
 
         if(!isFirstAnimation){
-            currentlyPlaying.resizeSprites(transform.getScale());
+            SwingUtilities.invokeLater(() -> currentlyPlaying.resizeSprites(transform.getScale()));
         }
 
         // Set the initial image frame for rendering

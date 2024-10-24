@@ -35,7 +35,8 @@ public class RootNode extends Node implements Runnable {
     @Override
     public void _update() {
         updateChildNodes();
-        graphicsManager.updateGraphics();
+        SwingUtilities.invokeLater(() -> graphicsManager.updateGraphics());
+        //graphicsManager.updateGraphics();
     }
 
     @Override
