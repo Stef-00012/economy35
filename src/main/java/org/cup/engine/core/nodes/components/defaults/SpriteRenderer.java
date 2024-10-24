@@ -54,6 +54,7 @@ public class SpriteRenderer extends Renderer {
         double rotation = transform.getRotation();
 
         if(scale != previousScale || scaleNextFrame){
+            image.flush();
             image = image.getScaledInstance(scale.getX(), scale.getY(), useFastResizing ? Image.SCALE_FAST : Image.SCALE_SMOOTH);
             previousScale = scale;
             scaleNextFrame = false;
@@ -71,6 +72,7 @@ public class SpriteRenderer extends Renderer {
      * @param imageSrc The image location / path
      */
     public void setSprite(String imageSrc){
+        image.flush();
         image = Utils.tryGetImage(imageSrc);
         scaleNextFrame = true;
     }
