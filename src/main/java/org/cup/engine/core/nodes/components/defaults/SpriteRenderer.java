@@ -9,11 +9,20 @@ import org.cup.engine.Vector;
 import org.cup.engine.core.managers.ResourceManager;
 import org.cup.engine.core.nodes.components.Renderer;
 
+/**
+ * Represents a sprite or an image
+ */
 public class SpriteRenderer extends Renderer {
     private Transform transform;
     private String currentImagePath;
     private JPanel observer;
     
+    /**
+     * Constructor for the SpriteRenderer
+     * @param imageSrc The image of the sprite
+     * @param transform The transform used are reference 
+     * @param layer The rendering layer
+     */
     public SpriteRenderer(String imageSrc, Transform transform, int layer) {
         super(layer);
         this.currentImagePath = imageSrc;
@@ -40,6 +49,10 @@ public class SpriteRenderer extends Renderer {
         }
     }
     
+    /**
+     * Updates the component to render a new sprite 
+     * @param imageSrc
+     */
     public void setSprite(String imageSrc) {
         this.currentImagePath = imageSrc;
     }

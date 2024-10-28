@@ -47,6 +47,12 @@ public class Animation {
         this(sprites, true);
     }
 
+     /**
+     * Retrieves the current frame of the animation at the specified scale.
+     * 
+     * @param scale Vector containing the desired width (X) and height (Y) for the frame
+     * @return The current frame as a scaled Image, or null if the current frame index is out of bounds
+     */
     public Image getCurrentFrame(Vector scale) {
         if (currentFrameIndex >= spritePaths.length) {
             return null;
@@ -59,12 +65,26 @@ public class Animation {
         );
     }
     
+    /**
+     * Updates the current scale of the animation if it differs from the provided scale.
+     * This method is used to optimize scaling operations by avoiding unnecessary updates.
+     *
+     * @param newScale The new scale vector to apply to the animation
+     */
     public void updateScale(Vector newScale) {
         if (!newScale.equals(currentScale)) {
             currentScale = newScale;
         }
     }
     
+    /**
+     * Advances to and returns the next frame of the animation at the specified scale.
+     * If the animation is set to loop and the last frame is reached, it will restart
+     * from the first frame.
+     *
+     * @param scale Vector containing the desired width (X) and height (Y) for the frame
+     * @return The next frame as a scaled Image, or null if there are no more frames
+     */
     public Image nextFrame(Vector scale) {
         updateScale(scale);
         
@@ -80,12 +100,11 @@ public class Animation {
     /**
      * Checks if the current frame is the last frame of the animation.
      *
-     * @return True if the current frame is the last; otherwise false.
+     * @return True if the current frame is the last; otherwise false
      */
     public boolean isLastFrame() {
         return currentFrameIndex >= spritePaths.length;
     }
-
     /**
      * Resets the animation to the first frame.
      */
