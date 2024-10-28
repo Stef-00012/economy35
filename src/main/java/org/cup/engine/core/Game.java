@@ -6,6 +6,8 @@ import org.cup.engine.core.managers.graphics.Painter;
 import org.cup.engine.core.nodes.RootNode;
 import org.cup.engine.core.nodes.Scene;
 
+import java.awt.event.KeyListener;
+
 import javax.swing.*;
 
 /**
