@@ -218,6 +218,10 @@ public final class Vector {
     public int getY(){
         return (int)y;
     }
+    @Override
+    public String toString() {
+        return "Vector[x=" + x + ", y=" + y + "]";
+    }
 }
 
 

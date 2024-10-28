@@ -25,8 +25,7 @@ public class Animator extends Renderer {
 
     private Transform transform;
     private JPanel observer;
-
-    private Image frame;
+    private Image image;
 
     /**
      * Constructs an Animator with a specified transform and rendering layer.
@@ -54,7 +53,13 @@ public class Animator extends Renderer {
 
         g.rotate(rotation);
 
-        ((Graphics) g).drawImage(frame, pos.getX(), pos.getY(), scale.getX(), scale.getY(), observer);
+        // Resize sprites if the scale has changed or if a new animation is playing
+        if (!scale.equals(previousScale) && currentlyPlaying != null) {
+            currentlyPlaying.resizeSprites(scale);
+            previousScale = scale;
+        }
+
+        ((Graphics) g).drawImage(image, pos.getX(), pos.getY(), scale.getX(), scale.getY(), observer);
 
         // Reset rotation
         g.rotate(-rotation);
@@ -86,6 +91,7 @@ public class Animator extends Renderer {
      */
     public void play(String animationName) {
         Animation toPlay = animations.get(animationName);
+        boolean isFirstAnimation = currentlyPlaying == null;
     
         if (toPlay == null) {
             Debug.engineLogErr("Animation " + animationName + " not found in animator");
@@ -95,6 +101,12 @@ public class Animator extends Renderer {
         currentlyPlaying = toPlay;
         currentlyPlaying.reset();
 
+        if(!isFirstAnimation){
+            SwingUtilities.invokeLater(() -> currentlyPlaying.resizeSprites(transform.getScale()));
+        }
+
+        // Set the initial image frame for rendering
+        image = currentlyPlaying.nextFrame(); 
         lastSpriteChange = System.currentTimeMillis(); 
     }
 
@@ -110,7 +122,7 @@ public class Animator extends Renderer {
             if (currentlyPlaying.isLastFrame() && !currentlyPlaying.isLoop())
                 return; // If the animation has ended, return
 
-            frame = currentlyPlaying.nextFrame(transform.getScale()); // Update to the next frame
+            image = currentlyPlaying.nextFrame(); // Update to the next frame
             lastSpriteChange = System.currentTimeMillis(); // Update the last sprite change time
         }
     }

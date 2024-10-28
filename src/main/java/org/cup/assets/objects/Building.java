@@ -6,7 +6,7 @@ import org.cup.engine.core.nodes.GameNode;
 import java.awt.Color;
 
 public class Building extends GameNode {
-    
+
     int nRooms = 0;
     int roomHeight = 175;
     int roomWidth = 500;
@@ -23,6 +23,10 @@ public class Building extends GameNode {
         room.transform.setParentTransform(transform);
         nRooms++;
         addChild(room);
+    }
+
+    public int getBuildingHeight(){
+        return nRooms * roomHeight;
     }
 
 }

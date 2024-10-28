@@ -1,46 +1,73 @@
 package org.cup.engine.core.nodes.components.defaults;
 
-import java.awt.Graphics2D;
-import java.awt.Image;
-
-import javax.swing.JPanel;
-
+import org.cup.engine.Utils;
 import org.cup.engine.Vector;
-import org.cup.engine.core.managers.ResourceManager;
+import org.cup.engine.core.managers.GameManager;
 import org.cup.engine.core.nodes.components.Renderer;
 
+import javax.swing.*;
+import java.awt.*;
+
+/**
+ * Represents a sprite that can be rendered with transformations,
+ * including position, scale, and rotation. The sprite is loaded from an image file.
+ */
 public class SpriteRenderer extends Renderer {
     private Transform transform;
-    private String currentImagePath;
+    private Image image;
     private JPanel observer;
-    
+
+    private Vector previousScale;
+
+    private boolean scaleNextFrame;
+
+    /**
+     * Constructs a Sprite with the specified image source and transform.
+     *
+     * @param imageSrc The source file path of the image to load.
+     * @param transform The Transform object that defines the sprite's properties.
+     * @param layer     The rendering layer of the sprite.
+     */
     public SpriteRenderer(String imageSrc, Transform transform, int layer) {
         super(layer);
-        this.currentImagePath = imageSrc;
+        image = Utils.tryGetImage(imageSrc);
+        scaleNextFrame = false;
         this.transform = transform;
     }
-    
+
+    @Override
+    public void onEnable() {
+        super.onEnable();
+        observer = GameManager.graphicsManager.getPainter();
+    }
+
     @Override
     public void render(Graphics2D g) {
         Vector scale = transform.getScale();
         Vector pos = calculateDrawingPosition(transform);
         double rotation = transform.getRotation();
-        
-        // Get appropriately scaled image
-        Image image = ResourceManager.getImage(
-            currentImagePath, 
-            scale.getX(), 
-            scale.getY()
-        );
-        
-        if (image != null) {
-            g.rotate(rotation);
-            g.drawImage(image, pos.getX(), pos.getY(), observer);
-            g.rotate(-rotation);
+
+        if(scale != previousScale || scaleNextFrame){
+            image.flush();
+            image = image.getScaledInstance(scale.getX(), scale.getY(), Image.SCALE_FAST);
+            previousScale = scale;
+            scaleNextFrame = false;
         }
+
+        g.rotate(rotation);
+        ((Graphics) g).drawImage(image, pos.getX(), pos.getY(), scale.getX(), scale.getY(), observer);
+
+        // Reset rotation
+        g.rotate(-rotation);
     }
-    
-    public void setSprite(String imageSrc) {
-        this.currentImagePath = imageSrc;
+
+    /**
+     * Changes the image src
+     * @param imageSrc The image location / path
+     */
+    public void setSprite(String imageSrc){
+        image.flush();
+        image = Utils.tryGetImage(imageSrc);
+        scaleNextFrame = true;
     }
 }
