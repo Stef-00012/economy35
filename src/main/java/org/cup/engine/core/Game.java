@@ -82,7 +82,7 @@ public class Game extends JFrame {
         new Thread(root).start();
     
         // create a performance monitor
-        new PerformanceMonitor().start();
+        new PerformanceMonitor(true).start();
     }
 
     /**

@@ -12,11 +12,15 @@ public class PerformanceMonitor extends Thread {
             
     private static int nMonitors = 0;
 
-    public final double MAX_MEMORY_USAGE = .3;
-    public final double MAX_CPU_USAGE = 3;
-    public final double MAX_THREAD_COUNT = 3;
+    public final double MAX_MEMORY_USAGE = .3; //? <- 30% of the memory is CRAZYYY
+    public final double MAX_CPU_USAGE = .3;
+    public final double MAX_THREAD_COUNT = 20;
     
     public long sleepTimeMillis = 1000;
+    
+    // automatically call the garbage collector
+    // when too much RAM space is being used
+    public final boolean autoClean;
     
     /**
      * The class uses the {@link com.sun.management.OperatingSystemMXBean} interface to access system-level metrics.
@@ -29,15 +33,18 @@ public class PerformanceMonitor extends Thread {
      * <li> The {@link #getThreadCount()} method returns the current number of active threads.
      * </ul>
      * */
-    public PerformanceMonitor(){
+    public PerformanceMonitor(boolean autoClean){
         super("PerformanceMonitor-" + nMonitors);
         nMonitors++;
+
+        this.autoClean = autoClean;
     }
 
-    public PerformanceMonitor(long sleepTimeMillis){
-        this();
+    public PerformanceMonitor(boolean autoClean, long sleepTimeMillis){
+        this(autoClean);
         this.sleepTimeMillis = sleepTimeMillis;
     }
+    
 
     public static double getCpuUsage() {
         return OS_BEAN.getProcessCpuLoad();
@@ -72,17 +79,22 @@ public class PerformanceMonitor extends Thread {
     public void run() {
         System.out.println("active ");
         while(true) {
-            if (getCpuUsage() > MAX_CPU_USAGE) {
+            if (getCpuUsage() > MAX_CPU_USAGE && MAX_CPU_USAGE > 0) {
                 Debug.engineLogErr("eccessive cpu usage: " + getCpuUsage() * 100 + "%");
             }
             
-            if (getThreadCount() > MAX_THREAD_COUNT) {
+            if (getThreadCount() > MAX_THREAD_COUNT && MAX_THREAD_COUNT > 0) {
                 Debug.engineLogErr("eccessive thread number: " + getThreadCount());
             }
 
-            if (getMemoryUsage() > MAX_MEMORY_USAGE) {
+            if (getMemoryUsage() > MAX_MEMORY_USAGE && MAX_MEMORY_USAGE > 0) {
                 Debug.engineLogErr(
                     "eccessive memory usage: " + getMemoryUsageBytes() + "B (" + getMemoryUsage() * 100 + "%)");
+
+                if (autoClean){
+                    ForceGC();
+                    Debug.engineLog("Called garbage collector (new memory usage: " + getMemoryUsage() + "%)");
+                }
             }
 
             try {
