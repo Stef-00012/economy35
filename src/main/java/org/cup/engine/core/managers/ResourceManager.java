@@ -89,7 +89,7 @@ public class ResourceManager {
     
     private static Image createScaledImage(BufferedImage original, int width, int height) {
         // Create scaled instance using better quality algorithm
-        Image scaled = original.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+        Image scaled = original.getScaledInstance(width, height, Image.SCALE_FAST);
         
         // Convert to BufferedImage for better performance
         BufferedImage buffered = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
