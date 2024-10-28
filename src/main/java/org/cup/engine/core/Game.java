@@ -80,6 +80,9 @@ public class Game extends JFrame {
         root = new RootNode();
         root._setup();
         new Thread(root).start();
+    
+        // create a performance monitor
+        new PerformanceMonitor().start();
     }
 
     /**
