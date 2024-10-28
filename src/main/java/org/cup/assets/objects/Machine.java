@@ -2,6 +2,7 @@ package org.cup.assets.objects;
 
 import org.cup.assets.PathHelper;
 import org.cup.engine.Vector;
+import org.cup.engine.core.managers.GameManager;
 import org.cup.engine.core.nodes.GameNode;
 import org.cup.engine.core.nodes.components.Renderer;
 import org.cup.engine.core.nodes.components.defaults.SpriteRenderer;
@@ -11,7 +12,7 @@ import java.util.Random;
 public class Machine extends GameNode {
     private final String normalSprite = PathHelper.getSpritePath("machine\\machine1.png");
     private final String errorSprite = PathHelper.getSpritePath("machine\\machineError.png");
-    private final String boxSprite = PathHelper.getSpritePath("machine\\machineBox.png");
+    private final String boxSprite = PathHelper.getSpritePath("test-animation-1\\1.png");
 
     private SpriteRenderer spriteRenderer = new SpriteRenderer(normalSprite, transform, 1);
 
