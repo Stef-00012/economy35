@@ -1,6 +1,7 @@
 package org.cup.assets.scenes;
 
 import org.cup.assets.objects.Building;
+import org.cup.assets.objects.Elevator;
 import org.cup.assets.objects.Player;
 import org.cup.assets.objects.Rectangle;
 import org.cup.engine.Vector;
@@ -12,27 +13,32 @@ import org.cup.engine.core.nodes.components.defaults.Transform;
 import java.awt.*;
 
 public class MainScene extends Scene {
-    Transform squareTransform = new Transform(); // Container for all the squares
+    final Transform sceneTransform = new Transform();
     Building building = new Building();
+    Elevator elevator = new Elevator();
 
     @Override
     public void init() {
         Debug.log("Main Scene initialized");
+        sceneTransform.setPosition(new Vector(0, 0));
 
-        // create all the placceholders
-        // for the game areas
-        // createAreas();
         addChild(building);
-        building.addRoom();
-        building.addRoom();
+        building.transform.setParentTransform(sceneTransform);
 
+        addChild(elevator);
+        elevator.transform.setParentTransform(sceneTransform);
 
-        squareTransform.setPosition(new Vector(0, 0));
+        addRoom();
+        addRoom();
     }
 
     @Override
     public void onEnable() {
         Debug.log("Main Scene enabled");
+    }
+
+    public void addRoom(){
+        building.addRoom();
     }
 
 
@@ -67,7 +73,7 @@ public class MainScene extends Scene {
 
     private Rectangle createSection(int w, int h, int x, int y, int layer, Color c){
         Rectangle r = new Rectangle(w, h, x, y, layer, c);
-        r.transform.setParentTransform(squareTransform);
+        r.transform.setParentTransform(sceneTransform);
         return r;
     }
 
