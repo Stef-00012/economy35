@@ -77,7 +77,7 @@ public class PerformanceMonitor extends Thread {
 
     @Override
     public void run() {
-        System.out.println("active ");
+        Debug.log("PerformanceMonitor is active");
         while(true) {
             if (getCpuUsage() > MAX_CPU_USAGE && MAX_CPU_USAGE > 0) {
                 Debug.engineLogErr("eccessive cpu usage: " + getCpuUsage() * 100 + "%");
