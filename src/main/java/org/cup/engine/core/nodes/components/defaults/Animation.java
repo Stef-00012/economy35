@@ -8,16 +8,17 @@ import javax.imageio.ImageIO;
 
 import org.cup.engine.Vector;
 import org.cup.engine.core.Debug;
+import org.cup.engine.core.managers.ResourceManager;
 
 /**
  * Represents an animation consisting of multiple frames (sprites).
  */
 public class Animation {
-    private Image[] renderableSprites;
-    private float timeBetweenFrames; // Time to wait between frames in milliseconds
-    private boolean loop;
-
+    private final String[] spritePaths;
+    private float timeBetweenFrames;
+    private final boolean loop;
     private int currentFrameIndex;
+    private Vector currentScale = Vector.ONE;
 
     /**
      * Constructs an Animation with the specified frames, timing, and looping
@@ -28,16 +29,14 @@ public class Animation {
      * @param loop              Whether the animation should loop.
      */
     public Animation(String[] sprites, float timeBetweenFrames, boolean loop) {
-        this.renderableSprites = new Image[sprites.length];
+        this.spritePaths = sprites;
         this.timeBetweenFrames = timeBetweenFrames;
         this.currentFrameIndex = 0;
         this.loop = loop;
-
+        
         if (sprites.length == 0) {
             Debug.engineLogErr("The animation is empty");
         }
-
-        loadImages(sprites);
     }
 
     public Animation(String[] sprites, boolean loop) {
@@ -48,43 +47,32 @@ public class Animation {
         this(sprites, true);
     }
 
-    private void loadImages(String[] sprites) {
-        for (int i = 0; i < sprites.length; i++) {
-            try {
-                renderableSprites[i] = ImageIO.read(new File(sprites[i]));
-            } catch (IOException e) {
-                Debug.engineLogErr("Failed to load " + sprites[i]);
-                System.exit(0);
-            }
+    public Image getCurrentFrame(Vector scale) {
+        if (currentFrameIndex >= spritePaths.length) {
+            return null;
+        }
+        
+        return ResourceManager.getImage(
+            spritePaths[currentFrameIndex],
+            scale.getX(),
+            scale.getY()
+        );
+    }
+    
+    public void updateScale(Vector newScale) {
+        if (!newScale.equals(currentScale)) {
+            currentScale = newScale;
         }
     }
-
-    /**
-     * Resizes all frames to the specified size.
-     *
-     * @param size The new size for each frame.
-     */
-    public void resizeSprites(Vector size) {
-        for (int i = 0; i < renderableSprites.length; i++) {
-            renderableSprites[i].flush();
-            // Use Image.SCALE_SMOOTH for better quality
-            Image scaledImage = renderableSprites[i].getScaledInstance((int) size.getX(), (int) size.getY(),
-                    Image.SCALE_FAST);
-            renderableSprites[i] = scaledImage;
-        }
-    }
-
-    /**
-     * Retrieves the next frame in the animation sequence.
-     *
-     * @return The next frame as an Image.
-     */
-    public Image nextFrame() {
+    
+    public Image nextFrame(Vector scale) {
+        updateScale(scale);
+        
         if (isLastFrame() && loop) {
-            currentFrameIndex = 0; // Loop back to the start
+            currentFrameIndex = 0;
         }
-
-        Image frame = renderableSprites[currentFrameIndex];
+        
+        Image frame = getCurrentFrame(scale);
         currentFrameIndex++;
         return frame;
     }
@@ -95,7 +83,7 @@ public class Animation {
      * @return True if the current frame is the last; otherwise false.
      */
     public boolean isLastFrame() {
-        return currentFrameIndex >= renderableSprites.length;
+        return currentFrameIndex >= spritePaths.length;
     }
 
     /**
