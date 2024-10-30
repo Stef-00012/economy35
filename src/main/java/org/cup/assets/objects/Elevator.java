@@ -13,6 +13,7 @@ import java.awt.event.KeyListener;
 public class Elevator extends GameNode implements KeyListener {
 
     Rectangle elevatorCab;
+    Player player = null; 
     
     private Vector targetPos = null; 
 
@@ -21,6 +22,8 @@ public class Elevator extends GameNode implements KeyListener {
         // ! 20px is the height of the sidewalk (DO NOT REMOVE)
         transform.setPosition(new Vector(0, GameManager.game.getHeight() - 39 - 20));
 
+
+        // graphic part of the cab
         elevatorCab = new Rectangle(120, 175, 0, 0, 1, Color.BLACK);
         elevatorCab.sr.setPivot(Renderer.BOTTOM_LEFT_PIVOT);
         elevatorCab.transform.setParentTransform(transform);
@@ -30,6 +33,11 @@ public class Elevator extends GameNode implements KeyListener {
         // elevator logic
         targetPos = transform.getPosition();
         GameManager.game.addKeyListener(this);
+    
+        // player
+        player = new Player();
+        player.transform.setParentTransform(transform);
+        addChild(player);
     }
 
     public void onUpdate(){
