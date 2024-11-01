@@ -2,31 +2,36 @@ package org.cup.assets.objects;
 
 import org.cup.assets.PathHelper;
 import org.cup.engine.Vector;
+import org.cup.engine.core.Debug;
+import org.cup.engine.core.managers.GameManager;
 import org.cup.engine.core.nodes.GameNode;
-import org.cup.engine.core.nodes.components.defaults.SpriteRenderer;
+import org.cup.engine.core.nodes.components.Renderer;
+import org.cup.engine.core.nodes.components.defaults.Animation;
+import org.cup.engine.core.nodes.components.defaults.Animator;
 
 public class Player extends GameNode {
-    private SpriteRenderer sprite = new SpriteRenderer(PathHelper.getSpritePath("test-animation-1\\1.png"), transform, 5);
-
+    private Animator animator = new Animator(transform, 5);
+    private String spritesFolder = PathHelper.sprites + "placeholder-guy\\";
+    
     @Override
     public void init() {
-        System.out.println("This is a test warning");
-        System.out.println("Player Initialized");
-
-        addChild(sprite);
-
-        transform.setScale(new Vector(200));
-        transform.setPosition(new Vector(500, 100));
+        addChild(animator);
+        animator.addAnimation("base", new Animation(PathHelper.getFilePaths(spritesFolder + "idle")));
+        animator.setPivot(Renderer.BOTTOM_PIVOT);
+        transform.setScale(new Vector(75));
+        transform.setPosition(new Vector(60, 0));
     }
 
     @Override
     public void onEnable() {
-        System.out.println("Player Enabled");
+        Debug.log("Player Enabled");
+        animator.play("base");
     }
 
     @Override
     public void onUpdate() {
         // This will be executed every frame
+        // Debug.log(transform.getParentTransform().getPosition());
     }
 
     @Override
