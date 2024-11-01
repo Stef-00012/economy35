@@ -2,6 +2,7 @@ package org.cup.assets.scenes;
 
 import org.cup.assets.objects.Building;
 import org.cup.assets.objects.Elevator;
+import org.cup.assets.objects.Inventory;
 import org.cup.assets.objects.Player;
 import org.cup.assets.objects.Rectangle;
 import org.cup.engine.Vector;
@@ -9,13 +10,17 @@ import org.cup.engine.core.Debug;
 import org.cup.engine.core.managers.GameManager;
 import org.cup.engine.core.nodes.Scene;
 import org.cup.engine.core.nodes.components.defaults.Transform;
+import org.cup.assets.objects.Inventory;
 
 import java.awt.*;
 
 public class MainScene extends Scene {
+    private int maxInventorySize = 100;
+    
     final Transform sceneTransform = new Transform();
     Building building = new Building();
     Elevator elevator = new Elevator();
+    Inventory inventory = new Inventory(maxInventorySize);
 
     @Override
     public void init() {
@@ -27,6 +32,9 @@ public class MainScene extends Scene {
 
         addChild(elevator);
         elevator.transform.setParentTransform(sceneTransform);
+
+        addChild(inventory);
+        inventory.transform.setParentTransform(sceneTransform);
 
         addRoom();
         addRoom();
