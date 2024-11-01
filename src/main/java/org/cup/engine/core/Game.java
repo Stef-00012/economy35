@@ -6,6 +6,7 @@ import org.cup.engine.core.managers.graphics.Painter;
 import org.cup.engine.core.nodes.RootNode;
 import org.cup.engine.core.nodes.Scene;
 
+import java.awt.Component;
 import java.awt.event.KeyListener;
 
 import javax.swing.*;
@@ -24,6 +25,8 @@ import javax.swing.*;
 public class Game extends JFrame {
     // The root node of the game, which manages all scenes and game objects.
     private RootNode root;
+
+    private JLayeredPane layeredPane;
 
     /**
      * Constructs a {@code Game} object with the specified window title, dimensions,
@@ -54,8 +57,8 @@ public class Game extends JFrame {
     public Game(String title, int width, int height, String icon, float scale, boolean antialiasing) {
         this.setTitle(title);
 
-
-        // ! the 39 is for the best OS in the world: Microsoft Windows who needs 39px (not 40) for the title bar
+        // ! the 39 is for the best OS in the world: Microsoft Windows who needs 39px
+        // (not 40) for the title bar
         this.setSize(width, height + 39);
         this.setResizable(false); // For the scope of this game it's better not to handle responsivenes
 
@@ -63,6 +66,10 @@ public class Game extends JFrame {
 
         ImageIcon iconImage = new ImageIcon(icon);
         this.setIconImage(iconImage.getImage());
+
+        // Create layered pane
+        layeredPane = new JLayeredPane();
+        this.setContentPane(layeredPane);
 
         this.setVisible(true);
 
@@ -72,7 +79,8 @@ public class Game extends JFrame {
 
         // Initialize the Painter (which will draw graphics on the screen)
         Painter p = graphicsManager.getPainter();
-        this.getContentPane().add(p);
+        p.setBounds(0, 0, width, height + 39); 
+        layeredPane.add(p, JLayeredPane.DEFAULT_LAYER);
         p.setScale(scale);
         p.setAntialiasing(antialiasing);
 
@@ -80,7 +88,7 @@ public class Game extends JFrame {
         root = new RootNode();
         root._setup();
         new Thread(root).start();
-    
+
         // create a performance monitor
         new PerformanceMonitor(true).start();
     }
@@ -103,6 +111,10 @@ public class Game extends JFrame {
      */
     public void removeScene(Scene scene) {
         root.removeChild(scene);
+    }
+
+    public void addUIElement(Component c) {
+        layeredPane.add(c, JLayeredPane.POPUP_LAYER);
     }
 
 }

@@ -2,7 +2,10 @@ package org.cup.assets.objects;
 
 import java.awt.Color;
 
+import javax.swing.JLabel;
+
 import org.cup.engine.core.Debug;
+import org.cup.engine.core.managers.GameManager;
 import org.cup.engine.core.nodes.GameNode;
 
 /* 
@@ -14,16 +17,27 @@ public class Inventory extends GameNode {
     private int buffer;
     private int maxSize;
 
+    private JLabel packageCount = new JLabel("0/?", JLabel.CENTER);
+
     public Inventory(int initialMaxSize) {
         buffer = 0;
         maxSize = initialMaxSize;
     }
 
     public void init() {
-        inventoryUI = new Rectangle(400, 175, 120 - 1, 720 - 20 - 175, 1, new Color(19, 21, 21));
+        int x = 120 - 1;
+        int y = 720 - 20 - 175;
+        int w = 400;
+        int h = 175;
+        inventoryUI = new Rectangle(w, h, x, y, 1, new Color(19, 21, 21));
         inventoryUI.transform.setParentTransform(transform);
         addChild(inventoryUI);
 
+        packageCount.setForeground(Color.WHITE);
+        packageCount.setBounds(x, y, w, h);
+        packageCount.setHorizontalAlignment(JLabel.CENTER);
+        packageCount.setVerticalAlignment(JLabel.CENTER);
+        GameManager.game.addUIElement(packageCount);
     }
 
     public synchronized void addResource() {
@@ -35,6 +49,8 @@ public class Inventory extends GameNode {
             }
         }
         buffer++;
+        packageCount.setText(buffer + "/" + maxSize);
+        notifyAll();
     }
 
     public synchronized void takeResource(int n) {
@@ -46,6 +62,7 @@ public class Inventory extends GameNode {
             }
         }
         buffer -= n;
+        packageCount.setText(buffer + "/" + maxSize);
         notifyAll();
     }
 }
