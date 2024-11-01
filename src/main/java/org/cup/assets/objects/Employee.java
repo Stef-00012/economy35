@@ -22,7 +22,7 @@ public class Employee extends GameNode {
     private int status = IDLE;
 
     private Machine roomMachine;
-    Transform packageDropZone;
+    private DropZone packageDropZone;
 
     public Employee(Room room) {
         animator.addAnimation("idle", new Animation(PathHelper.getFilePaths(spritesFolder + "idle")));
@@ -67,12 +67,15 @@ public class Employee extends GameNode {
         }
 
         if (status == DELIVER_RESOURCE) {
-            if (pos.x < packageDropZone.getPosition().x) {
+            if (pos.x < packageDropZone.transform.getPosition().x) {
                 // Move Towards the machine
                 transform.move(Vector.RIGHT.multiply(step));
             } else {
                 // Drop the package
-                idle();
+                if (packageDropZone.addResouce()) {
+                    idle();
+                }
+
             }
             return;
         }

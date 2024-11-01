@@ -10,7 +10,7 @@ public class Building extends GameNode {
     int nRooms = 0;
     int roomHeight = 175;
     int roomWidth = 500;
-    
+
     @Override
     public void init(){
         transform.setPosition(new Vector(120, 175*3));

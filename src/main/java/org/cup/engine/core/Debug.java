@@ -20,4 +20,8 @@ public class Debug {
     public static void warn(Object text) {
         System.out.println(ANSI_YELLOW + "[WARN]\t" + text.toString() + ANSI_RESET);
     }
+    
+    public static void err(Object text) {
+        System.out.println(ANSI_RED + "[ERROR]\t" + text.toString() + ANSI_RESET);
+    }
 }

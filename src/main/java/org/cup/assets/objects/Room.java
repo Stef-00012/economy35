@@ -10,7 +10,7 @@ import org.cup.engine.core.nodes.components.defaults.Transform;
 
 public class Room extends GameNode {
     private Machine machine = new Machine(this);
-    private Transform dropZone = new Transform();
+    private DropZone dropZone;
 
     // An array of the employee with a fixed number of employees (3)
     private Employee[] employees = new Employee[3];
@@ -32,8 +32,9 @@ public class Room extends GameNode {
         rect.transform.setParentTransform(transform);
 
         // set the drop zone
-        dropZone.setPosition(new Vector(width, 0));
-        dropZone.setParentTransform(transform);
+        dropZone = new DropZone(new Vector(width, -30));
+        dropZone.transform.setParentTransform(transform);
+        addChild(dropZone);
 
         addChild(machine);
         machine.transform.setParentTransform(transform);
@@ -57,7 +58,7 @@ public class Room extends GameNode {
         return machine;
     }
 
-    public Transform getDropZone() {
+    public DropZone getDropZone() {
         return dropZone;
     }
 }
