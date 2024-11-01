@@ -1,5 +1,9 @@
 # Engine Docs
-Libreria leggera basata su nnodi e componenti, realizzato per facilitare lo sviluppo di giochi complessi. Questo motore fornisce una solida base per creare giochi 2D con funzionalità come gestione delle scene, animazione degli sprite e gerarchie.
+Per facilitare la creazione del nostro gioco abbiamo creato una libreria che ci permette di interagire con la libreria grafica di java “swing”.
+L’idea base è che possiamo suddividere il nostro gioco in scene che contengono oggetti, questo ci permette di dividere le cose in modo organizzato.
+Ogni oggetto è in realtà chiamato Nodo, un nodo può avere tanti altri nodi figli, creando così una gerarchia ad albero. La scena infatti è anch’essa un nodo.
+Tutti i nodi devono avere un padre, tranne uno, il root node che è il primo nodo della struttura, in cui poi i figli verranno attaccati.
+Il root node è inoltre responsabile di eseguire il game loop, in cui aggiorna tutti i suoi nodi figli.
 
 ## Funzionalità
 

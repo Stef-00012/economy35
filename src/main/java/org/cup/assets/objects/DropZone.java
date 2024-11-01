@@ -38,4 +38,8 @@ public class DropZone extends GameNode {
     public void normalSprite() {
         sr.setSprite(dropZoneSprite);
     }
+
+    public boolean hasResource(){
+        return thread.hasResource();
+    }
 }

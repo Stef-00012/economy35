@@ -28,6 +28,10 @@ public class DropZoneThread extends Thread {
         return true;
     }
 
+    public boolean hasResource(){
+        return hasResource;
+    }
+
     @Override
     public void run() {
         while (true) {

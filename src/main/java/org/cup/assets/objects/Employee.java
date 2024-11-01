@@ -24,6 +24,8 @@ public class Employee extends GameNode {
     private Machine roomMachine;
     private DropZone packageDropZone;
 
+    private boolean isWaitingWithResource = false;
+
     public Employee(Room room) {
         animator.addAnimation("idle", new Animation(PathHelper.getFilePaths(spritesFolder + "idle")));
         animator.addAnimation("run", new Animation(PathHelper.getFilePaths(spritesFolder + "run")));
@@ -74,7 +76,13 @@ public class Employee extends GameNode {
                 // Drop the package
                 if (packageDropZone.addResouce()) {
                     idle();
+                } else{
+                    if(packageDropZone.hasResource() && !isWaitingWithResource){
+                        animator.play("idle");
+                        isWaitingWithResource = true;
+                    }
                 }
+
 
             }
             return;
@@ -102,6 +110,7 @@ public class Employee extends GameNode {
     private void idle() {
         status = IDLE;
         animator.play("idle");
+        isWaitingWithResource = false;
     }
 
     public int getStatus() {
