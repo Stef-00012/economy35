@@ -3,7 +3,6 @@ package org.cup.assets.objects;
 import org.cup.assets.PathHelper;
 import org.cup.assets.logic.DropZoneThread;
 import org.cup.engine.Vector;
-import org.cup.engine.core.Debug;
 import org.cup.engine.core.nodes.GameNode;
 import org.cup.engine.core.nodes.components.Renderer;
 import org.cup.engine.core.nodes.components.defaults.SpriteRenderer;
@@ -29,13 +28,10 @@ public class DropZone extends GameNode {
     }
 
     public boolean addResouce() {
-        Debug.log("denis1");
         if (thread.placeResource()) {
             sr.setSprite(dropZoneSpriteFull);
-            Debug.log("denis2");
             return true;
         }
-        Debug.log("denis3");
         return false;
     }
 

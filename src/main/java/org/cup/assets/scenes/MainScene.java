@@ -16,7 +16,7 @@ public class MainScene extends Scene {
     protected Building building = new Building();
     protected Elevator elevator = new Elevator();
     
-    public static Inventory inventory = new Inventory(10);
+    public static Inventory inventory = new Inventory(2);
     
     @Override
     public void init() {
