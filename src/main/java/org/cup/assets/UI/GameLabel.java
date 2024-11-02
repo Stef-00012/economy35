@@ -7,15 +7,23 @@ import java.io.IOException;
 
 import javax.swing.JLabel;
 
+import org.cup.assets.PathHelper;
+import org.cup.engine.core.Debug;
+
 public class GameLabel extends JLabel {
     public GameLabel(String text) {
         super(text);
 
         try {
             GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-            ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("A.ttf")));
+            Font f = Font.createFont(Font.TRUETYPE_FONT, new File(PathHelper.fonts + "Font.ttf"));
+            ge.registerFont(f);
+            setFont(new Font(f.getFontName(), Font.PLAIN, 30));
+            
+            System.out.println(getFont());
         } catch (Exception e) {
-            // Handle exception
+            Debug.engineLogErr(e.getMessage());
         }
+
     }
 }

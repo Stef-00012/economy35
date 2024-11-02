@@ -39,12 +39,6 @@ public class StatsPanel extends JPanel {
         inventoryLabel = new GameLabel("INVENTORY CAPACITY: " + 0 + "/?");
         productValueLabel = new GameLabel("PRODUCT VALUE: " + 1);
 
-        // Labels with custom font and style
-        Font boldFont = new Font("Arial", Font.BOLD, 14);
-        balanceLabel.setFont(boldFont);
-        inventoryLabel.setFont(boldFont);
-        productValueLabel.setFont(boldFont);
-
         infoPanel.add(balanceLabel);
         infoPanel.add(inventoryLabel);
         infoPanel.add(productValueLabel);
