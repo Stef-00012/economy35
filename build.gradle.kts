@@ -1,39 +1,41 @@
 plugins {
-    id 'java'
+    id("java")
 }
 
-group = 'org.cup'
-version = '1.0-SNAPSHOT'
+group = "org.cup"
+version = "1.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    testImplementation platform('org.junit:junit-bom:5.9.1')
-    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testImplementation(platform("org.junit:junit-bom:5.9.1"))
+    testImplementation("org.junit.jupiter:junit-jupiter")
 }
 
-test {
+tasks.test {
     useJUnitPlatform()
 }
 
-tasks.withType(Jar) {
-    manifest {
-        attributes(
-            'Main-Class': 'org.cup.Main'
-        )
+// Define specific asset directories as resources
+sourceSets {
+    main {
+        resources {
+            srcDirs("src/main/java/org/cup/assets/sprites", "src/main/java/org/cup/assets/UI")
+        }
     }
-    
-    // This will include assets in the JAR
-    from('src/main/java') {
-        include 'org/cup/assets/sprites/**'
-        into 'assets/sprites'
-    }
+}
 
-    // This will include fonts in the JAR
-    from('src/main/java') {
-        include 'org/cup/assets/UI/fonts/**'
-        into 'assets/fonts'
+// Configure the Jar task to include only specified assets directories
+tasks.withType<Jar> {
+    manifest {
+        attributes["Main-Class"] = "org.cup.Main"
+    }
+    from("src/main/java/org/cup/assets/sprites") {
+        into("org/cup/assets/sprites")
+    }
+    from("src/main/java/org/cup/assets/UI") {
+        into("org/cup/assets/UI")
     }
 }

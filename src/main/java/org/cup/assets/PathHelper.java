@@ -13,12 +13,12 @@ public class PathHelper {
     public static final String sprites = IS_DEV
             ? String.join(File.separator, System.getProperty("user.dir"), "src", "main", "java", "org", "cup", "assets",
                     "sprites") + File.separator
-            : String.join(File.separator, System.getProperty("user.dir"), "assets", "sprites") + File.separator;
+            : String.join(File.separator, System.getProperty("user.dir"), "main") + File.separator;
 
     public static final String fonts = IS_DEV
             ? String.join(File.separator, System.getProperty("user.dir"), "src", "main", "java", "org", "cup", "assets",
                     "UI", "fonts") + File.separator
-            : String.join(File.separator, System.getProperty("user.dir"), "assets", "fonts") + File.separator;
+            : String.join(File.separator, System.getProperty("user.dir"), "main", "fonts") + File.separator;
 
     public static String[] getFilePaths(String folderPath) {
 
