@@ -7,7 +7,6 @@ import org.cup.engine.core.nodes.GameNode;
 import org.cup.engine.core.nodes.components.Renderer;
 import org.cup.engine.core.nodes.components.defaults.Animation;
 import org.cup.engine.core.nodes.components.defaults.Animator;
-import org.cup.engine.core.nodes.components.defaults.Transform;
 
 public class Employee extends GameNode {
     private Animator animator = new Animator(transform, 2);
@@ -22,7 +21,9 @@ public class Employee extends GameNode {
     private int status = IDLE;
 
     private Machine roomMachine;
-    Transform packageDropZone;
+    private DropZone packageDropZone;
+
+    private boolean isWaitingWithResource = false;
 
     public Employee(Room room) {
         animator.addAnimation("idle", new Animation(PathHelper.getFilePaths(spritesFolder + "idle")));
@@ -67,12 +68,21 @@ public class Employee extends GameNode {
         }
 
         if (status == DELIVER_RESOURCE) {
-            if (pos.x < packageDropZone.getPosition().x) {
+            if (pos.x < packageDropZone.transform.getPosition().x) {
                 // Move Towards the machine
                 transform.move(Vector.RIGHT.multiply(step));
             } else {
                 // Drop the package
-                idle();
+                if (packageDropZone.addResouce()) {
+                    idle();
+                } else{
+                    if(packageDropZone.hasResource() && !isWaitingWithResource){
+                        animator.play("idle");
+                        isWaitingWithResource = true;
+                    }
+                }
+
+
             }
             return;
         }
@@ -99,6 +109,7 @@ public class Employee extends GameNode {
     private void idle() {
         status = IDLE;
         animator.play("idle");
+        isWaitingWithResource = false;
     }
 
     public int getStatus() {

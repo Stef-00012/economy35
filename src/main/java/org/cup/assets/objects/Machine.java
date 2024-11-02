@@ -24,9 +24,6 @@ public class Machine extends GameNode {
 
     private boolean hasProducedResource;
 
-    public Machine(Room room) {
-    }
-
     @Override
     public void init() {
         addChild(spriteRenderer);
