@@ -79,11 +79,9 @@ public class Room extends Floor {
         buttonsPanel.add(increaseValueBtn);
         
         increaseInventoryBtn.addActionListener(e -> {
-            
         });
 
         increaseValueBtn.addActionListener(e -> {
-            
         });
     }
 

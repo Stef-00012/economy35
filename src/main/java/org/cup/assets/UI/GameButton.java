@@ -15,5 +15,6 @@ public class GameButton extends JButton {
             BorderFactory.createLineBorder(Color.BLACK, 1),
             BorderFactory.createEmptyBorder(10, 10, 10, 10)
         ));
+        setFocusable(false);
     }
 }
