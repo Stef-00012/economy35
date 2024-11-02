@@ -1,7 +1,7 @@
 package org.cup.assets.logic;
 
+import org.cup.assets.objects.Building;
 import org.cup.assets.objects.DropZone;
-import org.cup.assets.scenes.MainScene;
 import org.cup.engine.core.Debug;
 
 public class DropZoneThread extends Thread {
@@ -24,7 +24,6 @@ public class DropZoneThread extends Thread {
 
         hasResource = true;
 
-        Debug.log("denis-3.14159255398");
         return true;
     }
 
@@ -43,10 +42,11 @@ public class DropZoneThread extends Thread {
                 } catch (InterruptedException e) {
                     Debug.err(e.getMessage());
                 }
-                MainScene.inventory.addResource();
+
+                Building.get().getInventory().addResource();
                 dropZone.normalSprite();
+
                 hasResource = false;
-                Debug.log("Resource processed");
             }
 
             // prevent CPU hogging

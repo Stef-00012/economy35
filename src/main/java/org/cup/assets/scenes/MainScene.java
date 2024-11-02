@@ -1,36 +1,20 @@
 package org.cup.assets.scenes;
 
 import org.cup.assets.objects.Building;
-import org.cup.assets.objects.Elevator;
-import org.cup.assets.objects.Inventory;
 import org.cup.assets.objects.Rectangle;
-import org.cup.engine.Vector;
 import org.cup.engine.core.Debug;
 import org.cup.engine.core.nodes.Scene;
-import org.cup.engine.core.nodes.components.defaults.Transform;
 
 import java.awt.*;
 
 public class MainScene extends Scene {
-    final Transform sceneTransform = new Transform();
     protected Building building = new Building();
-    protected Elevator elevator = new Elevator();
-    
-    public static Inventory inventory = new Inventory(3);
     
     @Override
     public void init() {
         Debug.log("Main Scene initialized");
-        sceneTransform.setPosition(new Vector(0, 0));
 
         addChild(building);
-        building.transform.setParentTransform(sceneTransform);
-
-        addChild(elevator);
-        elevator.transform.setParentTransform(sceneTransform);
-
-        addChild(inventory);
-        inventory.transform.setParentTransform(sceneTransform);
 
         addRoom();
         addRoom();
@@ -77,7 +61,6 @@ public class MainScene extends Scene {
 
     private Rectangle createSection(int w, int h, int x, int y, int layer, Color c){
         Rectangle r = new Rectangle(w, h, x, y, layer, c);
-        r.transform.setParentTransform(sceneTransform);
         return r;
     }
 

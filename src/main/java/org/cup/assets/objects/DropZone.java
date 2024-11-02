@@ -10,6 +10,7 @@ import org.cup.engine.core.nodes.components.defaults.SpriteRenderer;
 public class DropZone extends GameNode {
     private final String dropZoneSprite = PathHelper.getSpritePath("dropzone/dropZone.png");
     private final String dropZoneSpriteFull = PathHelper.getSpritePath("dropzone/dropZoneWResource.png");
+
     private SpriteRenderer sr = new SpriteRenderer(dropZoneSprite, transform, 43);
 
     private DropZoneThread thread;
@@ -27,12 +28,17 @@ public class DropZone extends GameNode {
         thread.start();
     }
 
+    /**
+     * Tries to place a resource
+     * @return False if the drop zone is full, True if the resource has been placd
+     */
     public boolean addResouce() {
-        if (thread.placeResource()) {
+        if (thread.placeResource()) { // Try to place the resource
+            // If the resource has been placed set the sprite to full
             sr.setSprite(dropZoneSpriteFull);
             return true;
         }
-        return false;
+        return false; // The DropZone is already full
     }
 
     public void normalSprite() {

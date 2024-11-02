@@ -33,6 +33,7 @@ public class Inventory extends GameNode {
         inventoryUI.transform.setParentTransform(transform);
         addChild(inventoryUI);
 
+        // UI
         packageCount.setForeground(Color.WHITE);
         packageCount.setBounds(x, y, w, h);
         packageCount.setHorizontalAlignment(JLabel.CENTER);
