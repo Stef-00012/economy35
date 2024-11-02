@@ -11,6 +11,8 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
+import javax.swing.SwingUtilities;
+import javax.swing.SwingWorker;
 
 import org.cup.assets.objects.Inventory;
 import org.cup.engine.core.Debug;
@@ -21,8 +23,7 @@ public class StatsPanel extends JPanel {
     private JLabel inventoryLabel;
     private JLabel productValueLabel;
 
-    private JButton increaseInventoryBtn;
-    private JButton increaseValueBtn;
+    private JPanel floorPanel;
 
     public StatsPanel(){
         final int PANEL_WIDTH = GameManager.game.getWidth() / 2 - 100;
@@ -57,37 +58,11 @@ public class StatsPanel extends JPanel {
         JSeparator separator = new JSeparator();
         separator.setMaximumSize(new Dimension(Integer.MAX_VALUE, 2));
 
-        // Buttons panel
-        JPanel buttonsPanel = new JPanel();
-        buttonsPanel.setLayout(new GridLayout(1, 2, 10, 0));
-
-        increaseInventoryBtn = new GameButton("<html><center>" + "INCREASE INVENTORY" + "<br>" + "(1000)" + "</center></html>");
-        increaseValueBtn = new GameButton("<html><center>" + "INCREASE PRODUCT VALUE" + "<br>" + "(3000)" + "</center></html>");
-
-        initializeListeners();
-
-        buttonsPanel.add(increaseInventoryBtn);
-        buttonsPanel.add(increaseValueBtn);
-
-        buttonsPanel.add(increaseInventoryBtn);
-        buttonsPanel.add(increaseValueBtn);
-
         // Add components to main panel
         this.add(infoPanel);
         this.add(Box.createRigidArea(new Dimension(0, 20))); // Space
         this.add(separator);
         this.add(Box.createRigidArea(new Dimension(0, 20))); // Space
-        this.add(buttonsPanel);
-    }
-
-    private void initializeListeners(){
-        increaseInventoryBtn.addActionListener(e -> {
-            
-        });
-
-        increaseValueBtn.addActionListener(e -> {
-            
-        });
     }
 
     public void setBalanceLabel(double balance){
@@ -95,10 +70,25 @@ public class StatsPanel extends JPanel {
     }
 
     public void setInventoryLabel(Inventory inventory){
-        balanceLabel.setText("INVENTORY CAPACITY: " + inventory.getResourceCount() + "/" + inventory.getCapacity());
+        inventoryLabel.setText("INVENTORY CAPACITY: " + inventory.getResourceCount() + "/" + inventory.getCapacity());
     }
 
     public void setProductValueLabel(double value){
-        balanceLabel.setText("PRODUCT VALUE: " + value);
+        productValueLabel.setText("PRODUCT VALUE: " + value);
+    }
+
+    public void updateFloorPanel(Floor f) {
+        SwingUtilities.invokeLater(() -> {
+            if (floorPanel != null) {
+                remove(floorPanel);
+            }
+            
+            JPanel newPanel = f.getUI();
+            if (newPanel != null) {
+                floorPanel = newPanel;
+                add(floorPanel);
+                revalidate();
+            }
+        });
     }
 }

@@ -1,5 +1,6 @@
 package org.cup.assets.objects;
 
+import org.cup.assets.UI.Floor;
 import org.cup.engine.Vector;
 import org.cup.engine.core.Debug;
 import org.cup.engine.core.nodes.GameNode;
@@ -13,7 +14,7 @@ public class Building extends GameNode {
     private Inventory inventory = new Inventory(3);
     private Elevator elevator = new Elevator();
 
-    private ArrayList<Room> rooms = new ArrayList<>();
+    private ArrayList<Floor> floors = new ArrayList<>();
 
     private int roomHeight = 175;
     int roomWidth = 500;
@@ -22,6 +23,8 @@ public class Building extends GameNode {
         if(Building.instance != null) 
             Debug.err("More than one building has been initialized");
         Building.instance = this;
+
+        floors.add(inventory);
     }
 
     public static Building get(){
@@ -37,14 +40,14 @@ public class Building extends GameNode {
     }
 
     public void addRoom(){
-        int nRooms = rooms.size();
+        int nRooms = floors.size() - 1; // Ignore the inventory
 
         Color col = nRooms % 2 == 0 ? new Color(221, 221, 221) : Color.GRAY;
         Room room = new Room(roomWidth, roomHeight, 0, (-roomHeight * nRooms), 1, col);
 
         room.transform.setParentTransform(transform);
 
-        rooms.add(room);
+        floors.add(room);
         addChild(room);
     }
 
@@ -54,6 +57,20 @@ public class Building extends GameNode {
 
     public Elevator getElevator(){
         return elevator;
+    }
+
+    public Floor getUpFloor(int currentFloor){
+        if(currentFloor + 1 >= floors.size()){
+            return null;
+        }
+        return floors.get(currentFloor + 1);
+    }
+
+    public Floor getDownFloor(int currentFloor){
+        if(currentFloor - 1 < 0){
+            return null;
+        }
+        return floors.get(currentFloor - 1);
     }
 
 }

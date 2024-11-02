@@ -1,5 +1,7 @@
 package org.cup.assets.objects;
 
+import org.cup.assets.UI.Floor;
+import org.cup.assets.scenes.MainScene;
 import org.cup.engine.Vector;
 import org.cup.engine.core.managers.GameManager;
 import org.cup.engine.core.nodes.GameNode;
@@ -13,7 +15,8 @@ public class Elevator extends GameNode implements KeyListener {
     Rectangle elevatorCab;
     Player player = null; 
     
-    private Vector targetPos = null; 
+    private Floor targetFloor = null; 
+    private int currentFloor;
 
     public void init(){
         // ! 39px is the height of the titlebar on Windows (DO NOT REMOVE)
@@ -27,7 +30,9 @@ public class Elevator extends GameNode implements KeyListener {
         addChild(elevatorCab);
 
         // Elevator logic
-        targetPos = transform.getPosition();
+        targetFloor = Building.get().getInventory();
+        currentFloor = 0;
+        updateFloorUI();
         GameManager.game.addKeyListener(this);
     
         // player
@@ -37,10 +42,11 @@ public class Elevator extends GameNode implements KeyListener {
     }
 
     public void onUpdate(){
-        if (targetPos == null)
+        if (targetFloor == null)
             return;
 
-        transform.setPosition(Vector.lerp(transform.getPosition(), targetPos, GameManager.getDeltaTime() * 10));
+        Vector lepedPos = Vector.lerp(transform.getPosition(), targetFloor.transform.getPosition(), GameManager.getDeltaTime() * 10);
+        transform.setPosition(new Vector(transform.getPosition().x, lepedPos.y));
     }
 
     @Override
@@ -55,14 +61,28 @@ public class Elevator extends GameNode implements KeyListener {
         final int KEYCODE_ARROW_DOWN = 40;
 
         int keyCode = e.getKeyCode();
-        Vector movement = new Vector(0, 175);
     
         if (keyCode == KEYCODE_ARROW_UP){
             // go up 1 floor (175px)
-            targetPos = targetPos.subtract(movement);
+            Floor upFloor = Building.get().getUpFloor(currentFloor);
+            if(upFloor != null){
+                targetFloor = upFloor;
+                updateFloorUI();
+                currentFloor++;
+            }
+            
         } else if (keyCode == KEYCODE_ARROW_DOWN){
             // go down 1 floor (175px)
-            targetPos = targetPos.add(movement);
+            Floor downFloor = Building.get().getDownFloor(currentFloor);
+            if(downFloor != null){
+                targetFloor = downFloor;
+                updateFloorUI();
+                currentFloor--;
+            }
         }
+    }
+
+    private void updateFloorUI(){
+        MainScene.getStatsPanel().updateFloorPanel(targetFloor);
     }
 }
