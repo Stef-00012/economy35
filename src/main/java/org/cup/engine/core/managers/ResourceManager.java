@@ -131,7 +131,7 @@ public class ResourceManager {
 
         // Scale if dimensions are provided
         if (width > 0 && height > 0) {
-            Debug.warn("Scaling: " + path + " " + width + "x" + height);
+            Debug.info("Scaling: " + path + " " + width + "x" + height);
             img = createScaledImage(original, width, height);
         } else {
             img = original;
