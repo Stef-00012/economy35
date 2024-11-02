@@ -8,12 +8,17 @@ import org.cup.engine.core.Debug;
  * Provides constants and functions to commonly used folders
  */
 public class PathHelper {
-    public static final String sprites = System.getProperty("user.dir")
-            + "\\src\\main\\java\\org\\cup\\assets\\sprites\\";
+    private static final boolean IS_DEV = new File("src").exists();
 
-    public static String getSpritePath(String name) {
-        return sprites + name;
-    }
+    public static final String sprites = IS_DEV
+            ? String.join(File.separator, System.getProperty("user.dir"), "src", "main", "java", "org", "cup", "assets",
+                    "sprites") + File.separator
+            : String.join(File.separator, System.getProperty("user.dir"), "assets", "sprites") + File.separator;
+
+    public static final String fonts = IS_DEV
+            ? String.join(File.separator, System.getProperty("user.dir"), "src", "main", "java", "org", "cup", "assets",
+                    "UI", "fonts") + File.separator
+            : String.join(File.separator, System.getProperty("user.dir"), "assets", "fonts") + File.separator;
 
     public static String[] getFilePaths(String folderPath) {
 
@@ -24,9 +29,9 @@ public class PathHelper {
         if (folder.exists() && folder.isDirectory()) {
             // Get the list of files and directories in the folder
             File[] files = folder.listFiles();
-            
+
             String[] filePaths = new String[files.length];
-            
+
             if (files != null) {
                 // Iterate through the files
                 for (int i = 0; i < filePaths.length; i++) {
@@ -39,9 +44,13 @@ public class PathHelper {
             }
             return filePaths;
         } else {
-            Debug.engineLogErr("The provided path is not a valid directory.");
+            Debug.engineLogErr("The provided path(" + folderPath + ") is not a valid directory.");
         }
 
         return null;
+    }
+
+    public static String getSpritePath(String name) {
+        return String.join(File.separator, sprites, name);
     }
 }

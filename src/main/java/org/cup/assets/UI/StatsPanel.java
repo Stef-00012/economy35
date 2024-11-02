@@ -1,27 +1,22 @@
 package org.cup.assets.UI;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.SwingUtilities;
-import javax.swing.SwingWorker;
 
 import org.cup.assets.objects.Inventory;
-import org.cup.engine.core.Debug;
 import org.cup.engine.core.managers.GameManager;
 
 public class StatsPanel extends JPanel {
-    private JLabel balanceLabel;
-    private JLabel inventoryLabel;
-    private JLabel productValueLabel;
+    private GameLabel balanceLabel;
+    private GameLabel inventoryLabel;
+    private GameLabel productValueLabel;
 
     private JPanel floorPanel;
 
@@ -40,9 +35,9 @@ public class StatsPanel extends JPanel {
         infoPanel.setLayout(new GridLayout(3, 1, 5, 5));
 
         // TODO
-        balanceLabel = new JLabel("BALANCE: " + 0);
-        inventoryLabel = new JLabel("INVENTORY CAPACITY: " + 0 + "/?");
-        productValueLabel = new JLabel("PRODUCT VALUE: " + 1);
+        balanceLabel = new GameLabel("BALANCE: " + 0);
+        inventoryLabel = new GameLabel("INVENTORY CAPACITY: " + 0 + "/?");
+        productValueLabel = new GameLabel("PRODUCT VALUE: " + 1);
 
         // Labels with custom font and style
         Font boldFont = new Font("Arial", Font.BOLD, 14);

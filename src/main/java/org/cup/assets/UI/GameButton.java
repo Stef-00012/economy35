@@ -8,7 +8,7 @@ import javax.swing.JButton;
 
 public class GameButton extends JButton {
     public GameButton(String text){
-        this.setText(text);
+        super(text);
         this.setFont(new Font("Arial", Font.BOLD, 12));
         this.setBackground(new Color(240, 240, 240));
         this.setBorder(BorderFactory.createCompoundBorder(
