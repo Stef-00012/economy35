@@ -66,4 +66,12 @@ public class Inventory extends GameNode {
         packageCount.setText(buffer + "/" + maxSize);
         notifyAll();
     }
+
+    public int getResourceCount(){
+        return buffer;
+    }
+
+    public int getCapacity(){
+        return maxSize;
+    }
 }

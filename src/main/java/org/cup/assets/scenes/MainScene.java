@@ -1,8 +1,10 @@
 package org.cup.assets.scenes;
 
+import org.cup.assets.UI.StatsPanel;
 import org.cup.assets.objects.Building;
 import org.cup.assets.objects.Rectangle;
 import org.cup.engine.core.Debug;
+import org.cup.engine.core.managers.GameManager;
 import org.cup.engine.core.nodes.Scene;
 
 import java.awt.*;
@@ -15,6 +17,7 @@ public class MainScene extends Scene {
         Debug.log("Main Scene initialized");
 
         addChild(building);
+        GameManager.game.addUIElement(new StatsPanel());
 
         addRoom();
         addRoom();
