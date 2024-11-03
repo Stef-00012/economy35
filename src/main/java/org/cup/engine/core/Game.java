@@ -8,7 +8,6 @@ import org.cup.engine.core.nodes.Scene;
 import org.cup.engine.Vector;
 
 import java.awt.Component;
-import java.awt.event.KeyListener;
 
 import javax.swing.*;
 

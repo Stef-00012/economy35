@@ -1,10 +1,8 @@
 package org.cup.assets.objects;
 
-import javax.management.monitor.GaugeMonitor;
 
 import org.cup.assets.PathHelper;
 import org.cup.engine.Vector;
-import org.cup.engine.core.Debug;
 import org.cup.engine.core.managers.GameManager;
 import org.cup.engine.core.nodes.GameNode;
 import org.cup.engine.core.nodes.components.Renderer;
@@ -12,6 +10,7 @@ import org.cup.engine.core.nodes.components.defaults.Animation;
 import org.cup.engine.core.nodes.components.defaults.Animator;
 import org.cup.engine.core.nodes.components.defaults.Transform;
 import org.cup.assets.logic.CustomerThread;
+import org.cup.assets.logic.Economy;
 
 public class Customer extends GameNode {
     private Animator animator = new Animator(transform, 2);
@@ -110,7 +109,7 @@ public class Customer extends GameNode {
         animator.play("walk-package");
         animator.setLayer(3);
 
-
+        Economy.setBalance(Economy.getBalance() + Economy.getProductValue()); // update UI counters
         Building.get().getMarket().moveQueue(positionInQueue);
     }
 

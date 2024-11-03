@@ -15,9 +15,9 @@ public class GameLabel extends JLabel {
 
         try {
             GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-            Font f = Font.createFont(Font.TRUETYPE_FONT, new File(PathHelper.fonts + "Font.ttf"));
+            Font f = Font.createFont(Font.TRUETYPE_FONT, new File(PathHelper.fonts + "Itim-Regular.ttf"));
             ge.registerFont(f);
-            setFont(new Font(f.getFontName(), Font.PLAIN, 30));            
+            setFont(new Font(f.getFontName(), Font.BOLD, 30));            
         } catch (Exception e) {
             Debug.engineLogErr(e.getMessage());
         }

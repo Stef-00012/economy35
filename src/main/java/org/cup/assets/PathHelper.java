@@ -10,10 +10,12 @@ import org.cup.engine.core.Debug;
 public class PathHelper {
     private static final boolean IS_DEV = new File("src").exists();
 
-    public static final String sprites = IS_DEV
+    public static final String sprites = IS_DEV     
             ? String.join(File.separator, System.getProperty("user.dir"), "src", "main", "java", "org", "cup", "assets",
                     "sprites") + File.separator
             : String.join(File.separator, System.getProperty("user.dir"), "main") + File.separator;
+
+    public static final String icons = sprites + File.separator + "icons" +  File.separator;
 
     public static final String fonts = IS_DEV
             ? String.join(File.separator, System.getProperty("user.dir"), "src", "main", "java", "org", "cup", "assets",

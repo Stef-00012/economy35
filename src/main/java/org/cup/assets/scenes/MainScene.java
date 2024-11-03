@@ -3,7 +3,6 @@ package org.cup.assets.scenes;
 import org.cup.assets.UI.StatsPanel;
 import org.cup.assets.logic.Economy;
 import org.cup.assets.objects.Building;
-import org.cup.assets.objects.Customer;
 import org.cup.assets.objects.CustomerSpawner;
 import org.cup.assets.objects.Rectangle;
 import org.cup.engine.core.Debug;

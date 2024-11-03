@@ -3,15 +3,15 @@ package org.cup.assets.objects;
 import java.awt.Color;
 import java.awt.GridLayout;
 
-import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import org.cup.assets.UI.Floor;
 import org.cup.assets.UI.GameButton;
 import org.cup.engine.Vector;
 import org.cup.engine.core.Debug;
-import org.cup.engine.core.nodes.GameNode;
 import org.cup.engine.core.nodes.components.Renderer;
+import org.cup.engine.core.nodes.components.defaults.SpriteRenderer;
+import org.cup.engine.core.nodes.components.defaults.Transform;
 
 public class Room extends Floor {
     private Machine machine = new Machine();
@@ -28,16 +28,17 @@ public class Room extends Floor {
     GameButton increaseInventoryBtn = new GameButton("<html><center>" + "INCREASE PRODUCTIVITY" + "<br>" + "(1000)" + "</center></html>");
     GameButton increaseValueBtn = new GameButton("<html><center>" + "HIRE EMPLOYEE" + "<br>" + "(5000)" + "</center></html>");
 
-    public Room(int width, int height, int x, int y, int layer, Color c) {
+    public Room(int width, int height, int x, int y, int layer, String spritePath) {
         transform.setScale(Vector.ONE);
         transform.setPosition(new Vector(x, y));
 
         // UI element
-        Rectangle rect;
-        rect = new Rectangle(width, height, 0, 0, layer, c);
-        rect.sr.setPivot(Renderer.BOTTOM_LEFT_PIVOT);
-        addChild(rect);
-        rect.transform.setParentTransform(transform);
+        Transform rendererTransform = new Transform();
+        rendererTransform.setScale(new Vector(width, height));
+        SpriteRenderer sr = new SpriteRenderer(spritePath, rendererTransform, layer);
+        sr.setPivot(Renderer.BOTTOM_LEFT_PIVOT);
+        addChild(sr);
+        rendererTransform.setParentTransform(transform);
         
         // set the drop zone
         dropZone = new DropZone(new Vector(width, -30));

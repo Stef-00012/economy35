@@ -35,7 +35,8 @@ public class DropZoneThread extends Thread {
     public void run() {
         while (true) {
             if (hasResource) {
-                Debug.log("im groot");
+                // no need to say it, but we know it deep down 
+                // Debug.log("im groot");
 
                 try {
                     Thread.sleep(2000);
