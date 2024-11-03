@@ -10,7 +10,6 @@ public class GameButton extends JButton {
     private int CORNER_RADIUS;
     private int BORDER_SIZE;
     
-    // creates a rounded button
     public GameButton(String text, Color btnColor, Color borderColor, int borderRadius, int borderSize) {
         super(text);
         BUTTON_COLOR = btnColor;
@@ -20,14 +19,14 @@ public class GameButton extends JButton {
         setup();
     }
     
-    // creates a btn with
+    // Creates a btn with
     // - border radius: 15px
     // - border size: 5px
     public GameButton(String text, Color btnColor, Color borderColor) {
         this(text, btnColor, borderColor, 15, 5);
     }
 
-    // creates a YELLOW btn with
+    // Creates a YELLOW btn with
     // - border radius: 15px
     // - border size: 5px
     public GameButton(String text) {
@@ -46,6 +45,8 @@ public class GameButton extends JButton {
         setFocusPainted(false);
         setBorderPainted(false);
         setOpaque(false);
+        setFocusable(false);
+        setCursor(new Cursor(Cursor.HAND_CURSOR));
         
         // Make the button slightly larger to accommodate the border
         Dimension size = getPreferredSize();
