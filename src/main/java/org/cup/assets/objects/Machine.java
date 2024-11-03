@@ -15,10 +15,10 @@ public class Machine extends GameNode {
 
     private Random randomGen = new Random();
 
-    private int probability = 40; // Probability to drop the resource
+    private int probability = 50; // Probability to drop the resource
 
     private double lastAttempt; // The time passed since the last time it has been chec
-    private double interval = 5000; // Time of the interval(in milliseconds)
+    private double interval = 3000; // Time of the interval(in milliseconds)
 
     private boolean hasProducedResource;
 

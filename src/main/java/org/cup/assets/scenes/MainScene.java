@@ -4,6 +4,7 @@ import org.cup.assets.UI.StatsPanel;
 import org.cup.assets.logic.Economy;
 import org.cup.assets.objects.Building;
 import org.cup.assets.objects.Customer;
+import org.cup.assets.objects.CustomerSpawner;
 import org.cup.assets.objects.Rectangle;
 import org.cup.engine.core.Debug;
 import org.cup.engine.core.managers.GameManager;
@@ -26,8 +27,7 @@ public class MainScene extends Scene {
         Economy.setBalance(0);
         GameManager.game.addUIElement(statsPanel);
 
-        addChild(new Customer());
-
+        addChild(new CustomerSpawner());
         addRoom();
         addRoom();
     }

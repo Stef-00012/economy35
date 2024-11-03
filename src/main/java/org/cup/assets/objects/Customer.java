@@ -14,6 +14,9 @@ import org.cup.engine.core.nodes.components.defaults.Transform;
 import org.cup.assets.logic.CustomerThread;
 
 public class Customer extends GameNode {
+    private static int customersWaiting = 0;
+    private int customerId;
+
     private Animator animator = new Animator(transform, 2);
     private float speed = 100;
 
@@ -53,7 +56,7 @@ public class Customer extends GameNode {
     public void onEnable() {
         transform.setPosition(GameManager.game.getWindowDimentions().add(Vector.RIGHT.multiply(10)));
 
-        if(transform.getScale().x > 0){
+        if (transform.getScale().x > 0) {
             animator.flip();
         }
         takeResource();
@@ -66,12 +69,16 @@ public class Customer extends GameNode {
         Vector pos = transform.getPosition();
 
         if (status == TAKE_RESOURCE) {
-            if (pos.x > seller.getPosition().x) {
+            double waitingPos = seller.getPosition().x;
+            waitingPos += Math.abs(transform.getScale().x) / 2 * customersWaiting;
+            if (pos.x > waitingPos) {
                 // Move Towards the machine
                 transform.move(Vector.LEFT.multiply(step));
-            } else{
+            } else {
                 animator.play("idle");
                 status = WAITING_FOR_RESOURCE;
+                customerId = customersWaiting;
+                customersWaiting++;
                 thread.takePackage(1);
             }
             return;
@@ -81,21 +88,27 @@ public class Customer extends GameNode {
             if (pos.x < GameManager.game.getWidth() + 20) {
                 // Move Towards the machine
                 transform.move(Vector.RIGHT.multiply(step));
-            } else{
+            } else {
                 disable();
             }
             return;
         }
     }
 
-    public void takeResource(){
+    public void takeResource() {
         status = TAKE_RESOURCE;
         animator.play("walk");
     }
 
-    public void goAway(){
+    public void goAway() {
         status = GO_AWAY;
         animator.flip();
         animator.play("walk-package");
+        customersWaiting--;
+    }
+
+    @Override
+    public void onDisable() {
+        ((CustomerSpawner) getParent()).addBackToQueue(this);
     }
 }

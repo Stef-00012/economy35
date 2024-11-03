@@ -1,5 +1,6 @@
 package org.cup.engine.core.nodes;
 
+import org.cup.engine.core.Debug;
 import org.cup.engine.core.errors.ParentDisabledException;
 
 import java.util.ArrayList;
@@ -103,6 +104,17 @@ public abstract class Node {
             childNodes.get(i).onDisable();
         }
         active = false;
+    }
+
+    /**
+     * Enables this node by calling _setup()
+     */
+    public void enable(){
+        try {
+            _setup();
+        } catch (ParentDisabledException e) {
+            Debug.engineLogErr(e.getMessage());
+        }
     }
 
     /**

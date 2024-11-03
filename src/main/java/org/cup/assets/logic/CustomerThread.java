@@ -7,11 +7,13 @@ import org.cup.engine.core.Debug;
 public class CustomerThread extends Thread {
     private Inventory inventory;
     private Customer customer;
-    private int packagesToTake; 
+    private int packagesToTake;
+    private boolean isRunning;
 
-    public CustomerThread(Customer customer, Inventory inventory){
+    public CustomerThread(Customer customer, Inventory inventory) {
         this.inventory = inventory;
         this.customer = customer;
+        isRunning = false;
     }
 
     @Override
@@ -20,15 +22,29 @@ public class CustomerThread extends Thread {
         super.start();
     }
 
-    public void takePackage(int n){
+    public void takePackage(int n) {
         packagesToTake = n;
-        super.start();
+
+        if(!isRunning){
+            super.start();
+            isRunning = true;
+        }
     }
 
     @Override
     public void run() {
-        inventory.takeResource(packagesToTake);
-        customer.goAway();
+        while (true) {
+            if (packagesToTake != 0) {
+                inventory.takeResource(packagesToTake);
+                packagesToTake = 0;
+                customer.goAway();
+            }
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
     }
-
 }
