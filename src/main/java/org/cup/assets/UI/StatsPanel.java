@@ -27,6 +27,8 @@ public class StatsPanel extends JPanel {
         final int PANEL_WIDTH = GameManager.game.getWidth() / 2 - 100;
         final int PANEL_HEIGHT = (GameManager.game.getHeight() - 39) * 2 / 5;
 
+        setOpaque(false);
+
         // Set the absolute position
         setBounds(GameManager.game.getWidth() - PANEL_WIDTH - 40, 20, PANEL_WIDTH, PANEL_HEIGHT);
         
@@ -35,6 +37,7 @@ public class StatsPanel extends JPanel {
 
         // Information panel
         JPanel infoPanel = new JPanel();
+        infoPanel.setOpaque(false);
         infoPanel.setLayout(new GridLayout(3, 1, 5, 5));
 
         balanceLabel = new GameLabel("BALANCE: " + 0);
@@ -53,6 +56,7 @@ public class StatsPanel extends JPanel {
 
         // Separator
         JSeparator separator = new JSeparator();
+        separator.setOpaque(false);
         separator.setMaximumSize(new Dimension(Integer.MAX_VALUE, 2));
 
         // Add components to main panel
@@ -83,6 +87,7 @@ public class StatsPanel extends JPanel {
             JPanel newPanel = f.getUI();
             if (newPanel != null) {
                 floorPanel = newPanel;
+                floorPanel.setOpaque(false);
                 add(floorPanel);
                 revalidate();
             }
