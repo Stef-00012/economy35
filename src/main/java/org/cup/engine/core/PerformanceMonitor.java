@@ -14,7 +14,7 @@ public class PerformanceMonitor extends Thread {
 
     public final double MAX_MEMORY_USAGE = .2; //? <- 30% of the memory is CRAZYYY
     public final double MAX_CPU_USAGE = .3;
-    public final double MAX_THREAD_COUNT = 30;
+    public final double MAX_THREAD_COUNT = 40;
     
     public long sleepTimeMillis = 1000;
     
