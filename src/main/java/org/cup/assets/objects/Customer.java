@@ -54,7 +54,7 @@ public class Customer extends GameNode {
     @Override
     public void onEnable() {
         transform.setPosition(GameManager.game.getWindowDimentions().add(Vector.RIGHT.multiply(10)));
-
+        animator.setLayer(2);
         if (transform.getScale().x > 0) {
             animator.flip();
         }
@@ -108,6 +108,8 @@ public class Customer extends GameNode {
         status = GO_AWAY;
         animator.flip();
         animator.play("walk-package");
+        animator.setLayer(3);
+
 
         Building.get().getMarket().moveQueue(positionInQueue);
     }
