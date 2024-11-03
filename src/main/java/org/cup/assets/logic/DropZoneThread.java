@@ -49,7 +49,7 @@ public class DropZoneThread extends Thread {
                 hasResource = false;
             }
 
-            // prevent CPU hogging
+            // Prevent CPU hogging
             try {
                 Thread.sleep(100);
             } catch (InterruptedException e) {

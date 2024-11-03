@@ -3,6 +3,7 @@ package org.cup.engine.core.nodes.components.defaults;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
@@ -14,11 +15,17 @@ import org.cup.engine.core.managers.ResourceManager;
  * Represents an animation consisting of multiple frames (sprites).
  */
 public class Animation {
+    public interface AnimationLastFrameListener {
+        public void onLastFrame();        
+    }
+
     private final String[] spritePaths;
     private float timeBetweenFrames;
     private final boolean loop;
     private int currentFrameIndex;
     private Vector currentScale = Vector.ONE;
+    private ArrayList<AnimationLastFrameListener> lastFrameListeners;
+    
 
     /**
      * Constructs an Animation with the specified frames, timing, and looping
@@ -33,6 +40,8 @@ public class Animation {
         this.timeBetweenFrames = timeBetweenFrames;
         this.currentFrameIndex = 0;
         this.loop = loop;
+
+        lastFrameListeners = new ArrayList<>();
         
         if (sprites.length == 0) {
             Debug.engineLogErr("The animation is empty");
@@ -88,8 +97,10 @@ public class Animation {
     public Image nextFrame(Vector scale) {
         updateScale(scale);
         
-        if (isLastFrame() && loop) {
-            currentFrameIndex = 0;
+        if (isLastFrame()) {
+            if(loop){
+                currentFrameIndex = 0;
+            }
         }
         
         Image frame = getCurrentFrame(scale);
@@ -103,7 +114,10 @@ public class Animation {
      * @return True if the current frame is the last; otherwise false
      */
     public boolean isLastFrame() {
-        return currentFrameIndex >= spritePaths.length;
+        boolean isLastFrame = currentFrameIndex >= spritePaths.length;
+        if(isLastFrame)
+            notifyLastFrameListeners();
+        return isLastFrame;
     }
     /**
      * Resets the animation to the first frame.
@@ -137,5 +151,15 @@ public class Animation {
      */
     public boolean isLoop() {
         return loop;
+    }
+
+    public void addLastFrameListener(AnimationLastFrameListener listener){
+        lastFrameListeners.add(listener);
+    }
+
+    private void notifyLastFrameListeners(){
+        for(int i = 0; i < lastFrameListeners.size(); i++){
+            lastFrameListeners.get(i).onLastFrame();
+        }
     }
 }

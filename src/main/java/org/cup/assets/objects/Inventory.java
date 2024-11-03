@@ -3,16 +3,22 @@ package org.cup.assets.objects;
 import java.awt.Color;
 
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 
+import org.cup.assets.UI.Floor;
+import org.cup.assets.scenes.MainScene;
+import org.cup.engine.Vector;
 import org.cup.engine.core.Debug;
 import org.cup.engine.core.managers.GameManager;
 import org.cup.engine.core.nodes.GameNode;
+import org.cup.engine.core.nodes.components.Renderer;
+import org.cup.engine.core.nodes.components.defaults.SquareRenderer;
 
 /* 
  * Graphical part of the inventory
 */
-public class Inventory extends GameNode {
-    private Rectangle inventoryUI;
+public class Inventory extends Floor {
+    private SquareRenderer inventoryUI;
 
     private int buffer;
     private int maxSize;
@@ -22,23 +28,20 @@ public class Inventory extends GameNode {
     public Inventory(int initialMaxSize) {
         buffer = 0;
         maxSize = initialMaxSize;
+        updateInventoryStatsUI();
     }
 
     public void init() {
-        int x = 120 - 1;
-        int y = 720 - 20 - 175;
         int w = 400;
         int h = 175;
-        inventoryUI = new Rectangle(w, h, x, y, 1, new Color(19, 21, 21));
-        inventoryUI.transform.setParentTransform(transform);
+        int y = 720 - 20 - 175 + h;
+        int x = 120 - 1;
+        // inventoryUI = new SquareRenderer(w, h, x, y, 1, new Color(19, 21, 21));
+        inventoryUI = new SquareRenderer(transform, 1);
+        transform.setScale(new Vector(w, h));
+        transform.setPosition(new Vector(x, y));
+        inventoryUI.setPivot(Renderer.BOTTOM_LEFT_PIVOT); // Use the top left pivot
         addChild(inventoryUI);
-
-        // UI
-        packageCount.setForeground(Color.WHITE);
-        packageCount.setBounds(x, y, w, h);
-        packageCount.setHorizontalAlignment(JLabel.CENTER);
-        packageCount.setVerticalAlignment(JLabel.CENTER);
-        GameManager.game.addUIElement(packageCount);
     }
 
     public synchronized void addResource() {
@@ -50,7 +53,7 @@ public class Inventory extends GameNode {
             }
         }
         buffer++;
-        packageCount.setText(buffer + "/" + maxSize);
+        updateInventoryStatsUI();
         notifyAll();
     }
 
@@ -63,7 +66,24 @@ public class Inventory extends GameNode {
             }
         }
         buffer -= n;
-        packageCount.setText(buffer + "/" + maxSize);
+        updateInventoryStatsUI();
         notifyAll();
+    }
+
+    public int getResourceCount() {
+        return buffer;
+    }
+
+    public int getCapacity() {
+        return maxSize;
+    }
+
+    private void updateInventoryStatsUI() {
+        MainScene.getStatsPanel().setInventoryLabel(this);
+    }
+
+    @Override
+    public JPanel getUI() {
+        return new JPanel();
     }
 }
