@@ -21,7 +21,6 @@ public class Animator extends Renderer {
     private Animation currentlyPlaying;
 
     private long lastSpriteChange;
-    private Vector previousScale;
 
     private Transform transform;
     private JPanel observer;
