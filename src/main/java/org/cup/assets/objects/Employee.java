@@ -41,8 +41,8 @@ public class Employee extends GameNode {
     @Override
     public void init() {
         addChild(animator);
-        transform.setScale(new Vector(51, 58).multiply(2));
-        transform.setPosition(new Vector(200, 0));
+        transform.setScale(new Vector(51, 58).multiply(1.5));
+        transform.setPosition(new Vector(200, 10));
     }
 
     @Override
@@ -68,10 +68,8 @@ public class Employee extends GameNode {
                 deliverResource();
             }
             return;
-        }
-
-        if (status == DELIVER_RESOURCE) {
-            if (pos.x < packageDropZone.transform.getPosition().x) {
+        } else if (status == DELIVER_RESOURCE) {
+            if (pos.x < packageDropZone.transform.getPosition().x - transform.getScale().x / 2) {
                 // Move Towards the machine
                 transform.move(Vector.RIGHT.multiply(step));
             } else {

@@ -6,7 +6,7 @@ import java.util.Queue;
 import org.cup.engine.core.nodes.GameNode;
 
 public class CustomerSpawner extends GameNode {
-    private double interval = 2000;
+    private double interval = 4000;
     private double lastSpawnTimestamp;
 
     private Queue<Customer> pool;
