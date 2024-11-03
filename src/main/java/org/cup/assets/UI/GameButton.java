@@ -2,7 +2,12 @@ package org.cup.assets.UI;
 
 import java.awt.*;
 import javax.swing.*;
+
+import org.cup.assets.PathHelper;
+import org.cup.engine.core.Debug;
+
 import java.awt.geom.RoundRectangle2D;
+import java.io.File;
 
 public class GameButton extends JButton {
     private Color BUTTON_COLOR;
@@ -38,8 +43,21 @@ public class GameButton extends JButton {
         BORDER_COLOR = borderColor;
     }
 
+    private void setupFont(int style, int size) {
+        try {
+            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+            Font f = Font.createFont(Font.TRUETYPE_FONT, new File(PathHelper.fonts + "Itim-Regular.ttf"));
+            ge.registerFont(f);
+            setFont(new Font(f.getFontName(), style, size));
+        } catch (Exception e) {
+            Debug.engineLogErr(e.getMessage());
+            setFont(new Font("Arial", style, size));
+        }
+
+    }
+
     private void setup() {
-        setFont(new Font("Arial", Font.BOLD, 16));
+        setupFont(Font.BOLD, 18);
         setForeground(Color.WHITE);
         setContentAreaFilled(false);
         setFocusPainted(false);
