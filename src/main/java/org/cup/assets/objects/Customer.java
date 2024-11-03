@@ -14,11 +14,10 @@ import org.cup.engine.core.nodes.components.defaults.Transform;
 import org.cup.assets.logic.CustomerThread;
 
 public class Customer extends GameNode {
-    private static int customersWaiting = 0;
-    private int customerId;
-
     private Animator animator = new Animator(transform, 2);
     private float speed = 100;
+
+    private int positionInQueue;
 
     // State Machine
     private int status = TAKE_RESOURCE;
@@ -48,7 +47,7 @@ public class Customer extends GameNode {
     @Override
     public void init() {
         addChild(animator);
-        transform.setScale(new Vector(51, 58));
+        transform.setScale(new Vector(51, 58).multiply(2));
         transform.setPosition(new Vector(200, 0));
     }
 
@@ -68,20 +67,22 @@ public class Customer extends GameNode {
 
         Vector pos = transform.getPosition();
 
-        if (status == TAKE_RESOURCE) {
+        if (status == WAITING_FOR_RESOURCE || status == TAKE_RESOURCE) {
             double waitingPos = seller.getPosition().x;
-            waitingPos += Math.abs(transform.getScale().x) / 2 * customersWaiting;
+            waitingPos += Math.abs(transform.getScale().x) / 3 * positionInQueue;
             if (pos.x > waitingPos) {
-                // Move Towards the machine
+                // Move Towards the store
                 transform.move(Vector.LEFT.multiply(step));
-            } else {
-                animator.play("idle");
-                status = WAITING_FOR_RESOURCE;
-                customerId = customersWaiting;
-                customersWaiting++;
-                thread.takePackage(1);
             }
-            return;
+
+            if (status == TAKE_RESOURCE) {
+                if (pos.x <= waitingPos) {
+                    animator.play("idle");
+                    status = WAITING_FOR_RESOURCE;
+                    thread.takePackage(1);
+                }
+                return;
+            }
         }
 
         if (status == GO_AWAY) {
@@ -93,9 +94,12 @@ public class Customer extends GameNode {
             }
             return;
         }
+
     }
 
     public void takeResource() {
+        Building.get().getMarket().joinQueue(this);
+
         status = TAKE_RESOURCE;
         animator.play("walk");
     }
@@ -104,11 +108,16 @@ public class Customer extends GameNode {
         status = GO_AWAY;
         animator.flip();
         animator.play("walk-package");
-        customersWaiting--;
+
+        Building.get().getMarket().moveQueue(positionInQueue);
     }
 
     @Override
     public void onDisable() {
         ((CustomerSpawner) getParent()).addBackToQueue(this);
+    }
+
+    public void setPositionInQueue(int value) {
+        positionInQueue = value;
     }
 }

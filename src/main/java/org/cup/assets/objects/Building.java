@@ -13,6 +13,7 @@ public class Building extends GameNode {
 
     private Inventory inventory = new Inventory(3);
     private Elevator elevator = new Elevator();
+    private Market market = new Market();
 
     private ArrayList<Floor> floors = new ArrayList<>();
 
@@ -37,6 +38,7 @@ public class Building extends GameNode {
 
         addChild(elevator);
         addChild(inventory);
+        addChild(market);
     }
 
     public void addRoom(){
@@ -57,6 +59,10 @@ public class Building extends GameNode {
 
     public Elevator getElevator(){
         return elevator;
+    }
+
+    public Market getMarket(){
+        return market;
     }
 
     public Floor getUpFloor(int currentFloor){

@@ -16,6 +16,8 @@ public class MainScene extends Scene {
     private Building building = new Building();
     private static StatsPanel statsPanel = new StatsPanel();
     
+    private Rectangle floor;
+
     @Override
     public void init() {
         Debug.log("Main Scene initialized");
@@ -26,6 +28,9 @@ public class MainScene extends Scene {
         Economy.setProductValue(10);
         Economy.setBalance(0);
         GameManager.game.addUIElement(statsPanel);
+
+        floor = new Rectangle(GameManager.game.getWidth(), 20, 0, GameManager.game.getHeight()-59, 0, new Color(40,40,40));
+        addChild(floor);
 
         addChild(new CustomerSpawner());
         addRoom();

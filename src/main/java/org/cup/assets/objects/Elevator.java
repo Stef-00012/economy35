@@ -24,7 +24,7 @@ public class Elevator extends GameNode implements KeyListener {
         transform.setPosition(new Vector(0, GameManager.game.getHeight() - 39 - 20));
 
         // graphic part of the cab
-        elevatorCab = new Rectangle(120, 175, 0, 0, 1, Color.BLACK);
+        elevatorCab = new Rectangle(120, 175, 0, 0, 1, new Color(100,100,100));
         elevatorCab.sr.setPivot(Renderer.BOTTOM_LEFT_PIVOT);
         elevatorCab.transform.setParentTransform(transform);
         addChild(elevatorCab);
