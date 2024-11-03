@@ -2,18 +2,20 @@ package org.cup.assets.objects;
 
 import javax.swing.JPanel;
 
+import org.cup.assets.PathHelper;
 import org.cup.assets.UI.Floor;
 import org.cup.assets.scenes.MainScene;
 import org.cup.engine.Vector;
 import org.cup.engine.core.Debug;
 import org.cup.engine.core.nodes.components.Renderer;
+import org.cup.engine.core.nodes.components.defaults.SpriteRenderer;
 import org.cup.engine.core.nodes.components.defaults.SquareRenderer;
 
 /* 
  * Graphical part of the inventory
 */
 public class Inventory extends Floor {
-    private SquareRenderer inventoryUI;
+    private SpriteRenderer inventoryUI;
 
     private int buffer;
     private int maxSize;
@@ -30,7 +32,8 @@ public class Inventory extends Floor {
         int y = 720 - 20 - 175 + h;
         int x = 120 - 1;
         // inventoryUI = new SquareRenderer(w, h, x, y, 1, new Color(19, 21, 21));
-        inventoryUI = new SquareRenderer(transform, 1);
+        // inventoryUI = new SquareRenderer(transform, 1);
+        inventoryUI = new SpriteRenderer(PathHelper.sprites + "inventory//inventory.png", transform, 1);
         transform.setScale(new Vector(w, h));
         transform.setPosition(new Vector(x, y));
         inventoryUI.setPivot(Renderer.BOTTOM_LEFT_PIVOT); // Use the top left pivot
