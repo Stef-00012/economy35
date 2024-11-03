@@ -78,6 +78,12 @@ public class Room extends Floor {
         buttonsPanel.add(increaseInventoryBtn);
         buttonsPanel.add(increaseValueBtn);
         
+        increaseValueBtn.setColors(
+            new Color(50, 192, 37),
+            new Color(37, 160, 26)
+        );
+        
+        
         increaseInventoryBtn.addActionListener(e -> {
         });
 
