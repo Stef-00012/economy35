@@ -25,8 +25,8 @@ public class Room extends Floor {
 
     // UI
     private JPanel buttonsPanel = new JPanel();
-    JButton increaseInventoryBtn = new GameButton("<html><center>" + "INCREASE INVENTORY" + "<br>" + "(1000)" + "</center></html>");
-    JButton increaseValueBtn = new GameButton("<html><center>" + "INCREASE PRODUCT VALUE" + "<br>" + "(3000)" + "</center></html>");
+    GameButton increaseInventoryBtn = new GameButton("<html><center>" + "INCREASE PRODUCTIVITY" + "<br>" + "(1000)" + "</center></html>");
+    GameButton increaseValueBtn = new GameButton("<html><center>" + "HIRE EMPLOYEE" + "<br>" + "(5000)" + "</center></html>");
 
     public Room(int width, int height, int x, int y, int layer, Color c) {
         transform.setScale(Vector.ONE);
@@ -83,7 +83,7 @@ public class Room extends Floor {
             new Color(37, 160, 26)
         );
         
-        
+
         increaseInventoryBtn.addActionListener(e -> {
         });
 
