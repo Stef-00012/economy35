@@ -59,7 +59,7 @@ public class StatsPanel extends JPanel {
     }
 
     public void setInventoryLabel(Inventory inventory){
-        inventoryLabel.setText("INVENTORY CAPACITY: " + inventory.getResourceCount() + "/" + inventory.getCapacity());
+        inventoryLabel.setText("INVENTORY CAPACITY: " + inventory.getResourceCount() + "-" + inventory.getCapacity());
     }
 
     public void setProductValueLabel(double value){
