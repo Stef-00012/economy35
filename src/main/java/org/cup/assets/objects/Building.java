@@ -1,11 +1,11 @@
 package org.cup.assets.objects;
 
+import org.cup.assets.PathHelper;
 import org.cup.assets.UI.Floor;
 import org.cup.engine.Vector;
 import org.cup.engine.core.Debug;
 import org.cup.engine.core.nodes.GameNode;
 
-import java.awt.Color;
 import java.util.ArrayList;
 
 public class Building extends GameNode {
@@ -13,6 +13,7 @@ public class Building extends GameNode {
 
     private Inventory inventory = new Inventory(3);
     private Elevator elevator = new Elevator();
+    private Market market = new Market();
 
     private ArrayList<Floor> floors = new ArrayList<>();
 
@@ -37,13 +38,15 @@ public class Building extends GameNode {
 
         addChild(elevator);
         addChild(inventory);
+        addChild(market);
     }
 
     public void addRoom(){
         int nRooms = floors.size() - 1; // Ignore the inventory
 
-        Color col = nRooms % 2 == 0 ? new Color(221, 221, 221) : Color.GRAY;
-        Room room = new Room(roomWidth, roomHeight, 0, (-roomHeight * nRooms), 1, col);
+        String basePath = PathHelper.sprites + "rooms\\room-background";
+        String finalPath = basePath + (nRooms % 2 == 0 ? "-decorated" : "") + ".png";
+        Room room = new Room(roomWidth, roomHeight, 0, (-roomHeight * nRooms), 1, finalPath);
 
         room.transform.setParentTransform(transform);
 
@@ -57,6 +60,10 @@ public class Building extends GameNode {
 
     public Elevator getElevator(){
         return elevator;
+    }
+
+    public Market getMarket(){
+        return market;
     }
 
     public Floor getUpFloor(int currentFloor){

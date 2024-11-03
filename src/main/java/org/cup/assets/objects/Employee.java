@@ -10,7 +10,6 @@ import org.cup.engine.core.nodes.components.defaults.Animator;
 
 public class Employee extends GameNode {
     private Animator animator = new Animator(transform, 2);
-    private String spritesFolder = PathHelper.sprites + "employee\\";
     private float speed = 100;
 
     // State Machine
@@ -26,6 +25,8 @@ public class Employee extends GameNode {
     private boolean isWaitingWithResource = false;
 
     public Employee(Room room) {
+        String spritesFolder = PathHelper.sprites + "employee\\";
+
         animator.addAnimation("idle", new Animation(PathHelper.getFilePaths(spritesFolder + "idle")));
         animator.addAnimation("walk", new Animation(PathHelper.getFilePaths(spritesFolder + "walk")));
         animator.addAnimation("walk-package", new Animation(PathHelper.getFilePaths(spritesFolder + "walk-package")));
@@ -40,8 +41,8 @@ public class Employee extends GameNode {
     @Override
     public void init() {
         addChild(animator);
-        transform.setScale(new Vector(51, 58));
-        transform.setPosition(new Vector(200, 0));
+        transform.setScale(new Vector(51, 58).multiply(1.5));
+        transform.setPosition(new Vector(200, 10));
     }
 
     @Override
@@ -67,23 +68,20 @@ public class Employee extends GameNode {
                 deliverResource();
             }
             return;
-        }
-
-        if (status == DELIVER_RESOURCE) {
-            if (pos.x < packageDropZone.transform.getPosition().x) {
+        } else if (status == DELIVER_RESOURCE) {
+            if (pos.x < packageDropZone.transform.getPosition().x - transform.getScale().x / 2) {
                 // Move Towards the machine
                 transform.move(Vector.RIGHT.multiply(step));
             } else {
                 // Drop the package
                 if (packageDropZone.addResouce()) {
                     idle();
-                } else{
-                    if(packageDropZone.hasResource() && !isWaitingWithResource){
+                } else {
+                    if (packageDropZone.hasResource() && !isWaitingWithResource) {
                         animator.play("idle");
                         isWaitingWithResource = true;
                     }
                 }
-
 
             }
             return;
@@ -91,14 +89,10 @@ public class Employee extends GameNode {
 
     }
 
-    public void flipCharacter() {
-        transform.setScale(Vector.multiplyVec(new Vector(-1, 1), transform.getScale()));
-    }
-
     public void takeResource() {
         if (status != IDLE)
             return;
-        flipCharacter();
+        animator.flip();
         status = TAKE_RESOURCE;
         animator.play("walk");
     }
@@ -106,7 +100,7 @@ public class Employee extends GameNode {
     private void deliverResource() {
         animator.play("walk-package");
         status = DELIVER_RESOURCE;
-        flipCharacter();
+        animator.flip();
     }
 
     private void idle() {

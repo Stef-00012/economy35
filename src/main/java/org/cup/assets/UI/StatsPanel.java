@@ -1,16 +1,19 @@
 package org.cup.assets.UI;
 
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Image;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.SwingUtilities;
 
+import org.cup.assets.PathHelper;
 import org.cup.assets.objects.Inventory;
+import org.cup.engine.core.Debug;
 import org.cup.engine.core.managers.GameManager;
 
 public class StatsPanel extends JPanel {
@@ -34,9 +37,14 @@ public class StatsPanel extends JPanel {
         JPanel infoPanel = new JPanel();
         infoPanel.setLayout(new GridLayout(3, 1, 5, 5));
 
-        // TODO
         balanceLabel = new GameLabel("BALANCE: " + 0);
+        balanceLabel.setIcon(scaleIcon(PathHelper.icons + "coin.png", 20, 20));
+        
         inventoryLabel = new GameLabel("INVENTORY CAPACITY: " + 0 + "/?");
+        inventoryLabel.setIcon(scaleIcon(PathHelper.icons + "box.png", 20, 20));
+
+        Debug.log(inventoryLabel.getIcon());
+
         productValueLabel = new GameLabel("PRODUCT VALUE: " + 1);
 
         infoPanel.add(balanceLabel);
@@ -79,5 +87,12 @@ public class StatsPanel extends JPanel {
                 revalidate();
             }
         });
+    }
+
+    private ImageIcon scaleIcon(String path, int width, int height) {
+        ImageIcon originalIcon = new ImageIcon(path);
+        Image image = originalIcon.getImage();
+        Image scaledImage = image.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+        return new ImageIcon(scaledImage);
     }
 }

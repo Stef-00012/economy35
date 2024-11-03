@@ -1,11 +1,7 @@
 package org.cup.engine.core.nodes.components.defaults;
 
 import java.awt.*;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
-
-import javax.imageio.ImageIO;
 
 import org.cup.engine.Vector;
 import org.cup.engine.core.Debug;

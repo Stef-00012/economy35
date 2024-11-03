@@ -56,4 +56,8 @@ public class SpriteRenderer extends Renderer {
     public void setSprite(String imageSrc) {
         this.currentImagePath = imageSrc;
     }
+
+    public void flip() {
+        transform.setScale(Vector.multiplyVec(new Vector(-1, 1), transform.getScale()));
+    }
 }
