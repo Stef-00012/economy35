@@ -59,10 +59,12 @@ public class Elevator extends GameNode implements KeyListener {
     public void keyReleased(KeyEvent e) {
         final int KEYCODE_ARROW_UP = 38;
         final int KEYCODE_ARROW_DOWN = 40;
+        final int KEYCODE_W = 87;
+        final int KEYCODE_S = 83;
 
         int keyCode = e.getKeyCode();
     
-        if (keyCode == KEYCODE_ARROW_UP){
+        if (keyCode == KEYCODE_ARROW_UP || keyCode == KEYCODE_W){
             // go up 1 floor (175px)
             Floor upFloor = Building.get().getUpFloor(currentFloor);
             if(upFloor != null){
@@ -71,7 +73,7 @@ public class Elevator extends GameNode implements KeyListener {
                 currentFloor++;
             }
             
-        } else if (keyCode == KEYCODE_ARROW_DOWN){
+        } else if (keyCode == KEYCODE_ARROW_DOWN || keyCode == KEYCODE_S){
             // go down 1 floor (175px)
             Floor downFloor = Building.get().getDownFloor(currentFloor);
             if(downFloor != null){
