@@ -1,16 +1,11 @@
 package org.cup.assets.objects;
 
-import java.awt.Color;
-
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import org.cup.assets.UI.Floor;
 import org.cup.assets.scenes.MainScene;
 import org.cup.engine.Vector;
 import org.cup.engine.core.Debug;
-import org.cup.engine.core.managers.GameManager;
-import org.cup.engine.core.nodes.GameNode;
 import org.cup.engine.core.nodes.components.Renderer;
 import org.cup.engine.core.nodes.components.defaults.SquareRenderer;
 
@@ -22,8 +17,6 @@ public class Inventory extends Floor {
 
     private int buffer;
     private int maxSize;
-
-    private JLabel packageCount = new JLabel("0/?", JLabel.CENTER);
 
     public Inventory(int initialMaxSize) {
         buffer = 0;

@@ -10,7 +10,6 @@ import org.cup.engine.core.nodes.components.defaults.Animator;
 
 public class Employee extends GameNode {
     private Animator animator = new Animator(transform, 2);
-    private String spritesFolder = PathHelper.sprites + "employee\\";
     private float speed = 100;
 
     // State Machine
@@ -26,6 +25,8 @@ public class Employee extends GameNode {
     private boolean isWaitingWithResource = false;
 
     public Employee(Room room) {
+        String spritesFolder = PathHelper.sprites + "employee\\";
+
         animator.addAnimation("idle", new Animation(PathHelper.getFilePaths(spritesFolder + "idle")));
         animator.addAnimation("walk", new Animation(PathHelper.getFilePaths(spritesFolder + "walk")));
         animator.addAnimation("walk-package", new Animation(PathHelper.getFilePaths(spritesFolder + "walk-package")));
@@ -77,13 +78,12 @@ public class Employee extends GameNode {
                 // Drop the package
                 if (packageDropZone.addResouce()) {
                     idle();
-                } else{
-                    if(packageDropZone.hasResource() && !isWaitingWithResource){
+                } else {
+                    if (packageDropZone.hasResource() && !isWaitingWithResource) {
                         animator.play("idle");
                         isWaitingWithResource = true;
                     }
                 }
-
 
             }
             return;
@@ -91,14 +91,10 @@ public class Employee extends GameNode {
 
     }
 
-    public void flipCharacter() {
-        transform.setScale(Vector.multiplyVec(new Vector(-1, 1), transform.getScale()));
-    }
-
     public void takeResource() {
         if (status != IDLE)
             return;
-        flipCharacter();
+        animator.flip();
         status = TAKE_RESOURCE;
         animator.play("walk");
     }
@@ -106,7 +102,7 @@ public class Employee extends GameNode {
     private void deliverResource() {
         animator.play("walk-package");
         status = DELIVER_RESOURCE;
-        flipCharacter();
+        animator.flip();
     }
 
     private void idle() {

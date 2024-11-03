@@ -5,6 +5,7 @@ import org.cup.engine.core.managers.graphics.GraphicsManager;
 import org.cup.engine.core.managers.graphics.Painter;
 import org.cup.engine.core.nodes.RootNode;
 import org.cup.engine.core.nodes.Scene;
+import org.cup.engine.Vector;
 
 import java.awt.Component;
 import java.awt.event.KeyListener;
@@ -27,6 +28,8 @@ public class Game extends JFrame {
     private RootNode root;
 
     private JLayeredPane layeredPane;
+
+    private final Vector windowDimentions;
 
     /**
      * Constructs a {@code Game} object with the specified window title, dimensions,
@@ -61,6 +64,8 @@ public class Game extends JFrame {
         // (not 40) for the title bar
         this.setSize(width, height + 39);
         this.setResizable(false); // For the scope of this game it's better not to handle responsivenes
+
+        windowDimentions = new Vector(width, height);
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -115,6 +120,10 @@ public class Game extends JFrame {
 
     public void addUIElement(Component c) {
         layeredPane.add(c, JLayeredPane.POPUP_LAYER);
+    }
+
+    public Vector getWindowDimentions(){
+        return windowDimentions;
     }
 
 }

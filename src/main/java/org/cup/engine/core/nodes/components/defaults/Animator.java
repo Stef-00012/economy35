@@ -6,7 +6,6 @@ import java.awt.Image;
 import java.util.HashMap;
 
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 
 import org.cup.engine.Vector;
 import org.cup.engine.core.Debug;
@@ -112,5 +111,9 @@ public class Animator extends Renderer {
             frame = currentlyPlaying.nextFrame(transform.getScale()); // Update to the next frame
             lastSpriteChange = System.currentTimeMillis(); // Update the last sprite change time
         }
+    }
+
+    public void flip() {
+        transform.setScale(Vector.multiplyVec(new Vector(-1, 1), transform.getScale()));
     }
 }
