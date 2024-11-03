@@ -49,6 +49,7 @@ public class StatsPanel extends JPanel {
         Debug.log(inventoryLabel.getIcon());
 
         productValueLabel = new GameLabel("PRODUCT VALUE: " + 1);
+        productValueLabel.setIcon(scaleIcon(PathHelper.icons + "diamond.png", 20, 20));
 
         infoPanel.add(balanceLabel);
         infoPanel.add(inventoryLabel);
