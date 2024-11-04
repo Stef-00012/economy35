@@ -13,8 +13,8 @@ public class PerformanceMonitor extends Thread {
     private static int nMonitors = 0;
 
     public final double MAX_MEMORY_USAGE = .2; //? <- 20% of the system memory is CRAZYYY
-    public final double MAX_CPU_USAGE = .3;
-    public final double MAX_THREAD_COUNT = 40;
+    public final double MAX_CPU_USAGE = .3; // +30% is not uncommon as soon as the game starts
+    public final double MAX_THREAD_COUNT = 50; // swing threads + game threads + sounds
     
     public long sleepTimeMillis = 1000;
     
