@@ -7,6 +7,8 @@ import javax.swing.JPanel;
 
 import org.cup.assets.UI.Floor;
 import org.cup.assets.UI.GameButton;
+import org.cup.assets.logic.Economy;
+import org.cup.assets.objects.Machine.MachineUpgrade;
 import org.cup.engine.Vector;
 import org.cup.engine.core.Debug;
 import org.cup.engine.core.nodes.components.Renderer;
@@ -23,10 +25,14 @@ public class Room extends Floor {
     // The number of the employee
     private int nEmployees;
 
+    private MachineUpgrade nextMachineUpgrade;
+
     // UI
     private JPanel buttonsPanel = new JPanel();
-    GameButton increaseInventoryBtn = new GameButton("<html><center>" + "INCREASE PRODUCTIVITY" + "<br>" + "(1000)" + "</center></html>");
-    GameButton increaseValueBtn = new GameButton("<html><center>" + "HIRE EMPLOYEE" + "<br>" + "(5000)" + "</center></html>");
+    GameButton upgradeMachineBtn = new GameButton(
+            "<html><center>" + "UPGRADE MACHINE" + "<br>" + "(???)" + "</center></html>");
+    GameButton hireEmployeeBtn = new GameButton(
+            "<html><center>" + "HIRE EMPLOYEE" + "<br>" + "(???)" + "</center></html>");
 
     public Room(int width, int height, int x, int y, int layer, String spritePath) {
         transform.setScale(Vector.ONE);
@@ -39,17 +45,17 @@ public class Room extends Floor {
         sr.setPivot(Renderer.BOTTOM_LEFT_PIVOT);
         addChild(sr);
         rendererTransform.setParentTransform(transform);
-        
+
         // set the drop zone
         dropZone = new DropZone(new Vector(width, -30));
         dropZone.transform.setParentTransform(transform);
         addChild(dropZone);
-        
+
         addChild(machine);
         machine.transform.setParentTransform(transform);
-        
+
         addEmployee();
-        
+
         initUI();
     }
 
@@ -73,27 +79,57 @@ public class Room extends Floor {
         return dropZone;
     }
 
+    public void onUpdate(){
+        upgradeMachineBtn.setEnabled(nextMachineUpgrade != null && Economy.getBalance() >= nextMachineUpgrade.cost);
+    }
+
     private void initUI() {
         buttonsPanel.setLayout(new GridLayout(1, 2, 10, 0));
 
-        buttonsPanel.add(increaseInventoryBtn);
-        buttonsPanel.add(increaseValueBtn);
-        
-        increaseValueBtn.setColors(
-            new Color(50, 192, 37),
-            new Color(37, 160, 26)
-        );
-        
+        buttonsPanel.add(upgradeMachineBtn);
+        buttonsPanel.add(hireEmployeeBtn);
 
-        increaseInventoryBtn.addActionListener(e -> {
+        hireEmployeeBtn.setColors(
+                new Color(50, 192, 37),
+                new Color(37, 160, 26));
+
+
+        updateMachineUpgradeBtn();
+
+        upgradeMachineBtn.addActionListener(e -> {
+            machine.upgrade();
+            if (!machine.canUpgrade()) {
+                nextMachineUpgrade = null;
+                upgradeMachineBtn.setText("<html><center> MAX LEVEL </center></html>");
+                upgradeMachineBtn.setEnabled(false);
+                return;
+            }
+            updateMachineUpgradeBtn();
         });
 
-        increaseValueBtn.addActionListener(e -> {
+        hireEmployeeBtn.addActionListener(e -> {
         });
     }
 
     @Override
     public JPanel getUI() {
+        upgradeMachineBtn.setEnabled(false);
+
         return buttonsPanel;
+    }
+
+    private void updateMachineUpgradeBtn() {
+        nextMachineUpgrade = machine.getNextUpgrade();
+        MachineUpgrade currentUpgrade = machine.getCurrentUpgrade();
+
+        double successRateIncrease = nextMachineUpgrade.probability - currentUpgrade.probability;
+        double doublespeedIncrease = (currentUpgrade.interval - nextMachineUpgrade.interval) / 1000;
+
+        upgradeMachineBtn
+                .setText("<html><center>" + "UPGRADE MACHINE" +
+                        "<br>($" + nextMachineUpgrade.cost + ")" +
+                        (successRateIncrease != 0 ? ("<br>+" + successRateIncrease + " SUCCESS RATE") : "") +
+                        (doublespeedIncrease != 0 ? ("<br>+" + doublespeedIncrease + " SPEED") : "") +
+                        "</center></html>");
     }
 }
