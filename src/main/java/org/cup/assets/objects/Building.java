@@ -34,7 +34,7 @@ public class Building extends GameNode {
 
     @Override
     public void init(){
-        transform.setPosition(new Vector(120, 175*3));
+        transform.setPosition(new Vector(120-1, 175*3));
 
         addChild(elevator);
         addChild(inventory);
