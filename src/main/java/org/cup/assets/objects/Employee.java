@@ -28,7 +28,7 @@ public class Employee extends GameNode {
         String spritesFolder = PathHelper.sprites + "employee\\";
 
         animator.addAnimation("idle", new Animation(PathHelper.getFilePaths(spritesFolder + "idle")));
-        animator.addAnimation("walk", new Animation(PathHelper.getFilePaths(spritesFolder + "walk")));
+        animator.addAnimation("walk", new Animation(PathHelper.getFilePaths(spritesFolder + "walk"), 125, true));
         animator.addAnimation("walk-package", new Animation(PathHelper.getFilePaths(spritesFolder + "walk-package")));
 
         animator.setPivot(Renderer.BOTTOM_PIVOT);
@@ -42,7 +42,7 @@ public class Employee extends GameNode {
     public void init() {
         addChild(animator);
         transform.setScale(new Vector(51, 58).multiply(1.5));
-        transform.setPosition(new Vector(200, 10));
+        transform.setPosition(new Vector(200, 0));
     }
 
     @Override
