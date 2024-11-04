@@ -52,11 +52,8 @@ public class Customer extends GameNode {
 
     @Override
     public void onEnable() {
-        transform.setPosition(GameManager.game.getWindowDimentions().add(Vector.RIGHT.multiply(10)));
+        transform.setPosition(GameManager.game.getWindowDimentions().add(new Vector(10, -15)));
         animator.setLayer(2);
-        if (transform.getScale().x > 0) {
-            animator.flip();
-        }
         takeResource();
     }
 
@@ -85,7 +82,7 @@ public class Customer extends GameNode {
         }
 
         if (status == GO_AWAY) {
-            if (pos.x < GameManager.game.getWidth() + 20) {
+            if (pos.x < GameManager.game.getWidth() - 20) {
                 // Move Towards the machine
                 transform.move(Vector.RIGHT.multiply(step));
             } else {
@@ -105,9 +102,9 @@ public class Customer extends GameNode {
 
     public void goAway() {
         status = GO_AWAY;
-        animator.flip();
         animator.play("walk-package");
         animator.setLayer(3);
+        transform.setPosition(transform.getPosition().subtract(Vector.DOWN.multiply(15)));
 
         Economy.setBalance(Economy.getBalance() + Economy.getProductValue()); // update UI counters
         Building.get().getMarket().moveQueue(positionInQueue);
