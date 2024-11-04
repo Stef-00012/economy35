@@ -21,4 +21,8 @@ public class Economy {
         Economy.productValue = productValue;
         MainScene.getStatsPanel().setProductValueLabel(productValue);
     }
+
+    public static void spendMoney(double amount){
+        setBalance(balance - amount);
+    } 
 }
