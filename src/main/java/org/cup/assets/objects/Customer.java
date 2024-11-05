@@ -25,8 +25,7 @@ public class Customer extends GameNode {
 
     private CustomerThread thread;
 
-    // TODO: Replace with actual object reference
-    private Transform seller = new Transform();
+    private Transform seller;
 
     public Customer() {
         String spritesFolder = PathHelper.sprites + "customer\\";
@@ -36,8 +35,6 @@ public class Customer extends GameNode {
         animator.addAnimation("walk-package", new Animation(PathHelper.getFilePaths(spritesFolder + "walk-package")));
 
         animator.setPivot(Renderer.BOTTOM_PIVOT);
-
-        seller.setPosition(new Vector(500, GameManager.game.getWindowDimentions().y));
 
         thread = new CustomerThread(this, Building.get().getInventory());
     }
@@ -54,6 +51,8 @@ public class Customer extends GameNode {
         transform.setPosition(GameManager.game.getWindowDimentions().add(new Vector(10, -15)));
         animator.setLayer(2);
         takeResource();
+
+        seller = Building.get().getMarket().transform;
     }
 
     @Override
@@ -63,7 +62,7 @@ public class Customer extends GameNode {
         Vector pos = transform.getPosition();
 
         if (status == WAITING_FOR_RESOURCE || status == TAKE_RESOURCE) {
-            double waitingPos = seller.getPosition().x;
+            double waitingPos = seller.getPosition().x + 70;
             waitingPos += Math.abs(transform.getScale().x) / 3 * positionInQueue;
             if (pos.x > waitingPos) {
                 // Move Towards the store
@@ -100,10 +99,17 @@ public class Customer extends GameNode {
     }
 
     public void goAway() {
+        Building.get().getMarket().playSellAnimation();
+
+        try {
+            Thread.sleep(1500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         status = GO_AWAY;
         animator.play("walk-package");
         animator.setLayer(4);
-        transform.setPosition(transform.getPosition().subtract(Vector.DOWN.multiply(15)));
+        //transform.setPosition(transform.getPosition().subtract(Vector.DOWN.multiply(15)));
 
         Economy.setBalance(Economy.getBalance() + Economy.getProductValue()); // update UI counters
         Building.get().getMarket().moveQueue(positionInQueue);

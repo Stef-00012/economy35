@@ -2,6 +2,7 @@ package org.cup.engine.core.nodes.components.defaults;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.cup.engine.Vector;
 import org.cup.engine.core.Debug;
@@ -12,7 +13,7 @@ import org.cup.engine.core.managers.ResourceManager;
  */
 public class Animation {
     public interface AnimationLastFrameListener {
-        public void onLastFrame();        
+        public void onLastFrame();
     }
 
     private final String[] spritePaths;
@@ -21,7 +22,12 @@ public class Animation {
     private int currentFrameIndex;
     private Vector currentScale = Vector.ONE;
     private ArrayList<AnimationLastFrameListener> lastFrameListeners;
-    
+
+    public static final int NORMAL_LOOP = 0;
+    public static final int PING_PONG_LOOP = 1;
+
+    private int loopType = NORMAL_LOOP;
+    private int framesOrder = 1;
 
     /**
      * Constructs an Animation with the specified frames, timing, and looping
@@ -38,7 +44,7 @@ public class Animation {
         this.loop = loop;
 
         lastFrameListeners = new ArrayList<>();
-        
+
         if (sprites.length == 0) {
             Debug.engineLogErr("The animation is empty");
         }
@@ -52,27 +58,30 @@ public class Animation {
         this(sprites, true);
     }
 
-     /**
+    /**
      * Retrieves the current frame of the animation at the specified scale.
      * 
-     * @param scale Vector containing the desired width (X) and height (Y) for the frame
-     * @return The current frame as a scaled Image, or null if the current frame index is out of bounds
+     * @param scale Vector containing the desired width (X) and height (Y) for the
+     *              frame
+     * @return The current frame as a scaled Image, or null if the current frame
+     *         index is out of bounds
      */
     public Image getCurrentFrame(Vector scale) {
         if (currentFrameIndex >= spritePaths.length) {
             return null;
         }
-        
+
         return ResourceManager.getImage(
-            spritePaths[currentFrameIndex],
-            scale.getX(),
-            scale.getY()
-        );
+                spritePaths[currentFrameIndex],
+                scale.getX(),
+                scale.getY());
     }
-    
+
     /**
-     * Updates the current scale of the animation if it differs from the provided scale.
-     * This method is used to optimize scaling operations by avoiding unnecessary updates.
+     * Updates the current scale of the animation if it differs from the provided
+     * scale.
+     * This method is used to optimize scaling operations by avoiding unnecessary
+     * updates.
      *
      * @param newScale The new scale vector to apply to the animation
      */
@@ -81,26 +90,41 @@ public class Animation {
             currentScale = newScale;
         }
     }
-    
+
     /**
-     * Advances to and returns the next frame of the animation at the specified scale.
-     * If the animation is set to loop and the last frame is reached, it will restart
+     * Advances to and returns the next frame of the animation at the specified
+     * scale.
+     * If the animation is set to loop and the last frame is reached, it will
+     * restart
      * from the first frame.
      *
-     * @param scale Vector containing the desired width (X) and height (Y) for the frame
+     * @param scale Vector containing the desired width (X) and height (Y) for the
+     *              frame
      * @return The next frame as a scaled Image, or null if there are no more frames
      */
     public Image nextFrame(Vector scale) {
         updateScale(scale);
-        
-        if (isLastFrame()) {
-            if(loop){
+
+        if (loop) {
+            // Handle bounds and loop type logic
+            if (loopType == PING_PONG_LOOP) {
+                if (currentFrameIndex >= spritePaths.length - 1) {
+                    // Reverse direction at the last frame
+                    framesOrder = -1;
+                } else if (currentFrameIndex <= 0) {
+                    // Reverse direction at the first frame
+                    framesOrder = 1;
+                }
+            } else if (isLastFrame()) {
+                // Standard looping mode
                 currentFrameIndex = 0;
             }
         }
-        
+
+        // Get the current frame and move to the next
         Image frame = getCurrentFrame(scale);
-        currentFrameIndex++;
+        currentFrameIndex += framesOrder;
+
         return frame;
     }
 
@@ -111,10 +135,11 @@ public class Animation {
      */
     public boolean isLastFrame() {
         boolean isLastFrame = currentFrameIndex >= spritePaths.length;
-        if(isLastFrame)
+        if (isLastFrame)
             notifyLastFrameListeners();
         return isLastFrame;
     }
+
     /**
      * Resets the animation to the first frame.
      */
@@ -149,13 +174,27 @@ public class Animation {
         return loop;
     }
 
-    public void addLastFrameListener(AnimationLastFrameListener listener){
+    public void addLastFrameListener(AnimationLastFrameListener listener) {
         lastFrameListeners.add(listener);
     }
 
-    private void notifyLastFrameListeners(){
-        for(int i = 0; i < lastFrameListeners.size(); i++){
+    private void notifyLastFrameListeners() {
+        for (int i = 0; i < lastFrameListeners.size(); i++) {
             lastFrameListeners.get(i).onLastFrame();
         }
+    }
+
+    public void setLoopType(int loopType) {
+        switch (loopType) {
+            case NORMAL_LOOP:
+            case PING_PONG_LOOP:
+                break;
+
+            default:
+                Debug.engineLogErr("INVALID LOOP TYPE!");
+                return;
+        }
+        framesOrder = 1;
+        this.loopType = loopType;
     }
 }

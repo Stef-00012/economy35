@@ -33,7 +33,7 @@ public class Inventory extends Floor {
         int x = 120 - 1;
         // inventoryUI = new SquareRenderer(w, h, x, y, 1, new Color(19, 21, 21));
         // inventoryUI = new SquareRenderer(transform, 1);
-        inventoryUI = new SpriteRenderer(PathHelper.sprites + "inventory//inventory.png", transform, 1);
+        inventoryUI = new SpriteRenderer(PathHelper.sprites + "building//stock.png", transform, 1);
         transform.setScale(new Vector(w, h));
         transform.setPosition(new Vector(x, y));
         inventoryUI.setPivot(Renderer.BOTTOM_LEFT_PIVOT); // Use the top left pivot

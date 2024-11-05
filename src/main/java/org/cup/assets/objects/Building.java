@@ -44,7 +44,7 @@ public class Building extends GameNode {
     public void addRoom(){
         int nRooms = floors.size() - 1; // Ignore the inventory
 
-        String basePath = PathHelper.sprites + "rooms\\room-background";
+        String basePath = PathHelper.sprites + "building\\rooms\\room-background";
         String finalPath = basePath + (nRooms % 2 == 0 ? "-decorated" : "") + ".png";
         Room room = new Room(roomWidth, roomHeight, 0, (-roomHeight * nRooms), 1, finalPath);
 

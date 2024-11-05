@@ -2,6 +2,8 @@ package org.cup.assets;
 
 import java.io.File;
 import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.Comparator;
 
 import org.cup.engine.core.Debug;
 
@@ -12,7 +14,8 @@ public class PathHelper {
     private static final boolean IS_DEV = new File("src").exists();
 
     public static final String assets = IS_DEV
-            ? String.join(File.separator, System.getProperty("user.dir"), "src", "main", "java", "org", "cup", "assets") + File.separator
+            ? String.join(File.separator, System.getProperty("user.dir"), "src", "main", "java", "org", "cup", "assets")
+                    + File.separator
             : String.join(File.separator, System.getProperty("user.dir"), "main") + File.separator;
 
     public static final String sprites = Paths.get(assets, "sprites") + File.separator;
@@ -24,7 +27,6 @@ public class PathHelper {
     public static final String audio = Paths.get(assets, "audio") + File.separator;
     public static final String SFX = Paths.get(audio, "SFX") + File.separator;
     public static final String music = Paths.get(audio, "music") + File.separator;
-            
 
     public static String[] getFilePaths(String folderPath) {
 
@@ -48,6 +50,21 @@ public class PathHelper {
                     }
                 }
             }
+
+            // Make sure the files are sorted based on the number after the - (es. Sprite-10, Sprite-11)
+            Arrays.sort(filePaths, new Comparator<String>() {
+                @Override
+                public int compare(String a, String b) {
+                    int numA = extractNumber(a);
+                    int numB = extractNumber(b);
+                    return Integer.compare(numA, numB);
+                }
+
+                private int extractNumber(String filePath) {
+                    String[] parts = filePath.split("-|\\.png");
+                    return Integer.parseInt(parts[parts.length - 1]);
+                }
+            });
             return filePaths;
         } else {
             Debug.engineLogErr("The provided path(" + folderPath + ") is not a valid directory.");

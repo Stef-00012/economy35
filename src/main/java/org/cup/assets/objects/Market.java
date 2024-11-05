@@ -36,7 +36,10 @@ public class Market extends GameNode {
             animator.play("idle");
         });
 
-        animator.addAnimation("idle", new Animation(PathHelper.getFilePaths(spritesFolder + "idle")));
+        Animation idleAnimation = new Animation(PathHelper.getFilePaths(spritesFolder + "idle"));
+        idleAnimation.setTimeBetweenFrames(200);
+
+        animator.addAnimation("idle", idleAnimation);
         animator.addAnimation("sell", sellAnimation);
     }
 
@@ -50,5 +53,9 @@ public class Market extends GameNode {
         for (int i = 0; i < customersQueue.size(); i++) {
             customersQueue.get(i).setPositionInQueue(i);
         }
+    }
+
+    public void playSellAnimation(){
+        animator.play("sell");
     }
 }

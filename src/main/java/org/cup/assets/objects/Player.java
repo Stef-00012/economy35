@@ -18,7 +18,7 @@ public class Player extends GameNode {
         animator.addAnimation("idle", new Animation(PathHelper.getFilePaths(spritesFolder + "idle")));
         animator.setPivot(Renderer.BOTTOM_PIVOT);
         transform.setScale(new Vector(105, 134));
-        transform.setPosition(new Vector(60, -20));
+        transform.setPosition(new Vector(60, -10));
     }
 
     @Override
