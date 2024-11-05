@@ -1,6 +1,5 @@
 package org.cup.assets.objects;
 
-
 import org.cup.assets.PathHelper;
 import org.cup.engine.Vector;
 import org.cup.engine.core.managers.GameManager;
@@ -82,7 +81,7 @@ public class Customer extends GameNode {
         }
 
         if (status == GO_AWAY) {
-            if (pos.x < GameManager.game.getWidth() - 20) {
+            if (pos.x < GameManager.game.getWidth() + transform.getScale().x / 2) {
                 // Move Towards the machine
                 transform.move(Vector.RIGHT.multiply(step));
             } else {
