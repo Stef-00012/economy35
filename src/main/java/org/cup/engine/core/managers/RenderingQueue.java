@@ -6,7 +6,8 @@ import org.cup.engine.core.nodes.components.Renderer;
 import java.util.ArrayList;
 
 /**
- * The {@code RenderingQueue} manages the ordered list of {@code Renderer} objects
+ * The {@code RenderingQueue} manages the ordered list of {@code Renderer}
+ * objects
  * in the game. Renderers are drawn in the order determined by their layers.
  * <p>
  * The queue maintains layer order upon adding or updating a renderer.
@@ -27,8 +28,9 @@ public class RenderingQueue {
      */
     public synchronized void addObject(Renderer obj) {
         // "put it under the carpet" type solution
-        if (renderers.contains(obj)) // ? why is this even a problem anyways 
+        if (renderers.contains(obj)) {
             return;
+        }
 
         int index = findInsertionIndex(obj.getLayer());
         renderers.add(index, obj); // Insert at the correct position
@@ -40,9 +42,7 @@ public class RenderingQueue {
      * @param obj The {@code Renderer} to remove.
      */
     public synchronized void removeObject(Renderer obj) {
-        while (renderers.contains(obj)) {
-            renderers.remove(obj);
-        }
+        renderers.remove(obj);
     }
 
     /**
@@ -86,12 +86,11 @@ public class RenderingQueue {
         return left; // The correct index to insert
     }
 
-    public Renderer get(int i){
+    public Renderer get(int i) {
         return renderers.get(i);
     }
 
-    public int size(){
+    public int size() {
         return renderers.size();
     }
 }
-
