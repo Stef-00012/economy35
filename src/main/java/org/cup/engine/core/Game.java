@@ -3,6 +3,7 @@ package org.cup.engine.core;
 import org.cup.engine.core.managers.GameManager;
 import org.cup.engine.core.managers.graphics.GraphicsManager;
 import org.cup.engine.core.managers.graphics.Painter;
+import org.cup.engine.core.managers.sound.SoundManager;
 import org.cup.engine.core.nodes.RootNode;
 import org.cup.engine.core.nodes.Scene;
 import org.cup.engine.Vector;
@@ -79,7 +80,7 @@ public class Game extends JFrame {
 
         // Initialize Managers
         GraphicsManager graphicsManager = new GraphicsManager();
-        GameManager.initialize(this, graphicsManager);
+        GameManager.initialize(this, graphicsManager, new SoundManager());
 
         // Initialize the Painter (which will draw graphics on the screen)
         Painter p = graphicsManager.getPainter();

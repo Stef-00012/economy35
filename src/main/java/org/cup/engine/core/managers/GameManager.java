@@ -4,6 +4,7 @@ import java.awt.event.KeyListener;
 
 import org.cup.engine.core.Game;
 import org.cup.engine.core.managers.graphics.GraphicsManager;
+import org.cup.engine.core.managers.sound.SoundManager;
 
 /**
  * The {@code GameManager} is a central class responsible for managing core game functionalities,
@@ -16,6 +17,7 @@ import org.cup.engine.core.managers.graphics.GraphicsManager;
 public class GameManager {
     public static Game game;
     public static GraphicsManager graphicsManager;
+    public static SoundManager soundManager;
 
     private static double deltaTime;
     private static long lastUpdate;
@@ -26,10 +28,12 @@ public class GameManager {
      *
      * @param game The {@code Game} (JFrame) instance.
      * @param graphicsManager The {@code GraphicsManager} instance.
+     * @param soundManager The {@code SoundManager} instance.
      */
-    public static void initialize(Game game, GraphicsManager graphicsManager){
+    public static void initialize(Game game, GraphicsManager graphicsManager, SoundManager soundManager){
         GameManager.game = game;
         GameManager.graphicsManager = graphicsManager;
+        GameManager.soundManager = soundManager;
     }
 
     /**

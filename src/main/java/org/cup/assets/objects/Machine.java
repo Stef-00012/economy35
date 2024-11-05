@@ -4,6 +4,7 @@ import org.cup.assets.PathHelper;
 import org.cup.assets.logic.Economy;
 import org.cup.engine.Vector;
 import org.cup.engine.core.Debug;
+import org.cup.engine.core.managers.sound.SoundManager;
 import org.cup.engine.core.nodes.GameNode;
 import org.cup.engine.core.nodes.components.Renderer;
 import org.cup.engine.core.nodes.components.defaults.Animation;
@@ -11,6 +12,9 @@ import org.cup.engine.core.nodes.components.defaults.Animator;
 
 import java.util.HashMap;
 import java.util.Random;
+
+import javax.sound.sampled.AudioFormat;
+import javax.sound.sampled.Clip;
 
 public class Machine extends GameNode {
     public class MachineUpgrade {
@@ -47,6 +51,9 @@ public class Machine extends GameNode {
     private double interval; // Time of the interval(in milliseconds)
 
     private boolean hasProducedResource;
+
+    private Clip successSfx = SoundManager.createClip(PathHelper.SFX + "Success.wav");
+    private Clip errorSfx = SoundManager.createClip(PathHelper.SFX + "Error.wav");
 
     public Machine(){
         currentLevel = 1;
@@ -94,11 +101,13 @@ public class Machine extends GameNode {
 
     public void error() {
         animator.play("fail");
+        SoundManager.playClip(errorSfx);
     }
 
     public void success() {
         animator.play("success-package-out");
         hasProducedResource = true;
+        SoundManager.playClip(successSfx);
     }
 
     public void attemptToCreateResource() {

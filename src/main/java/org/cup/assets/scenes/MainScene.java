@@ -1,5 +1,6 @@
 package org.cup.assets.scenes;
 
+import org.cup.assets.PathHelper;
 import org.cup.assets.UI.StatsPanel;
 import org.cup.assets.logic.Economy;
 import org.cup.assets.objects.Building;
@@ -7,15 +8,20 @@ import org.cup.assets.objects.CustomerSpawner;
 import org.cup.assets.objects.Rectangle;
 import org.cup.engine.core.Debug;
 import org.cup.engine.core.managers.GameManager;
+import org.cup.engine.core.managers.sound.SoundManager;
 import org.cup.engine.core.nodes.Scene;
 
 import java.awt.*;
+
+import javax.sound.sampled.Clip;
 
 public class MainScene extends Scene {
     private Building building = new Building();
     private static StatsPanel statsPanel = new StatsPanel();
     
     private Rectangle floor;
+
+    private Clip mainTheme = SoundManager.createClip(PathHelper.music + "MainTheme.wav", true);
 
     @Override
     public void init() {
@@ -34,6 +40,8 @@ public class MainScene extends Scene {
         addChild(new CustomerSpawner());
         addRoom();
         addRoom();
+
+        mainTheme.start();
     }
 
     @Override
