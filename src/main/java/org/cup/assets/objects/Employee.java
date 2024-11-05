@@ -24,7 +24,11 @@ public class Employee extends GameNode {
 
     private boolean isWaitingWithResource = false;
 
-    public Employee(Room room) {
+    private int employeeNumber = 0;
+
+    public Employee(Room room, int n) {
+        employeeNumber = n;
+
         String spritesFolder = PathHelper.sprites + "employee\\";
 
         animator.addAnimation("idle", new Animation(PathHelper.getFilePaths(spritesFolder + "idle")));
@@ -58,6 +62,9 @@ public class Employee extends GameNode {
         double step = speed * GameManager.getDeltaTime();
 
         if (status == TAKE_RESOURCE) {
+            if(!roomMachine.hasResource()){
+                idle();
+            }
             double machineOffset = roomMachine.transform.getScale().x - 50;
             if (pos.x > roomMachine.transform.getPosition().x + machineOffset) {
                 // Move Towards the machine
@@ -69,7 +76,11 @@ public class Employee extends GameNode {
             }
             return;
         } else if (status == DELIVER_RESOURCE) {
-            if (pos.x < packageDropZone.transform.getPosition().x - transform.getScale().x / 2) {
+            double stopPos = packageDropZone.transform.getPosition().x - transform.getScale().x / 2;
+            if(packageDropZone.hasResource()){ // Wait a bit further before putting it in the drop zone
+                stopPos -= 20 * (employeeNumber + 1);
+            }
+            if (pos.x < stopPos) {
                 // Move Towards the machine
                 transform.move(Vector.RIGHT.multiply(step));
             } else {
@@ -78,7 +89,7 @@ public class Employee extends GameNode {
                     idle();
                 } else {
                     if (packageDropZone.hasResource() && !isWaitingWithResource) {
-                        animator.play("idle");
+                        animator.play("walk-package");
                         isWaitingWithResource = true;
                     }
                 }
@@ -92,7 +103,9 @@ public class Employee extends GameNode {
     public void takeResource() {
         if (status != IDLE)
             return;
-        animator.flip();
+        if (transform.getScale().x > 0) {
+            animator.flip();
+        }
         status = TAKE_RESOURCE;
         animator.play("walk");
     }

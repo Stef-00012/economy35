@@ -24,6 +24,7 @@ public class Room extends Floor {
 
     // The number of the employee
     private int nEmployees;
+    private double newEmployeeCost = 20;
 
     private MachineUpgrade nextMachineUpgrade;
 
@@ -32,7 +33,7 @@ public class Room extends Floor {
     GameButton upgradeMachineBtn = new GameButton(
             "<html><center>" + "UPGRADE MACHINE" + "<br>" + "(???)" + "</center></html>");
     GameButton hireEmployeeBtn = new GameButton(
-            "<html><center>" + "HIRE EMPLOYEE" + "<br>" + "(???)" + "</center></html>");
+            "<html><center>" + "HIRE EMPLOYEE" + "<br>($" + newEmployeeCost + ")</center></html>");
 
     public Room(int width, int height, int x, int y, int layer, String spritePath) {
         transform.setScale(Vector.ONE);
@@ -64,7 +65,7 @@ public class Room extends Floor {
             Debug.warn("MAX EMPLOYEES");
             return;
         }
-        Employee e = new Employee(this);
+        Employee e = new Employee(this, nEmployees);
         employees[nEmployees] = e;
         nEmployees++;
         addChild(e);
@@ -79,8 +80,9 @@ public class Room extends Floor {
         return dropZone;
     }
 
-    public void onUpdate(){
+    public void onUpdate() {
         upgradeMachineBtn.setEnabled(nextMachineUpgrade != null && Economy.getBalance() >= nextMachineUpgrade.cost);
+        hireEmployeeBtn.setEnabled(nEmployees < employees.length && Economy.getBalance() >= newEmployeeCost);
     }
 
     private void initUI() {
@@ -92,7 +94,6 @@ public class Room extends Floor {
         hireEmployeeBtn.setColors(
                 new Color(50, 192, 37),
                 new Color(37, 160, 26));
-
 
         updateMachineUpgradeBtn();
 
@@ -108,6 +109,11 @@ public class Room extends Floor {
         });
 
         hireEmployeeBtn.addActionListener(e -> {
+            addEmployee();
+            if (nEmployees >= employees.length) {
+                hireEmployeeBtn
+                        .setText("<html><center>" + "MAX EMPLOYEES REACHED" + "</center></html>");
+            }
         });
     }
 

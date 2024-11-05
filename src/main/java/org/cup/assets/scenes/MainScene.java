@@ -31,7 +31,7 @@ public class MainScene extends Scene {
 
         // Initialize stats panel
         Economy.setProductValue(10);
-        Economy.setBalance(0);
+        Economy.setBalance(999999999);
         GameManager.game.addUIElement(statsPanel);
 
         floor = new Rectangle(GameManager.game.getWidth(), 20, 0, GameManager.game.getHeight()-59, 0, new Color(40,40,40));
