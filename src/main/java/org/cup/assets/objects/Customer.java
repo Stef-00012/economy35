@@ -12,7 +12,7 @@ import org.cup.assets.logic.CustomerThread;
 import org.cup.assets.logic.Economy;
 
 public class Customer extends GameNode {
-    private Animator animator = new Animator(transform, 2);
+    private Animator animator = new Animator(transform, 3);
     private float speed = 100;
 
     private int positionInQueue;
@@ -102,7 +102,7 @@ public class Customer extends GameNode {
     public void goAway() {
         status = GO_AWAY;
         animator.play("walk-package");
-        animator.setLayer(3);
+        animator.setLayer(4);
         transform.setPosition(transform.getPosition().subtract(Vector.DOWN.multiply(15)));
 
         Economy.setBalance(Economy.getBalance() + Economy.getProductValue()); // update UI counters
