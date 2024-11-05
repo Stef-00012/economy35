@@ -1,6 +1,7 @@
 package org.cup.assets;
 
 import java.io.File;
+import java.nio.file.Paths;
 
 import org.cup.engine.core.Debug;
 
@@ -10,17 +11,20 @@ import org.cup.engine.core.Debug;
 public class PathHelper {
     private static final boolean IS_DEV = new File("src").exists();
 
-    public static final String sprites = IS_DEV     
-            ? String.join(File.separator, System.getProperty("user.dir"), "src", "main", "java", "org", "cup", "assets",
-                    "sprites") + File.separator
+    public static final String assets = IS_DEV
+            ? String.join(File.separator, System.getProperty("user.dir"), "src", "main", "java", "org", "cup", "assets") + File.separator
             : String.join(File.separator, System.getProperty("user.dir"), "main") + File.separator;
 
-    public static final String icons = sprites + File.separator + "icons" +  File.separator;
+    public static final String sprites = Paths.get(assets, "sprites") + File.separator;
 
-    public static final String fonts = IS_DEV
-            ? String.join(File.separator, System.getProperty("user.dir"), "src", "main", "java", "org", "cup", "assets",
-                    "UI", "fonts") + File.separator
-            : String.join(File.separator, System.getProperty("user.dir"), "main", "fonts") + File.separator;
+    public static final String icons = Paths.get(sprites, "icons") + File.separator;
+
+    public static final String fonts = Paths.get(assets, "UI", "fonts") + File.separator;
+
+    public static final String audio = Paths.get(assets, "audio") + File.separator;
+    public static final String SFX = Paths.get(audio, "SFX") + File.separator;
+    public static final String music = Paths.get(audio, "music") + File.separator;
+            
 
     public static String[] getFilePaths(String folderPath) {
 
