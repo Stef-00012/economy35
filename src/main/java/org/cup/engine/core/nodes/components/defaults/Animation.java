@@ -2,7 +2,6 @@ package org.cup.engine.core.nodes.components.defaults;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import org.cup.engine.Vector;
 import org.cup.engine.core.Debug;
@@ -12,8 +11,14 @@ import org.cup.engine.core.managers.ResourceManager;
  * Represents an animation consisting of multiple frames (sprites).
  */
 public class Animation {
+    /**
+     * Interface for listening to the end of an animation sequence.
+     */
     public interface AnimationLastFrameListener {
-        public void onLastFrame();
+        /**
+         * Called when the last frame of the animation is reached.
+         */
+        void onLastFrame();
     }
 
     private final String[] spritePaths;
@@ -174,16 +179,29 @@ public class Animation {
         return loop;
     }
 
+    /**
+     * Adds a listener to be notified when the last frame of the animation is reached.
+     *
+     * @param listener The listener to be added.
+     */
     public void addLastFrameListener(AnimationLastFrameListener listener) {
         lastFrameListeners.add(listener);
     }
 
+    /**
+     * Notifies all registered listeners that the last frame has been reached.
+     */
     private void notifyLastFrameListeners() {
         for (int i = 0; i < lastFrameListeners.size(); i++) {
             lastFrameListeners.get(i).onLastFrame();
         }
     }
 
+    /**
+     * Sets the type of looping for the animation (normal or ping-pong).
+     *
+     * @param loopType The type of loop: {@link #NORMAL_LOOP} or {@link #PING_PONG_LOOP}.
+     */
     public void setLoopType(int loopType) {
         switch (loopType) {
             case NORMAL_LOOP:
