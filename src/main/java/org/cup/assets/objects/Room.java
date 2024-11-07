@@ -5,6 +5,7 @@ import java.awt.GridLayout;
 
 import javax.swing.JPanel;
 
+import org.cup.assets.PathHelper;
 import org.cup.assets.UI.Floor;
 import org.cup.assets.UI.GameButton;
 import org.cup.assets.logic.Economy;
@@ -63,6 +64,16 @@ public class Room extends Floor {
         dropZone = new DropZone(new Vector(width, -30));
         dropZone.transform.setParentTransform(transform);
         addChild(dropZone);
+
+        // Add the tube
+        Transform tubeTransform = new Transform();
+        tubeTransform.setPosition(new Vector(width, 0));
+        tubeTransform.setScale(new Vector(40, 175));
+        tubeTransform.setParentTransform(transform);
+
+        SpriteRenderer tubeRenderer = new SpriteRenderer(PathHelper.sprites + "building\\Pipe.png", tubeTransform, 1);
+        tubeRenderer.setPivot(Renderer.BOTTOM_LEFT_PIVOT);
+        addChild(tubeRenderer);
 
         // Add the machine to the room.
         addChild(machine);

@@ -5,6 +5,7 @@ import java.io.File;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
 
 import org.cup.engine.core.Debug;
 
@@ -13,8 +14,7 @@ public class SoundManager {
 
     }
 
-    public static Clip createClip(String filePath, boolean loop) {
-
+    public static Clip createClip(String filePath, boolean loop, double volume) {
         Clip clip;
         AudioInputStream audioInputStream;
 
@@ -32,15 +32,27 @@ public class SoundManager {
         if (loop)
             clip.loop(Clip.LOOP_CONTINUOUSLY);
 
+
+        if(volume > 0 && volume < 1){
+            FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+            float dB = (float) (Math.log(volume) / Math.log(10.0) * 20.0);
+            gainControl.setValue(dB);
+        }
+        
         return clip;
     }
 
     public static Clip createClip(String filePath) {
-        return createClip(filePath, false);
+        return createClip(filePath, false, 1);
+    }
+
+    public static Clip createClip(String filePath, boolean loop) {
+        return createClip(filePath, loop, 1);
     }
 
     public static void playClip(Clip c){
         c.setMicrosecondPosition(0);
         c.start();
     }
+
 }

@@ -25,6 +25,8 @@ public class Inventory extends Floor {
     private int newFloorCost = 500;
     private int increaseInventoryCost = 80;
 
+    private static final String SPRITE_BASE_PATH = PathHelper.sprites + "building\\stock\\";
+
     // UI
     private JPanel buttonsPanel = new JPanel();
     GameButton newFloorBtn = new GameButton(
@@ -35,6 +37,8 @@ public class Inventory extends Floor {
     public Inventory(int initialMaxSize) {
         buffer = 0;
         maxSize = initialMaxSize;
+
+        inventoryUI = new SpriteRenderer(SPRITE_BASE_PATH + "0.png", transform, 1);
         updateInventoryStatsUI();
 
         initUI();
@@ -46,7 +50,6 @@ public class Inventory extends Floor {
         int y = 720 - 20 - 175 + h;
         int x = 120 - 1;
 
-        inventoryUI = new SpriteRenderer(PathHelper.sprites + "building//stock.png", transform, 1);
         transform.setScale(new Vector(w, h));
         transform.setPosition(new Vector(x, y));
         inventoryUI.setPivot(Renderer.BOTTOM_LEFT_PIVOT);
@@ -60,14 +63,14 @@ public class Inventory extends Floor {
     public synchronized void addResource() {
         while (buffer >= maxSize) {
             try {
-                wait();             // Wait until space becomes available
+                wait(); // Wait until space becomes available
             } catch (Exception e) {
                 Debug.err(e.getMessage());
             }
         }
-        buffer++;                   // Increment the inventory buffer
-        updateInventoryStatsUI();   // Update UI to reflect new inventory count
-        notifyAll();                // Notify any waiting threads
+        buffer++; // Increment the inventory buffer
+        updateInventoryStatsUI(); // Update UI to reflect new inventory count
+        notifyAll(); // Notify any waiting threads
     }
 
     /**
@@ -79,14 +82,14 @@ public class Inventory extends Floor {
     public synchronized void takeResource(int n) {
         while (buffer < n) {
             try {
-                wait();             // Wait until enough resources are available
+                wait(); // Wait until enough resources are available
             } catch (Exception e) {
                 Debug.engineLogErr(e.getMessage());
             }
         }
-        buffer -= n;                // Decrement the inventory buffer
-        updateInventoryStatsUI();   // Update UI to reflect new inventory count
-        notifyAll();                // Notify any waiting threads
+        buffer -= n; // Decrement the inventory buffer
+        updateInventoryStatsUI(); // Update UI to reflect new inventory count
+        notifyAll(); // Notify any waiting threads
     }
 
     /**
@@ -112,6 +115,7 @@ public class Inventory extends Floor {
      * changes in resource count or capacity.
      */
     private void updateInventoryStatsUI() {
+        updateSprite();
         MainScene.getStatsPanel().setInventoryLabel(this);
     }
 
@@ -147,4 +151,26 @@ public class Inventory extends Floor {
     public JPanel getUI() {
         return buttonsPanel;
     }
+
+    /**
+     * Updates the sprite based on the inventory capacity.
+     */
+    public void updateSprite() {
+        float percentage = buffer / (float) maxSize;
+
+        String spriteSuffix = "0.png";
+
+        if (percentage >= 0.75f) {
+            spriteSuffix = "100.png"; // Full capacity
+        } else if (percentage >= 0.5f) {
+            spriteSuffix = "75.png"; // 75% capacity
+        } else if (percentage >= 0.25f) {
+            spriteSuffix = "50.png"; // 50% capacity
+        } else if (percentage > 0f) {
+            spriteSuffix = "25.png"; // 25% capacity
+        }
+
+        inventoryUI.setSprite(SPRITE_BASE_PATH + spriteSuffix);
+    }
+
 }

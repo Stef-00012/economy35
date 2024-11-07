@@ -55,8 +55,8 @@ public class Machine extends GameNode {
     private boolean hasProducedResource; // Flag to check if the machine has produced a resource
 
     // SFX
-    private Clip successSfx = SoundManager.createClip(PathHelper.SFX + "Success.wav");
-    private Clip errorSfx = SoundManager.createClip(PathHelper.SFX + "Error.wav");
+    private Clip successSfx = SoundManager.createClip(PathHelper.SFX + "Success.wav", false, 0.2);
+    private Clip errorSfx = SoundManager.createClip(PathHelper.SFX + "Error.wav", false, 0.5);
 
     public Machine() {
         currentLevel = 1;

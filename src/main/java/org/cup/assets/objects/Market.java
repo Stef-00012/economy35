@@ -2,9 +2,12 @@ package org.cup.assets.objects;
 
 import java.util.ArrayList;
 
+import javax.sound.sampled.Clip;
+
 import org.cup.assets.PathHelper;
 import org.cup.engine.Vector;
 import org.cup.engine.core.managers.GameManager;
+import org.cup.engine.core.managers.sound.SoundManager;
 import org.cup.engine.core.nodes.GameNode;
 import org.cup.engine.core.nodes.components.Renderer;
 import org.cup.engine.core.nodes.components.defaults.Animation;
@@ -14,6 +17,9 @@ public class Market extends GameNode {
     private Animator animator = new Animator(transform, 2);
 
     private ArrayList<Customer> customersQueue = new ArrayList<>();
+
+    // SFX
+    private Clip cashOut = SoundManager.createClip(PathHelper.SFX + "Cash.wav", false, 0.5);
 
     public Market() {
         transform.setPosition(new Vector(630, GameManager.game.getHeight() - 59));
@@ -71,6 +77,8 @@ public class Market extends GameNode {
     }
 
     public void playSellAnimation() {
+        SoundManager.playClip(cashOut);
         animator.play("sell");
+
     }
 }

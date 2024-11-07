@@ -31,8 +31,21 @@ public class Employee extends GameNode {
 
         String spritesFolder = PathHelper.sprites + "employee\\";
 
-        animator.addAnimation("idle", new Animation(PathHelper.getFilePaths(spritesFolder + "idle")));
-        animator.addAnimation("walk", new Animation(PathHelper.getFilePaths(spritesFolder + "walk"), 125, true));
+        Animation idle = new Animation(PathHelper.getFilePaths(spritesFolder + "idle"));
+        idle.setLoopType(Animation.PING_PONG_LOOP);
+
+        Animation idlePackage = new Animation(PathHelper.getFilePaths(spritesFolder + "idle-package"));
+        idle.setLoopType(Animation.PING_PONG_LOOP);
+
+        Animation walk = new Animation(PathHelper.getFilePaths(spritesFolder + "walk"), 125, true);
+        walk.setLoopType(Animation.PING_PONG_LOOP);
+
+        Animation walkPackage = new Animation(PathHelper.getFilePaths(spritesFolder + "walk-package"), 125, true);
+        walkPackage.setLoopType(Animation.PING_PONG_LOOP);
+
+        animator.addAnimation("idle", idle);
+        animator.addAnimation("idle-package", idlePackage);
+        animator.addAnimation("walk", walk);
         animator.addAnimation("walk-package", new Animation(PathHelper.getFilePaths(spritesFolder + "walk-package")));
 
         animator.setPivot(Renderer.BOTTOM_PIVOT);
@@ -89,7 +102,7 @@ public class Employee extends GameNode {
                     idle();
                 } else {
                     if (packageDropZone.hasResource() && !isWaitingWithResource) {
-                        animator.play("walk-package");
+                        animator.play("idle-package");
                         isWaitingWithResource = true;
                     }
                 }

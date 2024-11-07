@@ -63,7 +63,7 @@ public class Building extends GameNode {
 
         String basePath = PathHelper.sprites + "building\\rooms\\room-background";
         String finalPath = basePath + (nRooms % 2 == 0 ? "-decorated" : "") + ".png";
-        Room room = new Room(ROOM_WIDTH, ROOM_HEIGHT, 120, 175 * 3 + (-ROOM_HEIGHT * nRooms), 1, finalPath);
+        Room room = new Room(ROOM_WIDTH, ROOM_HEIGHT, 120 - 3, 175 * 3 + (-ROOM_HEIGHT * nRooms), 1, finalPath);
 
         room.transform.setParentTransform(transform);
 

@@ -14,7 +14,7 @@ import org.cup.engine.Vector;
  * only when they are next requested.
  */
 public class Transform {
-    private Vector position = Vector.ONE;
+    private Vector position = Vector.ZERO;
     private Vector scale = Vector.ONE;
     private double rotation = 0;
 
