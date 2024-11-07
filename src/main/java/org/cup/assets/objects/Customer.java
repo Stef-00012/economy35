@@ -10,7 +10,6 @@ import org.cup.engine.core.nodes.components.defaults.Animator;
 import org.cup.engine.core.nodes.components.defaults.Transform;
 import org.cup.assets.logic.CustomerThread;
 import org.cup.assets.logic.Economy;
-import org.cup.assets.scenes.MainScene;
 
 public class Customer extends GameNode {
     private Animator animator = new Animator(transform, 3);
@@ -38,8 +37,6 @@ public class Customer extends GameNode {
         animator.setPivot(Renderer.BOTTOM_PIVOT);
 
         thread = new CustomerThread(this, Building.get().getInventory());
-
-        MainScene.addToScrollTransform(transform);
     }
 
     @Override

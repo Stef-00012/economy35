@@ -13,7 +13,8 @@ import org.cup.engine.core.managers.GameManager;
 import org.cup.engine.core.nodes.components.Renderer;
 
 /**
- * Handles multiple animations and controls the playback of a currently playing animation.
+ * Handles multiple animations and controls the playback of a currently playing
+ * animation.
  */
 public class Animator extends Renderer {
     private final HashMap<String, Animation> animations;
@@ -30,7 +31,7 @@ public class Animator extends Renderer {
      * Constructs an Animator with a specified transform and rendering layer.
      *
      * @param transform The Transform object for position and rotation.
-     * @param layer The rendering layer.
+     * @param layer     The rendering layer.
      */
     public Animator(Transform transform, int layer) {
         super(layer);
@@ -61,7 +62,7 @@ public class Animator extends Renderer {
     /**
      * Adds a new animation to the animator.
      *
-     * @param name The name to identify the animation.
+     * @param name      The name to identify the animation.
      * @param animation The Animation object to add.
      */
     public void addAnimation(String name, Animation animation) {
@@ -84,16 +85,16 @@ public class Animator extends Renderer {
      */
     public void play(String animationName) {
         Animation toPlay = animations.get(animationName);
-    
+
         if (toPlay == null) {
             Debug.engineLogErr("Animation " + animationName + " not found in animator");
             return;
         }
-    
+
         currentlyPlaying = toPlay;
         currentlyPlaying.reset();
 
-        lastSpriteChange = System.currentTimeMillis(); 
+        lastSpriteChange = System.currentTimeMillis();
     }
 
     @Override
@@ -113,7 +114,13 @@ public class Animator extends Renderer {
         }
     }
 
-    public void flip() {
+    /**
+     * Flips the animation horizontally by inverting the X-axis scale of the current
+     * transformation.
+     * This method multiplies the X component of the current scale by -1,
+     * effectively mirroring the image horizontally.
+     */
+    public void flipHorizzontally() {
         transform.setScale(Vector.multiplyVec(new Vector(-1, 1), transform.getScale()));
     }
 }

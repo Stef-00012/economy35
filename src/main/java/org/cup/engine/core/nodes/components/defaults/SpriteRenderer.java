@@ -57,7 +57,13 @@ public class SpriteRenderer extends Renderer {
         this.currentImagePath = imageSrc;
     }
 
-    public void flip() {
+    /**
+     * Flips the animation horizontally by inverting the X-axis scale of the current
+     * transformation.
+     * This method multiplies the X component of the current scale by -1,
+     * effectively mirroring the image horizontally.
+     */
+    public void flipHorizontally() {
         transform.setScale(Vector.multiplyVec(new Vector(-1, 1), transform.getScale()));
     }
 }

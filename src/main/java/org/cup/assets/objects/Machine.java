@@ -3,7 +3,6 @@ package org.cup.assets.objects;
 import org.cup.assets.PathHelper;
 import org.cup.assets.logic.Economy;
 import org.cup.engine.Vector;
-import org.cup.engine.core.Debug;
 import org.cup.engine.core.managers.sound.SoundManager;
 import org.cup.engine.core.nodes.GameNode;
 import org.cup.engine.core.nodes.components.Renderer;
@@ -13,10 +12,13 @@ import org.cup.engine.core.nodes.components.defaults.Animator;
 import java.util.HashMap;
 import java.util.Random;
 
-import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.Clip;
 
 public class Machine extends GameNode {
+
+    /*
+     * Represents the upgrade configuration for each machine level
+     */
     public class MachineUpgrade {
         public int probability;
         public int interval;
@@ -33,6 +35,7 @@ public class Machine extends GameNode {
 
     private HashMap<Integer, MachineUpgrade> upgrades = new HashMap<>() {
         {
+            // Upgrade configuration: Level -> (Probability, Interval, Cost)
             put(1, new MachineUpgrade(40, 3000, 0));
             put(2, new MachineUpgrade(40, 2000, 10));
             put(3, new MachineUpgrade(75, 2000, 150));
@@ -46,16 +49,16 @@ public class Machine extends GameNode {
     private Random randomGen = new Random();
 
     private int probability = 0; // Probability to drop the resource
+    private double lastAttempt; // Timestamp of the last attempt to create a resource
+    private double interval; // Interval between attempts (in milliseconds)
 
-    private double lastAttempt; // The time passed since the last time it has been chec
-    private double interval; // Time of the interval(in milliseconds)
+    private boolean hasProducedResource; // Flag to check if the machine has produced a resource
 
-    private boolean hasProducedResource;
-
+    // SFX
     private Clip successSfx = SoundManager.createClip(PathHelper.SFX + "Success.wav");
     private Clip errorSfx = SoundManager.createClip(PathHelper.SFX + "Error.wav");
 
-    public Machine(){
+    public Machine() {
         currentLevel = 1;
         loadUpgrade(upgrades.get(currentLevel));
     }
@@ -71,20 +74,22 @@ public class Machine extends GameNode {
     }
 
     private void addAnimationsToAnimator() {
-
         String spritesFolder = PathHelper.sprites + "machine\\1\\";
 
+        // Animation for failure (when resource creation fails)
         Animation failAnimation = new Animation(PathHelper.getFilePaths(spritesFolder + "fail"), false);
         failAnimation.addLastFrameListener(() -> {
-            animator.play("loading");
+            animator.play("loading"); // Transition to loading animation after failure
         });
 
+        // Animation for successful resource creation
         Animation packageOutAnimation = new Animation(PathHelper.getFilePaths(spritesFolder + "success\\package-out"),
                 false);
         packageOutAnimation.addLastFrameListener(() -> {
-            animator.play("success-idle");
+            animator.play("success-idle"); // Transition to idle after package-out animation
         });
 
+        // Add animations to the animator
         animator.addAnimation("fail", failAnimation);
         animator.addAnimation("loading", new Animation(PathHelper.getFilePaths(spritesFolder + "loading")));
         animator.addAnimation("success-package-out", packageOutAnimation);
@@ -110,6 +115,10 @@ public class Machine extends GameNode {
         SoundManager.playClip(successSfx);
     }
 
+    /**
+     * Attempts to create a resource based on the machine's probability.
+     * If successful, triggers the success method, else triggers the error method.
+     */
     public void attemptToCreateResource() {
         // Drop the resoure randomly based on the value of the probability, the higher
         // it gets the more probability there is to get a resource
@@ -121,44 +130,78 @@ public class Machine extends GameNode {
         }
     }
 
-    // return if the machine ha a resource
+    /**
+     * Checks if the machine has produced a resource.
+     *
+     * @return true if the machine has produced a resource, false otherwise
+     */
     public boolean hasResource() {
         return hasProducedResource;
     }
-
-    // Reset the machine taking away its resource
+/**
+     * Resets the machine, removing any produced resource and setting it back to a loading state
+     */
     public void takeResource() {
         animator.play("loading");
         hasProducedResource = false;
-        lastAttempt = System.currentTimeMillis();
+        lastAttempt = System.currentTimeMillis(); // Reset the last attempt time
     }
 
-    public void upgrade(){
-        if(!canUpgrade()) return;
-        currentLevel++;
-        MachineUpgrade nextUpgrade = upgrades.get(currentLevel);
-        loadUpgrade(nextUpgrade);
+    /**
+     * Upgrades the machine to the next level, if possible.
+     * This will change the machine's properties based on the next level's upgrade.
+     */
+    public void upgrade() {
+        if (!canUpgrade()) return; // If the machine cannot be upgraded, exit
+        currentLevel++; // Increment the level
+        MachineUpgrade nextUpgrade = upgrades.get(currentLevel); // Get the next upgrade
+        loadUpgrade(nextUpgrade); // Apply the next upgrade
     }
 
-    public boolean canUpgrade(){
+    /**
+     * Checks if the machine can be upgraded to the next level.
+     *
+     * @return true if the machine can be upgraded, false otherwise
+     */
+    public boolean canUpgrade() {
         return getNextUpgrade() != null;
     }
 
-    public MachineUpgrade getNextUpgrade(){
+    /**
+     * Retrieves the upgrade configuration for the next level, if available.
+     *
+     * @return the upgrade configuration for the next level, or null if no more upgrades are available
+     */
+    public MachineUpgrade getNextUpgrade() {
         return upgrades.get(currentLevel + 1);
     }
 
-    private void loadUpgrade(MachineUpgrade upgrade){
-        Economy.spendMoney(upgrade.cost);
-        probability = upgrade.probability;
-        interval = upgrade.interval;
+    /**
+     * Loads the properties for the next upgrade, such as probability, interval, and cost.
+     *
+     * @param upgrade the upgrade configuration to be applied
+     */
+    private void loadUpgrade(MachineUpgrade upgrade) {
+        Economy.spendMoney(upgrade.cost); 
+        probability = upgrade.probability; 
+        interval = upgrade.interval; 
     }
 
-    public int getLevel(){
+    /**
+     * Gets the current level of the machine.
+     *
+     * @return the current level of the machine
+     */
+    public int getLevel() {
         return currentLevel;
     }
 
-    public MachineUpgrade getCurrentUpgrade(){
+    /**
+     * Retrieves the current upgrade configuration of the machine.
+     *
+     * @return the current machine upgrade configuration
+     */
+    public MachineUpgrade getCurrentUpgrade() {
         return upgrades.get(currentLevel);
     }
 
