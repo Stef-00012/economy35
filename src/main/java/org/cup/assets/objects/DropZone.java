@@ -5,27 +5,44 @@ import org.cup.assets.logic.DropZoneThread;
 import org.cup.engine.Vector;
 import org.cup.engine.core.nodes.GameNode;
 import org.cup.engine.core.nodes.components.Renderer;
+import org.cup.engine.core.nodes.components.defaults.Animation;
+import org.cup.engine.core.nodes.components.defaults.Animator;
 import org.cup.engine.core.nodes.components.defaults.SpriteRenderer;
 
 public class DropZone extends GameNode {
-    private final String dropZoneSprite = PathHelper.getSpritePath("dropzone/dropZone.png");
-    private final String dropZoneSpriteFull = PathHelper.getSpritePath("dropzone/dropZoneWResource.png");
-
-    private SpriteRenderer sr = new SpriteRenderer(dropZoneSprite, transform, 43);
+    private final Animator animator;
 
     private DropZoneThread thread;
 
     public DropZone(Vector position) {
         transform.setPosition(position);
+        animator = new Animator(transform, 3);
     }
 
     public void init() {
-        sr.setPivot(Renderer.RIGHT_PIVOT);
+        animator.setPivot(Renderer.RIGHT_PIVOT);
         transform.setScale(new Vector(25, 50));
-        addChild(sr);
+        addChild(animator);
+
+        initAnimator();
 
         thread = new DropZoneThread(this);
         thread.start();
+    }
+
+    private void initAnimator(){
+        String baseSpritePath = PathHelper.sprites + "dropzone\\";
+
+        Animation successAnimation = new Animation(PathHelper.getFilePaths(baseSpritePath + "success"));
+        successAnimation.addLastFrameListener(() -> {
+            animator.play("idle");
+        });
+
+        Animation fullAnimation = new Animation(PathHelper.getFilePaths(baseSpritePath + "fail"));
+
+        animator.addAnimation("idle", new Animation(PathHelper.getFilePaths(baseSpritePath + "idle"), true)); 
+        animator.addAnimation("success", successAnimation); 
+        animator.addAnimation("full", fullAnimation); 
     }
 
     /**
@@ -35,14 +52,14 @@ public class DropZone extends GameNode {
     public boolean addResouce() {
         if (thread.placeResource()) { // Try to place the resource
             // If the resource has been placed set the sprite to full
-            sr.setSprite(dropZoneSpriteFull);
+            animator.play("full");
             return true;
         }
         return false; // The DropZone is already full
     }
 
     public void normalSprite() {
-        sr.setSprite(dropZoneSprite);
+        animator.play("success");
     }
 
     public boolean hasResource(){

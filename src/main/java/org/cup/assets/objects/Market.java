@@ -68,7 +68,7 @@ public class Market extends GameNode {
      * 
      * @param servedIndex The index of the served customer to be removed
      */
-    public void moveQueue(int servedIndex) {
+    public synchronized void moveQueue(int servedIndex) {
         customersQueue.remove(servedIndex); // Remove the served customer from the queue
         // Update the position of each customer in the queue
         for (int i = 0; i < customersQueue.size(); i++) {
