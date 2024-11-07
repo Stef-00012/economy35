@@ -2,6 +2,7 @@ package org.cup.assets.objects;
 
 import org.cup.assets.PathHelper;
 import org.cup.assets.UI.Floor;
+import org.cup.assets.scenes.MainScene;
 import org.cup.engine.Vector;
 import org.cup.engine.core.Debug;
 import org.cup.engine.core.nodes.GameNode;
@@ -17,36 +18,37 @@ public class Building extends GameNode {
 
     private ArrayList<Floor> floors = new ArrayList<>();
 
-    private int roomHeight = 175;
+    public static final int ROOM_HEIGHT = 175;
     int roomWidth = 500;
 
-    public Building(){
-        if(Building.instance != null) 
+    public Building() {
+        if (Building.instance != null)
             Debug.err("More than one building has been initialized");
         Building.instance = this;
 
         floors.add(inventory);
     }
 
-    public static Building get(){
+    public static Building get() {
         return instance;
     }
 
     @Override
-    public void init(){
-        transform.setPosition(new Vector(120-1, 175*3));
-
+    public void init() {
         addChild(elevator);
         addChild(inventory);
         addChild(market);
+
+        inventory.transform.setParentTransform(transform);
+        market.transform.setParentTransform(transform);
     }
 
-    public void addRoom(){
+    public void addRoom() {
         int nRooms = floors.size() - 1; // Ignore the inventory
 
         String basePath = PathHelper.sprites + "building\\rooms\\room-background";
         String finalPath = basePath + (nRooms % 2 == 0 ? "-decorated" : "") + ".png";
-        Room room = new Room(roomWidth, roomHeight, 0, (-roomHeight * nRooms), 1, finalPath);
+        Room room = new Room(roomWidth, ROOM_HEIGHT, 120, 175 * 3 + (-ROOM_HEIGHT * nRooms), 1, finalPath);
 
         room.transform.setParentTransform(transform);
 
@@ -54,27 +56,27 @@ public class Building extends GameNode {
         addChild(room);
     }
 
-    public Inventory getInventory(){
+    public Inventory getInventory() {
         return inventory;
     }
 
-    public Elevator getElevator(){
+    public Elevator getElevator() {
         return elevator;
     }
 
-    public Market getMarket(){
+    public Market getMarket() {
         return market;
     }
 
-    public Floor getUpFloor(int currentFloor){
-        if(currentFloor + 1 >= floors.size()){
+    public Floor getUpFloor(int currentFloor) {
+        if (currentFloor + 1 >= floors.size()) {
             return null;
         }
         return floors.get(currentFloor + 1);
     }
 
-    public Floor getDownFloor(int currentFloor){
-        if(currentFloor - 1 < 0){
+    public Floor getDownFloor(int currentFloor) {
+        if (currentFloor - 1 < 0) {
             return null;
         }
         return floors.get(currentFloor - 1);
