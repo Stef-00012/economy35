@@ -5,6 +5,7 @@ import org.cup.assets.UI.StatsPanel;
 import org.cup.assets.logic.Economy;
 import org.cup.assets.objects.Building;
 import org.cup.assets.objects.CustomerSpawner;
+import org.cup.assets.objects.DayCycle;
 import org.cup.assets.objects.Rectangle;
 import org.cup.engine.Utils;
 import org.cup.engine.Vector;
@@ -26,7 +27,7 @@ public class MainScene extends Scene {
     private static Transform scrollableTransform; 
     private static double transformOffset;
     private static final double scrollSpeed = 5;
-    private static final double scrollStep = Building.ROOM_HEIGHT * 2;
+    private static final double scrollStep = Building.ROOM_HEIGHT * 1.3f;
     
     private Rectangle floor;
 
@@ -43,6 +44,8 @@ public class MainScene extends Scene {
     @Override
     public void init() {
         Debug.log("Main Scene initialized");
+
+        addChild(new DayCycle());
 
         addChild(building);
         building.addRoom();

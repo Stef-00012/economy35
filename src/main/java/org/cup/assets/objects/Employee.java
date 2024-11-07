@@ -46,7 +46,7 @@ public class Employee extends GameNode {
     public void init() {
         addChild(animator);
         transform.setScale(new Vector(51, 58).multiply(1.5));
-        transform.setPosition(new Vector(200, 0));
+        transform.setPosition(new Vector(200, -5));
     }
 
     @Override

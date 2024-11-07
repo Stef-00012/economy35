@@ -16,8 +16,8 @@ public class Market extends GameNode {
     private ArrayList<Customer> customersQueue = new ArrayList<>();
 
     public Market() {
-        transform.setPosition(new Vector(550, GameManager.game.getHeight() - 59));
-        transform.setScale(new Vector(288, 175));
+        transform.setPosition(new Vector(630, GameManager.game.getHeight() - 59));
+        transform.setScale(new Vector(240, 175));
 
         initAnimator();
     }
@@ -30,7 +30,7 @@ public class Market extends GameNode {
     @Override
     public void init() {
         // Define the sprites folder path for the animations
-        String spritesFolder = PathHelper.sprites + "shop\\";
+        String spritesFolder = PathHelper.sprites + "shop\\1\\";
 
         // Create a sell animation that transitions back to idle after it finishes
         Animation sellAnimation = new Animation(PathHelper.getFilePaths(spritesFolder + "sell"), false);

@@ -71,6 +71,7 @@ public class Machine extends GameNode {
         addAnimationsToAnimator();
 
         transform.setScale(new Vector(150));
+        transform.setPosition(new Vector(0, -5));
     }
 
     private void addAnimationsToAnimator() {

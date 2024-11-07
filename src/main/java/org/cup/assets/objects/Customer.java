@@ -30,9 +30,15 @@ public class Customer extends GameNode {
     public Customer() {
         String spritesFolder = PathHelper.sprites + "customer\\";
 
+        Animation walk = new Animation(PathHelper.getFilePaths(spritesFolder + "walk"));
+        Animation walkPackage = new Animation(PathHelper.getFilePaths(spritesFolder + "walk-package"));
+
+        walk.setLoopType(Animation.PING_PONG_LOOP);
+        walkPackage.setLoopType(Animation.PING_PONG_LOOP); 
+
         animator.addAnimation("idle", new Animation(PathHelper.getFilePaths(spritesFolder + "idle")));
-        animator.addAnimation("walk", new Animation(PathHelper.getFilePaths(spritesFolder + "walk")));
-        animator.addAnimation("walk-package", new Animation(PathHelper.getFilePaths(spritesFolder + "walk-package")));
+        animator.addAnimation("walk", walk);
+        animator.addAnimation("walk-package", walkPackage);
 
         animator.setPivot(Renderer.BOTTOM_PIVOT);
 
