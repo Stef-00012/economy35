@@ -31,6 +31,8 @@ public class Transform {
     
     private ArrayList<Transform> children = new ArrayList<>();
 
+    private String nodeName;
+
     /**
      * Creates a new transform with no parent (root transform).
      */
@@ -50,6 +52,8 @@ public class Transform {
             parent.addChild(this);
         }
     }
+
+    
 
     /**
      * Moves the transform by adding the specified vector to its current position.
@@ -259,5 +263,31 @@ public class Transform {
      */
     private void removeChild(Transform t) {
         children.remove(t);
+    }
+
+    public void setNodeName(String nodeName) {
+        this.nodeName = nodeName;
+    }
+
+    /**
+     * Prints the transform hierarchy starting from this transform.
+     * The output will include the node name and the transform information (position, scale, rotation) for each transform in the hierarchy.
+     */
+    public void printTransformHierarchy() {
+        printTransformHierarchy(0);
+    }
+
+    private void printTransformHierarchy(int indent) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < indent; i++) {
+            sb.append("  ");
+        }
+        sb.append(nodeName)
+          .append("\n");
+        System.out.print(sb.toString());
+
+        for (Transform child : children) {
+            child.printTransformHierarchy(indent + 1);
+        }
     }
 }

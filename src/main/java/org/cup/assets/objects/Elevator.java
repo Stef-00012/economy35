@@ -10,7 +10,6 @@ import org.cup.engine.core.nodes.components.Renderer;
 import org.cup.engine.core.nodes.components.defaults.SpriteRenderer;
 import org.cup.engine.core.nodes.components.defaults.Transform;
 
-import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -75,6 +74,10 @@ public class Elevator extends GameNode implements KeyListener {
                 targetFloor = upFloor;
                 updateFloorUI();
                 currentFloor++;
+
+                if(upFloor.transform.getPosition().y - Building.ROOM_HEIGHT <= 0){
+                    MainScene.scrollUp();
+                }
             }
             
         } else if (keyCode == KEYCODE_ARROW_DOWN || keyCode == KEYCODE_S){
@@ -84,6 +87,10 @@ public class Elevator extends GameNode implements KeyListener {
                 targetFloor = downFloor;
                 updateFloorUI();
                 currentFloor--;
+
+                if(downFloor.transform.getPosition().y + Building.ROOM_HEIGHT >= GameManager.game.getHeight()){
+                    MainScene.scrollDown();
+                }
             }
         }
     }

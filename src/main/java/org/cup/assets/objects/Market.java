@@ -16,7 +16,7 @@ public class Market extends GameNode {
     private ArrayList<Customer> customersQueue = new ArrayList<>();
 
     public Market() {
-        transform.setPosition(new Vector(620, GameManager.game.getHeight() - 59));
+        transform.setPosition(new Vector(550, GameManager.game.getHeight() - 59));
         transform.setScale(new Vector(288, 175));
         
         initAnimator();
