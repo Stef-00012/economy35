@@ -19,7 +19,7 @@ public class Market extends GameNode {
     private ArrayList<Customer> customersQueue = new ArrayList<>();
 
     // SFX
-    private Clip cashOut = SoundManager.createClip(PathHelper.SFX + "Cash.wav", false, 0.5);
+    private Clip cashOut = SoundManager.createClip(PathHelper.SFX + "Cash.wav", false);
 
     public Market() {
         transform.setPosition(new Vector(630, GameManager.game.getHeight() - 59));
@@ -77,8 +77,7 @@ public class Market extends GameNode {
     }
 
     public void playSellAnimation() {
-        SoundManager.playClip(cashOut);
         animator.play("sell");
-
+        SoundManager.playClip(cashOut);
     }
 }
