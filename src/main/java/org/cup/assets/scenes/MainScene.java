@@ -38,7 +38,7 @@ public class MainScene extends Scene {
         statsPanel = new StatsPanel();
         building = new Building();
 
-        mainTheme = SoundManager.createClip(PathHelper.music + "MainTheme.wav", true, -5);
+        mainTheme = SoundManager.createClip(PathHelper.music + "MainTheme.wav", true);
     }
 
     @Override
