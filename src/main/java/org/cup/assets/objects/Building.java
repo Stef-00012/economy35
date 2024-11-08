@@ -2,6 +2,7 @@ package org.cup.assets.objects;
 
 import org.cup.assets.PathHelper;
 import org.cup.assets.UI.Floor;
+import org.cup.engine.Vector;
 import org.cup.engine.core.Debug;
 import org.cup.engine.core.nodes.GameNode;
 
@@ -18,6 +19,7 @@ public class Building extends GameNode {
 
     // Collection of floors in the building, including rooms and the inventory floor
     private ArrayList<Floor> floors;
+    private NewFloor floorUnderConstruction;
 
     public static final int ROOM_WIDTH = 500;
     public static final int ROOM_HEIGHT = 175;
@@ -32,7 +34,12 @@ public class Building extends GameNode {
         elevator = new Elevator();
         market = new Market();
         floors = new ArrayList<>();
+
         floors.add(inventory);
+
+        floorUnderConstruction = new NewFloor(ROOM_WIDTH, ROOM_HEIGHT, 1);
+        floors.add(floorUnderConstruction);
+        addChild(floorUnderConstruction);
     }
 
     /**
@@ -59,16 +66,27 @@ public class Building extends GameNode {
     }
 
     public void addRoom() {
-        int nRooms = floors.size() - 1; // Ignore the inventory
+        floors.remove(floorUnderConstruction);
+
+        int nRooms = floors.size() - 1;  // Ignore inventory
 
         String basePath = PathHelper.sprites + "building\\rooms\\room-background";
         String finalPath = basePath + (nRooms % 2 == 0 ? "-decorated" : "") + ".png";
-        Room room = new Room(ROOM_WIDTH, ROOM_HEIGHT, 120 - 3, 175 * 3 + (-ROOM_HEIGHT * nRooms), 1, finalPath);
+
+        Vector newRoomPos = getNewFloorPos(nRooms);
+        Room room = new Room(ROOM_WIDTH, ROOM_HEIGHT, newRoomPos.getX(), newRoomPos.getY(), 1, finalPath);
 
         room.transform.setParentTransform(transform);
-
         floors.add(room);
         addChild(room);
+
+        Vector underConstructionPos = getNewFloorPos(nRooms + 1);
+        floorUnderConstruction.transform.setPosition(underConstructionPos);
+        floors.add(floorUnderConstruction);
+    }
+
+    private Vector getNewFloorPos(int nFloors){
+        return new Vector(120 - 3, 175 * 3 + (-ROOM_HEIGHT * nFloors));
     }
 
     // #region Getters

@@ -7,7 +7,6 @@ import org.cup.engine.core.nodes.GameNode;
 import org.cup.engine.core.nodes.components.Renderer;
 import org.cup.engine.core.nodes.components.defaults.Animation;
 import org.cup.engine.core.nodes.components.defaults.Animator;
-import org.cup.engine.core.nodes.components.defaults.SpriteRenderer;
 
 public class DropZone extends GameNode {
     private final Animator animator;

@@ -22,15 +22,13 @@ public class Inventory extends Floor {
     private SpriteRenderer inventoryUI;
     private int buffer; // Packages in the inventory
     private int maxSize; // Maximum storage capacity
-    private int newFloorCost = 500;
     private int increaseInventoryCost = 80;
 
     private static final String SPRITE_BASE_PATH = PathHelper.sprites + "building\\stock\\";
 
     // UI
     private JPanel buttonsPanel = new JPanel();
-    GameButton newFloorBtn = new GameButton(
-            "<html><center>" + "ADD NEW FLOOR" + "<br>($" + newFloorCost + ")</center></html>");
+
     GameButton increaseInventoryBtn = new GameButton(
             "<html><center>" + "INCREASE INVENTORY" + "<br>($" + increaseInventoryCost + ")</center></html>");
 
@@ -130,11 +128,6 @@ public class Inventory extends Floor {
                 new Color(50, 192, 37),
                 new Color(37, 160, 26));
 
-        // Listeners
-        newFloorBtn.addActionListener(e -> {
-            Economy.spendMoney(newFloorCost);
-            Building.get().addRoom();
-        });
 
         increaseInventoryBtn.addActionListener(e -> {
             Economy.spendMoney(increaseInventoryCost);
@@ -143,7 +136,6 @@ public class Inventory extends Floor {
         });
 
         // Add buttons to the panel
-        buttonsPanel.add(newFloorBtn);
         buttonsPanel.add(increaseInventoryBtn);
     }
 
