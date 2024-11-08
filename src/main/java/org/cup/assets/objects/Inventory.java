@@ -23,7 +23,8 @@ public class Inventory extends Floor {
     private SpriteRenderer inventoryUI;
     private int buffer; // Packages in the inventory
     private int maxSize; // Maximum storage capacity
-    private int increaseInventoryCost = 80;
+    private int increaseInventoryCost = 50;
+    private int increaseProductValueCost = 80;
 
     private static final String SPRITE_BASE_PATH = PathHelper.sprites + "building\\stock\\";
 
@@ -32,6 +33,8 @@ public class Inventory extends Floor {
 
     GameButton increaseInventoryBtn = new GameButton(
             "<html><center>" + "INCREASE INVENTORY" + "<br>($" + increaseInventoryCost + ")</center></html>");
+    GameButton increaseProductValueBtn = new GameButton(
+            "<html><center>" + "INCREASE PRODUCT VALUE" + "<br>($" + increaseProductValueCost + ")</center></html>");
 
     public Inventory(int initialMaxSize) {
         buffer = 0;
@@ -58,6 +61,14 @@ public class Inventory extends Floor {
         addChild(new ElevatorZone(elevatorZoneTransform));
 
         addChild(inventoryUI);
+
+        updateProductValueButtonText();
+    }
+
+    @Override
+    public void onUpdate() {
+        increaseInventoryBtn.setEnabled(Economy.getBalance() >= increaseInventoryCost);
+        increaseProductValueBtn.setEnabled(Economy.getBalance() >= increaseProductValueCost && Building.get().getMarket().getNextUpgrade() != null);
     }
 
     /**
@@ -134,15 +145,24 @@ public class Inventory extends Floor {
                 new Color(50, 192, 37),
                 new Color(37, 160, 26));
 
-
         increaseInventoryBtn.addActionListener(e -> {
             Economy.spendMoney(increaseInventoryCost);
             maxSize++;
             MainScene.getStatsPanel().setInventoryLabel(this);
         });
 
+        increaseProductValueBtn.addActionListener(e -> {
+            Building.get().getMarket().upgradeLevel();
+            updateProductValueButtonText();
+        });
         // Add buttons to the panel
         buttonsPanel.add(increaseInventoryBtn);
+        buttonsPanel.add(increaseProductValueBtn);
+    }
+
+    private void updateProductValueButtonText(){
+        int valueIncrease = Building.get().getMarket().getNextUpgrade();
+        increaseProductValueBtn.setText("<html><center>" + "INCREASE PRODUCT VALUE by " + valueIncrease + "<br>($" + increaseProductValueCost + ")</center></html>");
     }
 
     @Override

@@ -57,7 +57,7 @@ public class GameButton extends JButton {
     }
 
     private void setup() {
-        setupFont(Font.BOLD, 18);
+        setupFont(Font.BOLD, 15);
         setForeground(Color.WHITE);
         setContentAreaFilled(false);
         setFocusPainted(false);

@@ -54,7 +54,7 @@ public class MainScene extends Scene {
 
         // Initialize stats panel
         Economy.setProductValue(10);
-        Economy.setBalance(999999999);
+        Economy.setBalance(50);
         GameManager.game.addUIElement(statsPanel);
 
         // Add base floor

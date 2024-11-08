@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import javax.sound.sampled.Clip;
 
 import org.cup.assets.PathHelper;
+import org.cup.assets.logic.Economy;
 import org.cup.engine.Vector;
+import org.cup.engine.core.Debug;
 import org.cup.engine.core.managers.GameManager;
 import org.cup.engine.core.managers.sound.SoundManager;
 import org.cup.engine.core.nodes.GameNode;
@@ -18,12 +20,20 @@ public class Market extends GameNode {
 
     private ArrayList<Customer> customersQueue = new ArrayList<>();
 
+    private int[] productValues = {
+        10, // Level 1
+        20  // Level 2
+    };
+
+    private int level;
+
     // SFX
     private Clip cashOut = SoundManager.createClip(PathHelper.SFX + "Cash.wav", false);
 
     public Market() {
         transform.setPosition(new Vector(630, GameManager.game.getHeight() - 59));
         transform.setScale(new Vector(240, 175));
+        level = 0;
 
         initAnimator();
     }
@@ -35,13 +45,18 @@ public class Market extends GameNode {
 
     @Override
     public void init() {
+        addAnimations(0);        
+        addAnimations(1);        
+    }
+
+    private void addAnimations(int level){
         // Define the sprites folder path for the animations
-        String spritesFolder = PathHelper.sprites + "shop\\1\\";
+        String spritesFolder = PathHelper.sprites + "shop\\" + level + "\\";
 
         // Create a sell animation that transitions back to idle after it finishes
         Animation sellAnimation = new Animation(PathHelper.getFilePaths(spritesFolder + "sell"), false);
         sellAnimation.addLastFrameListener(() -> {
-            animator.play("idle"); // Play idle animation after sell animation
+            animator.play("idle-" + level); // Play idle animation after sell animation
         });
 
         // Create an idle animation with a specified frame delay
@@ -49,8 +64,8 @@ public class Market extends GameNode {
         idleAnimation.setTimeBetweenFrames(200); // Adjust the time between frames to slow down the idle animation
 
         // Add the animations to the animator
-        animator.addAnimation("idle", idleAnimation);
-        animator.addAnimation("sell", sellAnimation);
+        animator.addAnimation("idle-" + level, idleAnimation);
+        animator.addAnimation("sell-" + level, sellAnimation);
     }
 
     /**
@@ -77,7 +92,22 @@ public class Market extends GameNode {
     }
 
     public void playSellAnimation() {
-        animator.play("sell");
+        animator.play("sell-" + level);
         SoundManager.playClip(cashOut);
+    }
+
+    public void upgradeLevel(){
+        if(getNextUpgrade() == null){
+            Debug.warn("Can't upgrade PRODUCT VALUE");
+        }
+        level++;
+        Economy.setProductValue(productValues[level]);
+    }
+
+    public Integer getNextUpgrade(){
+        if(level + 1 == productValues.length){
+            return null;
+        }
+        return productValues[level + 1];
     }
 }

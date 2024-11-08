@@ -1,5 +1,7 @@
 package org.cup.assets.objects;
 
+import java.awt.GridLayout;
+
 import javax.swing.JPanel;
 
 import org.cup.assets.PathHelper;
@@ -43,7 +45,13 @@ public class NewFloor extends Floor {
         initUI();
     }
 
+    @Override
+    public void onUpdate() {
+        newFloorBtn.setEnabled(Economy.getBalance() >= newFloorCost);
+    }
+
     private void initUI() {
+        buttonsPanel.setLayout(new GridLayout(1, 2, 10, 0));
         // Listeners
         newFloorBtn.addActionListener(e -> {
             Economy.spendMoney(newFloorCost);

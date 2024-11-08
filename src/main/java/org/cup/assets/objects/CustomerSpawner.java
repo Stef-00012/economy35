@@ -2,13 +2,15 @@ package org.cup.assets.objects;
 
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.Random;
 
 import org.cup.assets.scenes.MainScene;
 import org.cup.engine.core.nodes.GameNode;
 
 public class CustomerSpawner extends GameNode {
-    private double interval = 4000;
+    private double interval;
     private double lastSpawnTimestamp;
+    private Random randomGen = new Random();
 
     private Queue<Customer> pool;
 
@@ -26,6 +28,7 @@ public class CustomerSpawner extends GameNode {
         if (System.currentTimeMillis() - lastSpawnTimestamp >= interval) {
             spawnFromPool();
             lastSpawnTimestamp = System.currentTimeMillis(); // Reset Spawn Timer
+            interval = (randomGen.nextInt(500, 2000) + (1 / (float) Building.get().getInventory().getCapacity()) * 10000);
         }
     }
 

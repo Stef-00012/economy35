@@ -8,6 +8,8 @@ import org.cup.engine.core.nodes.RootNode;
 import org.cup.engine.core.nodes.Scene;
 import org.cup.engine.Vector;
 
+import org.cup.dev.DevCommands;
+
 import java.awt.Component;
 
 import javax.swing.*;
@@ -96,6 +98,10 @@ public class Game extends JFrame {
 
         // create a performance monitor
         new PerformanceMonitor(true).start();
+
+        // add some developer cheatcodes for testing
+        this.addKeyListener(new DevCommands());
+
     }
 
     /**
