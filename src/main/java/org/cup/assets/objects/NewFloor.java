@@ -9,10 +9,12 @@ import org.cup.assets.logic.Economy;
 import org.cup.assets.scenes.MainScene;
 import org.cup.engine.Vector;
 import org.cup.engine.core.nodes.components.Renderer;
-import org.cup.engine.core.nodes.components.defaults.SpriteRenderer;
+import org.cup.engine.core.nodes.components.defaults.Animation;
+import org.cup.engine.core.nodes.components.defaults.Animator;
 import org.cup.engine.core.nodes.components.defaults.Transform;
 
 public class NewFloor extends Floor {
+    private Animator animator;
 
     // UI
     private JPanel buttonsPanel = new JPanel();
@@ -26,13 +28,18 @@ public class NewFloor extends Floor {
 
         Transform rendererTransform = new Transform();
         rendererTransform.setScale(new Vector(width, height));
-        SpriteRenderer sr = new SpriteRenderer(PathHelper.sprites + "building\\placeholder.png", rendererTransform, layer);
-        sr.setPivot(Renderer.BOTTOM_LEFT_PIVOT);
+
+        animator = new Animator(rendererTransform, layer);
+        animator.addAnimation(
+                "idle",
+                new Animation(PathHelper.getFilePaths(PathHelper.sprites + "\\building\\floor-under-construction")));
+
+        animator.setPivot(Renderer.BOTTOM_LEFT_PIVOT);
         rendererTransform.setParentTransform(transform);
 
         MainScene.addToScrollTransform(transform);
-        
-        addChild(sr);
+
+        addChild(animator);
         initUI();
     }
 

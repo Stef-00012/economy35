@@ -11,7 +11,7 @@ import org.cup.engine.core.Debug;
  * Provides constants and functions to commonly used folders
  */
 public class PathHelper {
-    private static final boolean IS_DEV = new File("src").exists();
+    public static final boolean IS_DEV = new File("src").exists();
 
     public static final String assets = IS_DEV
             ? String.join(File.separator, System.getProperty("user.dir"), "src", "main", "java", "org", "cup", "assets")

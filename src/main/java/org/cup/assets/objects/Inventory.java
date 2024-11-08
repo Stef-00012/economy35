@@ -13,6 +13,7 @@ import org.cup.engine.Vector;
 import org.cup.engine.core.Debug;
 import org.cup.engine.core.nodes.components.Renderer;
 import org.cup.engine.core.nodes.components.defaults.SpriteRenderer;
+import org.cup.engine.core.nodes.components.defaults.Transform;
 import org.cup.assets.logic.Economy;
 
 /* 
@@ -51,6 +52,11 @@ public class Inventory extends Floor {
         transform.setScale(new Vector(w, h));
         transform.setPosition(new Vector(x, y));
         inventoryUI.setPivot(Renderer.BOTTOM_LEFT_PIVOT);
+
+        Transform elevatorZoneTransform = new Transform();
+        elevatorZoneTransform.setPosition(new Vector(x, y));
+        addChild(new ElevatorZone(elevatorZoneTransform));
+
         addChild(inventoryUI);
     }
 
@@ -152,13 +158,13 @@ public class Inventory extends Floor {
 
         String spriteSuffix = "0.png";
 
-        if (percentage >= 0.75f) {
+        if (percentage >= 1f) {
             spriteSuffix = "100.png"; // Full capacity
-        } else if (percentage >= 0.5f) {
+        } else if (percentage >= 0.75f) {
             spriteSuffix = "75.png"; // 75% capacity
-        } else if (percentage >= 0.25f) {
+        } else if (percentage >= 0.50f) {
             spriteSuffix = "50.png"; // 50% capacity
-        } else if (percentage > 0f) {
+        } else if (percentage >= 0.25f) {
             spriteSuffix = "25.png"; // 25% capacity
         }
 

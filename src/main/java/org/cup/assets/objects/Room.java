@@ -14,6 +14,7 @@ import org.cup.engine.Vector;
 import org.cup.engine.core.Debug;
 import org.cup.engine.core.nodes.components.Renderer;
 import org.cup.engine.core.nodes.components.defaults.SpriteRenderer;
+import org.cup.engine.core.nodes.components.defaults.SquareRenderer;
 import org.cup.engine.core.nodes.components.defaults.Transform;
 
 public class Room extends Floor {
@@ -71,9 +72,12 @@ public class Room extends Floor {
         tubeTransform.setScale(new Vector(40, 175));
         tubeTransform.setParentTransform(transform);
 
-        SpriteRenderer tubeRenderer = new SpriteRenderer(PathHelper.sprites + "building\\Pipe.png", tubeTransform, 1);
+        SpriteRenderer tubeRenderer = new SpriteRenderer(PathHelper.sprites + "building\\Pipe.png", tubeTransform, 5);
         tubeRenderer.setPivot(Renderer.BOTTOM_LEFT_PIVOT);
         addChild(tubeRenderer);
+
+        // Add Elevator Zone
+        addChild(new ElevatorZone(transform));
 
         // Add the machine to the room.
         addChild(machine);
