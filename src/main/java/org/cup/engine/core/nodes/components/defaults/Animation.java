@@ -2,6 +2,7 @@ package org.cup.engine.core.nodes.components.defaults;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.cup.engine.Vector;
 import org.cup.engine.core.Debug;
@@ -43,7 +44,7 @@ public class Animation {
      * @param loop              Whether the animation should loop.
      */
     public Animation(String[] sprites, float timeBetweenFrames, boolean loop) {
-        this.spritePaths = sprites;
+        this.spritePaths = Arrays.copyOf(sprites, sprites.length); 
         this.timeBetweenFrames = timeBetweenFrames;
         this.currentFrameIndex = 0;
         this.loop = loop;

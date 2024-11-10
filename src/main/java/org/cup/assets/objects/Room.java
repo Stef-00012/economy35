@@ -14,7 +14,6 @@ import org.cup.engine.Vector;
 import org.cup.engine.core.Debug;
 import org.cup.engine.core.nodes.components.Renderer;
 import org.cup.engine.core.nodes.components.defaults.SpriteRenderer;
-import org.cup.engine.core.nodes.components.defaults.SquareRenderer;
 import org.cup.engine.core.nodes.components.defaults.Transform;
 
 public class Room extends Floor {

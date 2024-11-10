@@ -1,5 +1,6 @@
 package org.cup.assets.UI;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Image;
@@ -100,5 +101,17 @@ public class StatsPanel extends JPanel {
         Image image = originalIcon.getImage();
         Image scaledImage = image.getScaledInstance(width, height, Image.SCALE_SMOOTH);
         return new ImageIcon(scaledImage);
+    }
+
+    public void dayMode(){
+        balanceLabel.setForeground(Color.BLACK);
+        inventoryLabel.setForeground(Color.BLACK);
+        productValueLabel.setForeground(Color.BLACK);
+    }
+
+    public void nightMode(){
+        balanceLabel.setForeground(Color.WHITE);
+        inventoryLabel.setForeground(Color.WHITE);
+        productValueLabel.setForeground(Color.WHITE);
     }
 }
