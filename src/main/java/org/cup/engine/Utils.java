@@ -40,4 +40,20 @@ public class Utils {
         }
         return null;
     }
+
+    public static <T> void reverseArray(T[] a){
+        // Reverse the array
+        int left = 0;
+        int right = a.length - 1;
+        
+        while (left < right) {
+            // Swap the elements
+            T temp = a[left];
+            a[left] = a[right];
+            a[right] = temp;
+            
+            left++;
+            right--;
+        }
+    }
 }
