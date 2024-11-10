@@ -12,7 +12,11 @@ import org.cup.engine.core.nodes.GameNode;
 
 // Let's handle circle colliders only, for the scope of this project
 // https://github.com/AlessTheDev/dough-canvas-engine/blob/main/src/engine/nodes/extensions/CollidersManager.ts
-public class CollidersManager extends GameNode{
+
+// NOTE: Consider using Space Partitioning in case more than 30 colliders are involved in different places
+// https://youtu.be/eED4bSkYCB8?si=3tPfTsvjsHyBlY_L
+
+public class CollidersManager extends GameNode {
     private static CollidersManager instance;
     private ArrayList<CircleCollider> colliders;
 
@@ -29,18 +33,45 @@ public class CollidersManager extends GameNode{
         colliders.add(c);
     }
 
+    /*
+     * SWEEP AND PURNE ALGORITHM
+     * 
+     * Average-case complexity: O(n), thanks to nearly sorted data and the early
+     * exit optimization in the nested loop.
+     * Worst-case complexity: O(n^2), if colliders are densely packed and the
+     * sorting doesn’t benefit from being almost sorted.
+     */
     @Override
     public void onUpdate() {
+        // Sorting the objects (in this case, the CircleColliders) based on one of their
+        // coordinates.
         Collections.sort(colliders,
                 (c1, c2) -> Integer.compare(c1.transform.getPosition().getX(), c2.transform.getPosition().getX()));
 
-        // Iterate other the colliders
+        // Sweeping through the sorted list and checking for collisions only between
+        // objects that are close enough to each other based on the sorted order. This
+        // allows you to avoid unnecessary collision checks by pruning out distant
+        // objects.
         int length = colliders.size();
         for (int i = 0; i < length; i++) {
             CircleCollider c1 = colliders.get(i);
-            for (int k = i + 1; k < length; k++) {
-                CircleCollider c2 = colliders.get(k);
-                if (Vector.distance(c1.transform.getPosition(), c2.transform.getPosition()) < c1.getRadius() + c2.getRadius()) {
+
+            // Ignore the object if inactive
+            if(!c1.isActive()) break;
+
+            for (int j = i + 1; j < length; j++) {
+                CircleCollider c2 = colliders.get(j);
+
+                // Early exit: if c2 is too far along the X-axis, stop further checks for this
+                // c1
+                if (!c2.isActive() || c2.transform.getPosition().getX() - c1.transform.getPosition().getX() > c1.getRadius()
+                        + c2.getRadius()) {
+                    break;
+                }
+
+                // Check if c1 and c2 are actually colliding
+                if (Vector.distance(c1.transform.getPosition(), c2.transform.getPosition()) < c1.getRadius()
+                        + c2.getRadius()) {
                     c1.notifyColliders();
                     c2.notifyColliders();
                 }
@@ -48,7 +79,7 @@ public class CollidersManager extends GameNode{
         }
     }
 
-    public static CollidersManager get(){
+    public static CollidersManager get() {
         return instance;
     }
 
