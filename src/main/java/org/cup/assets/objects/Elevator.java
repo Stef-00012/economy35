@@ -12,12 +12,19 @@ import org.cup.engine.core.nodes.components.defaults.Transform;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
 
 public class Elevator extends GameNode implements KeyListener {
+    public interface ElevatorListener {
+        void onFloorChange(int floor);
+    }
+
     Player player = null; 
     
     private Floor targetFloor = null; 
     private int currentFloor;
+
+    private ArrayList<ElevatorListener> elevatorListeners = new ArrayList<>();
 
     public void init(){
         // ! 39px is the height of the titlebar on Windows (DO NOT REMOVE)
@@ -74,6 +81,7 @@ public class Elevator extends GameNode implements KeyListener {
                 targetFloor = upFloor;
                 updateFloorUI();
                 currentFloor++;
+                notifyOnFloorChangeLiteners();
 
                 if(upFloor.transform.getPosition().y - Building.ROOM_HEIGHT <= 0){
                     MainScene.scrollUp();
@@ -87,6 +95,7 @@ public class Elevator extends GameNode implements KeyListener {
                 targetFloor = downFloor;
                 updateFloorUI();
                 currentFloor--;
+                notifyOnFloorChangeLiteners();
 
                 if(downFloor.transform.getPosition().y + Building.ROOM_HEIGHT >= GameManager.game.getHeight()){
                     MainScene.scrollDown();
@@ -97,5 +106,15 @@ public class Elevator extends GameNode implements KeyListener {
 
     private void updateFloorUI(){
         MainScene.getStatsPanel().updateFloorPanel(targetFloor);
+    }
+
+    public void addListener(ElevatorListener listener) {
+        elevatorListeners.add(listener);
+    }
+
+    private void notifyOnFloorChangeLiteners() {
+        for (int i = 0; i < elevatorListeners.size(); i++) {
+            elevatorListeners.get(i).onFloorChange(currentFloor);
+        }
     }
 }

@@ -128,6 +128,10 @@ public class Game extends JFrame {
         layeredPane.add(c, JLayeredPane.POPUP_LAYER);
     }
 
+    public void removeUIElement(Component c) {
+        layeredPane.remove(c);
+    }
+
     public Vector getWindowDimentions(){
         return windowDimentions;
     }

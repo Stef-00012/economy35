@@ -1,18 +1,22 @@
 package org.cup.assets.objects;
 
 import org.cup.assets.PathHelper;
+import org.cup.assets.UI.GameLabel;
 import org.cup.assets.logic.Economy;
 import org.cup.engine.Vector;
+import org.cup.engine.core.managers.GameManager;
 import org.cup.engine.core.managers.sound.SoundManager;
 import org.cup.engine.core.nodes.GameNode;
 import org.cup.engine.core.nodes.components.Renderer;
 import org.cup.engine.core.nodes.components.defaults.Animation;
 import org.cup.engine.core.nodes.components.defaults.Animator;
 
+import java.awt.Color;
 import java.util.HashMap;
 import java.util.Random;
 
 import javax.sound.sampled.Clip;
+import javax.swing.SwingConstants;
 
 public class Machine extends GameNode {
 
@@ -58,6 +62,9 @@ public class Machine extends GameNode {
     private Clip successSfx = SoundManager.createClip(PathHelper.SFX + "Success.wav", false, 0.2);
     private Clip errorSfx = SoundManager.createClip(PathHelper.SFX + "Error.wav", false, 0.7);
 
+    // UI
+    private GameLabel statsLabel = new GameLabel("LV. 1");
+
     public Machine() {
         currentLevel = 1;
         loadUpgrade(upgrades.get(currentLevel));
@@ -72,6 +79,13 @@ public class Machine extends GameNode {
 
         transform.setScale(new Vector(150));
         transform.setPosition(new Vector(0, -5));
+
+        // UI
+        Vector pos = transform.getPosition();
+        Vector scale = transform.getScale();
+        statsLabel.setBounds(pos.getX() + 20, pos.getY() - scale.getY() - 40, scale.getX(), scale.getY());
+        statsLabel.setFontSize(8);
+        statsLabel.setForeground(Color.WHITE);
     }
 
     private void addAnimationsToAnimator() {
@@ -139,8 +153,10 @@ public class Machine extends GameNode {
     public boolean hasResource() {
         return hasProducedResource;
     }
-/**
-     * Resets the machine, removing any produced resource and setting it back to a loading state
+
+    /**
+     * Resets the machine, removing any produced resource and setting it back to a
+     * loading state
      */
     public void takeResource() {
         animator.play("loading");
@@ -153,7 +169,8 @@ public class Machine extends GameNode {
      * This will change the machine's properties based on the next level's upgrade.
      */
     public void upgrade() {
-        if (!canUpgrade()) return; // If the machine cannot be upgraded, exit
+        if (!canUpgrade())
+            return; // If the machine cannot be upgraded, exit
         currentLevel++; // Increment the level
         MachineUpgrade nextUpgrade = upgrades.get(currentLevel); // Get the next upgrade
         loadUpgrade(nextUpgrade); // Apply the next upgrade
@@ -171,21 +188,24 @@ public class Machine extends GameNode {
     /**
      * Retrieves the upgrade configuration for the next level, if available.
      *
-     * @return the upgrade configuration for the next level, or null if no more upgrades are available
+     * @return the upgrade configuration for the next level, or null if no more
+     *         upgrades are available
      */
     public MachineUpgrade getNextUpgrade() {
         return upgrades.get(currentLevel + 1);
     }
 
     /**
-     * Loads the properties for the next upgrade, such as probability, interval, and cost.
+     * Loads the properties for the next upgrade, such as probability, interval, and
+     * cost.
      *
      * @param upgrade the upgrade configuration to be applied
      */
     private void loadUpgrade(MachineUpgrade upgrade) {
-        Economy.spendMoney(upgrade.cost); 
-        probability = upgrade.probability; 
-        interval = upgrade.interval; 
+        Economy.spendMoney(upgrade.cost);
+        probability = upgrade.probability;
+        interval = upgrade.interval;
+        updateStatsLabel();
     }
 
     /**
@@ -204,6 +224,27 @@ public class Machine extends GameNode {
      */
     public MachineUpgrade getCurrentUpgrade() {
         return upgrades.get(currentLevel);
+    }
+
+    /**
+     * Updates the UI representing the stats
+     */
+    public void updateStatsLabel() {
+        statsLabel.setText(
+            "<html><div style='text-align: center;'>"
+            + "LV. " + currentLevel + "<br>"
+            + "SUCCESS RATE: " + probability + "%<br>"
+            + "PRODUCTION TIME: " + interval / 1000 + "s"
+            + "</div></html>"
+        );
+    }
+
+    public void showUI(){
+        GameManager.game.addUIElement(statsLabel);
+    }
+
+    public void hideUI(){
+        GameManager.game.removeUIElement(statsLabel);
     }
 
 }

@@ -9,6 +9,7 @@ import org.cup.assets.PathHelper;
 import org.cup.assets.UI.Floor;
 import org.cup.assets.UI.GameButton;
 import org.cup.assets.logic.Economy;
+import org.cup.assets.objects.Elevator.ElevatorListener;
 import org.cup.assets.objects.Machine.MachineUpgrade;
 import org.cup.engine.Vector;
 import org.cup.engine.core.Debug;
@@ -16,9 +17,11 @@ import org.cup.engine.core.nodes.components.Renderer;
 import org.cup.engine.core.nodes.components.defaults.SpriteRenderer;
 import org.cup.engine.core.nodes.components.defaults.Transform;
 
-public class Room extends Floor {
+public class Room extends Floor implements ElevatorListener {
     private Machine machine = new Machine();
     private DropZone dropZone;
+
+    private int floorId;
 
     // An array of the employee with a fixed number of employees (3)
     private Employee[] employees = new Employee[3];
@@ -47,7 +50,9 @@ public class Room extends Floor {
      * @param layer      The layer of the room (used for rendering).
      * @param spritePath The path to the room's sprite.
      */
-    public Room(int width, int height, int x, int y, int layer, String spritePath) {
+    public Room(int floorId, int width, int height, int x, int y, int layer, String spritePath) {
+        this.floorId = floorId;
+
         // Set the position and scale of the room's transform.
         transform.setScale(Vector.ONE);
         transform.setPosition(new Vector(x, y));
@@ -89,6 +94,11 @@ public class Room extends Floor {
         initUI();
     }
 
+    @Override
+    public void init() {
+        Building.get().getElevator().addListener(this);
+    }
+
     /**
      * Adds a new employee to the room, if possible.
      * Increases the number of employees in the room.
@@ -123,7 +133,8 @@ public class Room extends Floor {
     }
 
     /**
-     * Initializes the UI elements for the room, including buttons for upgrading the machine
+     * Initializes the UI elements for the room, including buttons for upgrading the
+     * machine
      * and hiring new employees.
      */
     private void initUI() {
@@ -146,7 +157,8 @@ public class Room extends Floor {
     }
 
     /**
-     * Updates the text and behavior of the "Upgrade Machine" button based on the current
+     * Updates the text and behavior of the "Upgrade Machine" button based on the
+     * current
      * and next available upgrades for the machine.
      */
     private void updateMachineUpgradeBtn() {
@@ -158,7 +170,8 @@ public class Room extends Floor {
         double doublespeedIncrease = calculateDoublespeedIncrease(currentUpgrade, nextMachineUpgrade);
 
         // Update the button's text to reflect the next upgrade.
-        upgradeMachineBtn.setText(formatUpgradeButtonText(nextMachineUpgrade, successRateIncrease, doublespeedIncrease));
+        upgradeMachineBtn
+                .setText(formatUpgradeButtonText(nextMachineUpgrade, successRateIncrease, doublespeedIncrease));
     }
 
     private double calculateSuccessRateIncrease(MachineUpgrade current, MachineUpgrade next) {
@@ -170,14 +183,16 @@ public class Room extends Floor {
     }
 
     /**
-     * Formats the text for the upgrade machine button, displaying the cost and any benefits.
+     * Formats the text for the upgrade machine button, displaying the cost and any
+     * benefits.
      *
-     * @param nextMachineUpgrade The next machine upgrade.
+     * @param nextMachineUpgrade  The next machine upgrade.
      * @param successRateIncrease The increase in success rate.
      * @param doublespeedIncrease The increase in speed.
      * @return A formatted string for the button text.
      */
-    private String formatUpgradeButtonText(MachineUpgrade nextMachineUpgrade, double successRateIncrease, double doublespeedIncrease) {
+    private String formatUpgradeButtonText(MachineUpgrade nextMachineUpgrade, double successRateIncrease,
+            double doublespeedIncrease) {
         return "<html><center>" +
                 "UPGRADE MACHINE<br>($" + nextMachineUpgrade.cost + ")" +
                 (successRateIncrease != 0 ? ("<br>+" + successRateIncrease + " SUCCESS RATE") : "") +
@@ -186,7 +201,8 @@ public class Room extends Floor {
     }
 
     /**
-     * Handles the action of upgrading the machine. If the machine can be upgraded, it performs the upgrade
+     * Handles the action of upgrading the machine. If the machine can be upgraded,
+     * it performs the upgrade
      * and updates the button text accordingly.
      */
     private void upgradeMachine() {
@@ -203,7 +219,8 @@ public class Room extends Floor {
     }
 
     /**
-     * Handles the action of hiring a new employee. If the player can afford to hire an employee,
+     * Handles the action of hiring a new employee. If the player can afford to hire
+     * an employee,
      * a new employee is added to the room.
      */
     private void hireEmployee() {
@@ -220,5 +237,14 @@ public class Room extends Floor {
         // Disable the upgrade machine button by default.
         upgradeMachineBtn.setEnabled(false);
         return buttonsPanel;
+    }
+
+    @Override
+    public void onFloorChange(int floor) {
+        if (floor == floorId) {
+            machine.showUI();
+        } else {
+            machine.hideUI();
+        }
     }
 }

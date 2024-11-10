@@ -74,7 +74,7 @@ public class Building extends GameNode {
         String finalPath = basePath + (nRooms % 2 == 0 ? "-decorated" : "") + ".png";
 
         Vector newRoomPos = getNewFloorPos(nRooms);
-        Room room = new Room(ROOM_WIDTH, ROOM_HEIGHT, newRoomPos.getX(), newRoomPos.getY(), 1, finalPath);
+        Room room = new Room(nRooms + 1, ROOM_WIDTH, ROOM_HEIGHT, newRoomPos.getX(), newRoomPos.getY(), 1, finalPath);
 
         room.transform.setParentTransform(transform);
         floors.add(room);
