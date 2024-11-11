@@ -68,7 +68,8 @@ public class Inventory extends Floor {
     @Override
     public void onUpdate() {
         increaseInventoryBtn.setEnabled(Economy.getBalance() >= increaseInventoryCost);
-        increaseProductValueBtn.setEnabled(Economy.getBalance() >= increaseProductValueCost && Building.get().getMarket().getNextUpgrade() != null);
+        increaseProductValueBtn.setEnabled(Economy.getBalance() >= increaseProductValueCost
+                && Building.get().getMarket().getNextUpgrade() != null);
     }
 
     /**
@@ -153,6 +154,7 @@ public class Inventory extends Floor {
 
         increaseProductValueBtn.addActionListener(e -> {
             Building.get().getMarket().upgradeLevel();
+            Economy.spendMoney(increaseProductValueCost);
             updateProductValueButtonText();
         });
         // Add buttons to the panel
@@ -160,9 +162,15 @@ public class Inventory extends Floor {
         buttonsPanel.add(increaseProductValueBtn);
     }
 
-    private void updateProductValueButtonText(){
-        int valueIncrease = Building.get().getMarket().getNextUpgrade();
-        increaseProductValueBtn.setText("<html><center>" + "INCREASE PRODUCT VALUE by " + valueIncrease + "<br>($" + increaseProductValueCost + ")</center></html>");
+    private void updateProductValueButtonText() {
+        Integer valueIncrease = Building.get().getMarket().getNextUpgrade();
+
+        if (valueIncrease != null) {
+            increaseProductValueBtn.setText("<html><center>" + "INCREASE PRODUCT VALUE by " + valueIncrease + "<br>($"
+                    + increaseProductValueCost + ")</center></html>");
+        } else {
+            increaseProductValueBtn.setText("<html><center>MAX</center></html>");
+        }
     }
 
     @Override

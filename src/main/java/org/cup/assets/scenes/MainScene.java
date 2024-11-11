@@ -7,6 +7,8 @@ import org.cup.assets.objects.Building;
 import org.cup.assets.objects.CustomerSpawner;
 import org.cup.assets.objects.DayCycle;
 import org.cup.assets.objects.Rectangle;
+import org.cup.assets.objects.TaxGuy;
+import org.cup.assets.objects.TaxText;
 import org.cup.engine.Utils;
 import org.cup.engine.Vector;
 import org.cup.engine.core.Debug;
@@ -21,6 +23,9 @@ import javax.sound.sampled.Clip;
 
 public class MainScene extends Scene {
     private Building building;
+    public static final TaxGuy taxGuy = new TaxGuy();
+    public static final TaxText taxText = new TaxText();
+    public static final DayCycle dayCycle = new DayCycle();
 
     private static StatsPanel statsPanel;
 
@@ -45,7 +50,8 @@ public class MainScene extends Scene {
     public void init() {
         Debug.log("Main Scene initialized");
 
-        addChild(new DayCycle());
+        // Day-Night Cycle
+        addChild(dayCycle);
 
         addChild(building);
         building.addRoom();
@@ -64,6 +70,12 @@ public class MainScene extends Scene {
 
         // Add Customer Spawner
         addChild(new CustomerSpawner());
+
+        // Add IRS :devious:
+        addChild(taxGuy);
+        addChild(taxText);
+        taxGuy.disable();
+        taxText.disable();
 
         // Start Background Music
         mainTheme.start();
@@ -104,5 +116,9 @@ public class MainScene extends Scene {
 
     public static Transform getScrollTransform(){
         return scrollableTransform;
+    }
+
+    public static void resumeDayNightCycle(){
+        dayCycle.exitCutscene();
     }
 }

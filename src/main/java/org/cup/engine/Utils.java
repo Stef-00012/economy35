@@ -8,6 +8,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import org.cup.engine.core.Debug;
+import org.cup.engine.core.managers.GameManager;
 
 public class Utils {
     /**
@@ -55,5 +56,10 @@ public class Utils {
             left++;
             right--;
         }
+    }
+
+    public static int getGameWindowHeight(){
+        final int TITLE_BAR = 39;
+        return GameManager.game.getHeight() - TITLE_BAR;
     }
 }
