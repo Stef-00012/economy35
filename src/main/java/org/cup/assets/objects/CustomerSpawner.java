@@ -28,7 +28,7 @@ public class CustomerSpawner extends GameNode {
         if (System.currentTimeMillis() - lastSpawnTimestamp >= interval) {
             spawnFromPool();
             lastSpawnTimestamp = System.currentTimeMillis(); // Reset Spawn Timer
-            interval = (randomGen.nextInt(500, 2000) + (1 / (float) Building.get().getInventory().getCapacity()) * 10000);
+            interval = (500 + randomGen.nextInt(1500) + (1 / (float) Building.get().getInventory().getCapacity()) * 10000);
         }
     }
 
