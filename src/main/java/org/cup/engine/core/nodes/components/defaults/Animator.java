@@ -120,7 +120,7 @@ public class Animator extends Renderer {
      * This method multiplies the X component of the current scale by -1,
      * effectively mirroring the image horizontally.
      */
-    public void flipHorizzontally() {
+    public void flipHorizontally() {
         transform.setScale(Vector.multiplyVec(new Vector(-1, 1), transform.getScale()));
     }
 }

@@ -117,7 +117,7 @@ public class Employee extends GameNode {
         if (status != IDLE)
             return;
         if (transform.getScale().x > 0) {
-            animator.flipHorizzontally();
+            animator.flipHorizontally();
         }
         status = TAKE_RESOURCE;
         animator.play("walk");
@@ -126,7 +126,7 @@ public class Employee extends GameNode {
     private void deliverResource() {
         animator.play("walk-package");
         status = DELIVER_RESOURCE;
-        animator.flipHorizzontally();
+        animator.flipHorizontally();
     }
 
     private void idle() {

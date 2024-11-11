@@ -7,6 +7,7 @@ import org.cup.assets.objects.Building;
 import org.cup.assets.objects.CustomerSpawner;
 import org.cup.assets.objects.DayCycle;
 import org.cup.assets.objects.Rectangle;
+import org.cup.assets.objects.TaxGuy;
 import org.cup.engine.Utils;
 import org.cup.engine.Vector;
 import org.cup.engine.core.Debug;
@@ -21,6 +22,7 @@ import javax.sound.sampled.Clip;
 
 public class MainScene extends Scene {
     private Building building;
+    public static final TaxGuy taxGuy = new TaxGuy();
 
     private static StatsPanel statsPanel;
 
@@ -64,6 +66,9 @@ public class MainScene extends Scene {
 
         // Add Customer Spawner
         addChild(new CustomerSpawner());
+
+        // Add IRS :devious:
+        addChild(taxGuy);
 
         // Start Background Music
         mainTheme.start();

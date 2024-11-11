@@ -16,7 +16,6 @@ import java.util.HashMap;
 import java.util.Random;
 
 import javax.sound.sampled.Clip;
-import javax.swing.SwingConstants;
 
 public class Machine extends GameNode {
 

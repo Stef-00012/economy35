@@ -9,6 +9,7 @@ import org.cup.assets.scenes.MainScene;
 public class Economy {
     private static double balance; 
     private static double productValue; 
+    private static double tax;
 
     /**
      * Gets the current balance of the player.
@@ -40,6 +41,24 @@ public class Economy {
     }
 
     /**
+     * Gets the current tax value.
+     * 
+     * @return The current tax value.
+     */
+    public static double getTax() {
+        return tax;
+    }
+
+    /**
+     * Sets a new tax value.
+     * 
+     * @param tax The new tax value.
+     */
+    public static void setTax(double tax) {
+        Economy.tax = tax;
+    }
+
+    /**
      * Sets the value of the product and updates the product value label in the main scene.
      * 
      * @param productValue The new product value to be set.
@@ -58,4 +77,17 @@ public class Economy {
     public static void spendMoney(double amount) {
         setBalance(balance - amount);
     }
+
+    /**
+     * Decreases the balance by the {@code tax} amount
+     * @return true if the tax has been deducted
+     */
+    public static boolean takeTaxes(){
+        if (balance >= tax){
+            balance-=tax;
+            return true;
+        }
+        return false;
+    }
+
 }

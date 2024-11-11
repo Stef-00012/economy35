@@ -1,13 +1,12 @@
 package org.cup.assets.objects;
 
 import java.awt.Color;
-import java.awt.Font;
-
-import javax.swing.JLabel;
 
 import org.cup.assets.PathHelper;
 import org.cup.assets.UI.GameLabel;
+import org.cup.assets.scenes.MainScene;
 import org.cup.engine.Utils;
+import org.cup.engine.core.Debug;
 import org.cup.engine.core.managers.GameManager;
 import org.cup.engine.core.nodes.GameNode;
 import org.cup.engine.core.nodes.components.Renderer;
@@ -16,7 +15,7 @@ import org.cup.engine.core.nodes.components.defaults.Animator;
 
 public class DayCycle extends GameNode {
     private double minutesInRealLife = 1; // One minute irl
-    private double minutesInGame = 480; // One minute irl = 60 min in game (480 is usually ok)
+    private double minutesInGame = 480 * 15; // One minute irl = 60 min in game (480 is usually ok)
     private double timeInMinutesGame = 0; // Keeps track of in-game minutes
 
     Animator animator = new Animator(transform, -10);
@@ -25,11 +24,14 @@ public class DayCycle extends GameNode {
 
     private boolean isNight;
 
+    private boolean taxGuyCutscene;
+
     public DayCycle() {
         transform.setScale(GameManager.game.getWindowDimentions());
 
         timeInMinutesGame = 0;
         isNight = false;
+        taxGuyCutscene = false;
 
         // Animator
         String[] sprites = PathHelper.getFilePaths(PathHelper.sprites + "day-night-cycle\\");
@@ -57,7 +59,9 @@ public class DayCycle extends GameNode {
         double deltaTimeInMinutes = GameManager.getDeltaTime() / 60.0;
         double gameMinutesElapsed = deltaTimeInMinutes * (minutesInGame / minutesInRealLife);
 
-        timeInMinutesGame += gameMinutesElapsed;
+        if (!taxGuyCutscene) {
+            timeInMinutesGame += gameMinutesElapsed;
+        }
 
         timeInMinutesGame = timeInMinutesGame % (24 * 60);
 
@@ -76,6 +80,13 @@ public class DayCycle extends GameNode {
             animator.play("night-to-day");
             timeLabel.setForeground(Color.BLACK);
             isNight = false;
+        }
+
+        if (!taxGuyCutscene && currentHour == 1) {
+            Debug.log(currentHour);
+            // Start cutscene
+            MainScene.taxGuy.enable();
+            taxGuyCutscene = true;
         }
     }
 
