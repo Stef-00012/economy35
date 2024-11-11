@@ -12,11 +12,11 @@ import org.cup.engine.core.nodes.components.defaults.Animation;
 import org.cup.engine.core.nodes.components.defaults.Animator;
 
 import java.awt.Color;
+import java.awt.Rectangle;
 import java.util.HashMap;
 import java.util.Random;
 
 import javax.sound.sampled.Clip;
-import javax.swing.SwingConstants;
 
 public class Machine extends GameNode {
 
@@ -58,12 +58,13 @@ public class Machine extends GameNode {
 
     private boolean hasProducedResource; // Flag to check if the machine has produced a resource
 
-    // SFX (volume value between -80 and 6.0206)
+    // SFX (volume value between 0 and 1)
     private Clip successSfx = SoundManager.createClip(PathHelper.SFX + "Success.wav", false, 0.2);
     private Clip errorSfx = SoundManager.createClip(PathHelper.SFX + "Error.wav", false, 0.7);
 
     // UI
     private GameLabel statsLabel = new GameLabel("LV. 1");
+    private Rectangle labelBounds;
 
     public Machine() {
         currentLevel = 1;
@@ -81,9 +82,8 @@ public class Machine extends GameNode {
         transform.setPosition(new Vector(0, -5));
 
         // UI
-        Vector pos = transform.getPosition();
-        Vector scale = transform.getScale();
-        statsLabel.setBounds(pos.getX() + 20, pos.getY() - scale.getY() - 40, scale.getX(), scale.getY());
+        updateLabelBounds();
+        statsLabel.setBounds(labelBounds);
         statsLabel.setFontSize(8);
         statsLabel.setForeground(Color.WHITE);
     }
@@ -117,6 +117,14 @@ public class Machine extends GameNode {
             lastAttempt = System.currentTimeMillis();
             attemptToCreateResource();
         }
+
+        updateLabelBounds();
+    }
+
+    private void updateLabelBounds(){
+        Vector pos = transform.getPosition();
+        Vector scale = transform.getScale();
+        labelBounds = new Rectangle(pos.getX() + 20, pos.getY() - scale.getY() - 40, scale.getX(), scale.getY());
     }
 
     public void error() {

@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Random;
 
+import org.cup.assets.objects.DayCycle.DayListener;
 import org.cup.assets.scenes.MainScene;
 import org.cup.engine.core.nodes.GameNode;
 
@@ -14,8 +15,22 @@ public class CustomerSpawner extends GameNode {
 
     private Queue<Customer> pool;
 
+    private boolean spawn;
+
     public CustomerSpawner() {
         pool = new LinkedList<Customer>();
+        spawn = true;
+        MainScene.dayCycle.addListener(new DayListener() {
+            @Override
+            public void onDayEnd() {
+                spawn = false;
+            }
+
+            @Override
+            public void onDayResume() {
+                spawn = true;
+            }
+        });
     }
 
     @Override
@@ -25,10 +40,11 @@ public class CustomerSpawner extends GameNode {
 
     @Override
     public void onUpdate() {
+        if(!spawn) return;
         if (System.currentTimeMillis() - lastSpawnTimestamp >= interval) {
             spawnFromPool();
             lastSpawnTimestamp = System.currentTimeMillis(); // Reset Spawn Timer
-            interval = (randomGen.nextInt(500, 2000) + (1 / (float) Building.get().getInventory().getCapacity()) * 10000);
+            interval = (500 + randomGen.nextInt(1500) + (1 / (float) Building.get().getInventory().getCapacity()) * 10000);
         }
     }
 
