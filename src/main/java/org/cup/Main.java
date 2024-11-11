@@ -1,5 +1,6 @@
 package org.cup;
 
+import org.cup.assets.scenes.CollisionsTest;
 import org.cup.assets.scenes.MainScene;
 import org.cup.engine.core.Game;
 
@@ -12,6 +13,7 @@ public class Main {
         Game game = new Game("Graphics Playground", 1280, 720, logo, 1f, false);
 
         MainScene main = new MainScene();
-        game.addScene(main);
+        //game.addScene(main);
+        game.addScene(new CollisionsTest());
     }
 }

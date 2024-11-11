@@ -57,16 +57,15 @@ public class CollidersManager extends GameNode {
             CircleCollider c1 = colliders.get(i);
 
             // Ignore the object if inactive
-            if(!c1.isActive()) break;
+            if (!c1.isActive())
+                continue;
 
             for (int j = i + 1; j < length; j++) {
                 CircleCollider c2 = colliders.get(j);
 
-                // Early exit: if c2 is too far along the X-axis, stop further checks for this
-                // c1
-                if (!c2.isActive() || c2.transform.getPosition().getX() - c1.transform.getPosition().getX() > c1.getRadius()
-                        + c2.getRadius()) {
-                    break;
+                // Ignore the object if inactive
+                if (!c2.isActive()) {
+                    continue;
                 }
 
                 // Check if c1 and c2 are actually colliding
@@ -76,6 +75,11 @@ public class CollidersManager extends GameNode {
                     c2.notifyColliders();
                 }
             }
+        }
+
+        // Let colliders call events
+        for (CircleCollider c : colliders) {
+            c.updateCollisionState();
         }
     }
 
