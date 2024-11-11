@@ -84,7 +84,7 @@ public class Economy {
      */
     public static boolean takeTaxes(){
         if (balance >= tax){
-            balance-=tax;
+            spendMoney(tax);
             return true;
         }
         return false;
