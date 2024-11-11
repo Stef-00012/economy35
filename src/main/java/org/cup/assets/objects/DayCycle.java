@@ -145,7 +145,7 @@ public class DayCycle extends GameNode {
 
     private void notifyDayResumeListeners() {
         for (int i = 0; i < listeners.size(); i++) {
-            listeners.get(i).onDayEnd();
+            listeners.get(i).onDayResume();
         }
     }
 
