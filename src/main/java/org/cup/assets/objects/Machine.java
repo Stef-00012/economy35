@@ -57,7 +57,7 @@ public class Machine extends GameNode {
 
     private boolean hasProducedResource; // Flag to check if the machine has produced a resource
 
-    // SFX (volume value between -80 and 6.0206)
+    // SFX (volume value between 0 and 1)
     private Clip successSfx = SoundManager.createClip(PathHelper.SFX + "Success.wav", false, 0.2);
     private Clip errorSfx = SoundManager.createClip(PathHelper.SFX + "Error.wav", false, 0.7);
 

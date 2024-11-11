@@ -2,6 +2,7 @@ package org.cup.assets.objects;
 
 import org.cup.assets.PathHelper;
 import org.cup.assets.logic.Economy;
+import org.cup.assets.scenes.MainScene;
 import org.cup.engine.Vector;
 import org.cup.engine.core.Debug;
 import org.cup.engine.core.managers.GameManager;
@@ -45,7 +46,7 @@ public class TaxGuy extends GameNode {
         disable();
     }
 
-    public void onEnable() {
+    public void show() {
         transform.setPosition(outPosition);
 
         walkInState();
@@ -62,13 +63,13 @@ public class TaxGuy extends GameNode {
 
         if (state == WALK_IN) {
             if (transform.getPosition().x > restPosition.x) {
-                Debug.log(transform.getPosition().x);
-
                 transform.move(Vector.LEFT.multiply(step));
             } else {
                 idleState();
 
                 new Thread(() -> {
+                    Debug.warn("NEW THREAD: TAX GUY");
+
                     takeTaxes();
                 }).start();
             }
@@ -104,6 +105,7 @@ public class TaxGuy extends GameNode {
     private void outState() {
         state = OUT;
         disable();
+        MainScene.resumeDayNightCycle();
     }
 
     private void takeTaxes() {

@@ -9,7 +9,7 @@ import org.cup.assets.scenes.MainScene;
 public class Economy {
     private static double balance; 
     private static double productValue; 
-    private static double tax;
+    private static double tax = 20;
 
     /**
      * Gets the current balance of the player.
