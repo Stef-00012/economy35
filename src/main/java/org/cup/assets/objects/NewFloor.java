@@ -21,7 +21,7 @@ public class NewFloor extends Floor {
     // UI
     private JPanel buttonsPanel = new JPanel();
 
-    private int newFloorCost = 500;
+    private int newFloorCost = 300;
     GameButton newFloorBtn = new GameButton(
             "<html><center>" + "ADD NEW FLOOR" + "<br>($" + newFloorCost + ")</center></html>");
 

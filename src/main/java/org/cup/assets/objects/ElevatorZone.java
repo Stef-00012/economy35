@@ -12,7 +12,7 @@ public class ElevatorZone extends GameNode {
     public ElevatorZone(Transform t){
         transform.setParentTransform(t);
         SquareRenderer renderer = new SquareRenderer(transform, -1);
-        renderer.setColor(new Color(89, 98, 133)); 
+        renderer.setColor(new Color(54, 42, 37)); 
         renderer.setPivot(Renderer.BOTTOM_RIGHT_PIVOT);
         transform.setScale(new Vector(120, Building.ROOM_HEIGHT));
 

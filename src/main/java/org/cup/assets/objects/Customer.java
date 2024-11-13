@@ -73,7 +73,7 @@ public class Customer extends GameNode {
     public void onEnable() {
         transform.setPosition(GameManager.game.getWindowDimentions().add(new Vector(10, -15)));
         animator.setLayer(2);
-        isFancy = randomGen.nextInt(100) < 15;
+        isFancy = randomGen.nextInt(100) < 8;
 
         takeResource();
 
@@ -99,7 +99,7 @@ public class Customer extends GameNode {
                 if (pos.x <= waitingPos) {
                     playAnimation("idle");
                     status = WAITING_FOR_RESOURCE;
-                    thread.takePackage(isFancy ? 5 : 1);
+                    thread.takePackage(isFancy ? 3 : 1);
                 }
                 return;
             }

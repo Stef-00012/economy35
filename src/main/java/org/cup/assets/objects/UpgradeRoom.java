@@ -27,8 +27,8 @@ class UpgradeRoom extends Floor {
     private GameButton boostButton;
 
     // boosts
-    private int unlockCost = 600; 
-    private int boostCost = 600; 
+    private int unlockCost = 400; 
+    private int boostCost = 90; 
 
     public UpgradeRoom(){
         transform.setScale(Vector.ONE);

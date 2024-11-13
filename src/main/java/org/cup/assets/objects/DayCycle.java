@@ -28,7 +28,7 @@ public class DayCycle extends GameNode {
     private ArrayList<DayListener> listeners = new ArrayList<>();
 
     private double minutesInRealLife = 1; // One minute irl
-    private double minutesInGame = 480 * 5; // One minute irl = 60 min in game (480 is usually ok)
+    private double minutesInGame = 480 * 2; // One minute irl = 60 min in game (480 is usually ok)
     private double timeInMinutesGame = 0; // Keeps track of in-game minutes
 
     // TaxTime music
@@ -74,6 +74,7 @@ public class DayCycle extends GameNode {
         timeLabel.setFontSize(20);
         timeLabel.setBounds(10, 10, 240, 20);
         GameManager.game.addUIElement(timeLabel);
+        timeLabel.setForeground(new Color(150, 150, 150));
     }
 
     @Override
@@ -103,7 +104,7 @@ public class DayCycle extends GameNode {
 
         if (isNight && currentHour == 7) {
             animator.play("night-to-day");
-            timeLabel.setForeground(Color.BLACK);
+            timeLabel.setForeground(new Color(150, 150, 150));
             MainScene.getStatsPanel().dayMode();
             isNight = false;
         }
