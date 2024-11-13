@@ -9,7 +9,7 @@ import org.cup.assets.scenes.MainScene;
 public class Economy {
     private static double balance; 
     private static double productValue; 
-    private static double tax = 20;
+    private static double tax;
 
     /**
      * Gets the current balance of the player.
@@ -55,6 +55,7 @@ public class Economy {
      * @param tax The new tax value.
      */
     public static void setTax(double tax) {
+        MainScene.getStatsPanel().setTexLabel(tax);
         Economy.tax = tax;
     }
 

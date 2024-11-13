@@ -61,6 +61,7 @@ public class MainScene extends Scene {
         // Initialize stats panel
         Economy.setProductValue(10);
         Economy.setBalance(50);
+        Economy.setTax(40);
         GameManager.game.addUIElement(statsPanel);
 
         // Add base floor
@@ -79,11 +80,6 @@ public class MainScene extends Scene {
 
         // Start Background Music
         mainTheme.start();
-    }
-
-    @Override
-    public void onEnable() {
-        Debug.log("Main Scene enabled");
     }
 
     @Override

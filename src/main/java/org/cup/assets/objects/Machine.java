@@ -64,7 +64,6 @@ public class Machine extends GameNode {
 
     // UI
     private GameLabel statsLabel = new GameLabel("LV. 1");
-    private Rectangle labelBounds;
 
     public Machine() {
         currentLevel = 1;
@@ -83,7 +82,6 @@ public class Machine extends GameNode {
 
         // UI
         updateLabelBounds();
-        statsLabel.setBounds(labelBounds);
         statsLabel.setFontSize(8);
         statsLabel.setForeground(Color.WHITE);
     }
@@ -124,7 +122,8 @@ public class Machine extends GameNode {
     private void updateLabelBounds(){
         Vector pos = transform.getPosition();
         Vector scale = transform.getScale();
-        labelBounds = new Rectangle(pos.getX() + 20, pos.getY() - scale.getY() - 40, scale.getX(), scale.getY());
+
+        statsLabel.setBounds(pos.getX() + 20, pos.getY() - scale.getY() - 40, scale.getX(), scale.getY());
     }
 
     public void error() {

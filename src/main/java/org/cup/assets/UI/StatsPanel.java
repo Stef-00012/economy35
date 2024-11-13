@@ -14,13 +14,13 @@ import javax.swing.SwingUtilities;
 
 import org.cup.assets.PathHelper;
 import org.cup.assets.objects.Inventory;
-import org.cup.engine.core.Debug;
 import org.cup.engine.core.managers.GameManager;
 
 public class StatsPanel extends JPanel {
     private GameLabel balanceLabel;
     private GameLabel inventoryLabel;
     private GameLabel productValueLabel;
+    private GameLabel taxLabel;
 
     private JPanel floorPanel;
 
@@ -39,7 +39,7 @@ public class StatsPanel extends JPanel {
         // Information panel
         JPanel infoPanel = new JPanel();
         infoPanel.setOpaque(false);
-        infoPanel.setLayout(new GridLayout(3, 1, 5, 5));
+        infoPanel.setLayout(new GridLayout(4, 1, 5, 5));
 
         balanceLabel = new GameLabel("BALANCE: " + 0);
         balanceLabel.setIcon(scaleIcon(PathHelper.icons + "coin.png", 20, 20));
@@ -47,14 +47,16 @@ public class StatsPanel extends JPanel {
         inventoryLabel = new GameLabel("INVENTORY CAPACITY: " + 0 + "/?");
         inventoryLabel.setIcon(scaleIcon(PathHelper.icons + "box.png", 20, 20));
 
-        Debug.log(inventoryLabel.getIcon());
-
         productValueLabel = new GameLabel("PRODUCT VALUE: " + 1);
         productValueLabel.setIcon(scaleIcon(PathHelper.icons + "diamond.png", 20, 20));
+
+        taxLabel = new GameLabel("DAILY QUOTA: " + 1);
+        taxLabel.setIcon(scaleIcon(PathHelper.icons + "diamond.png", 20, 20));
 
         infoPanel.add(balanceLabel);
         infoPanel.add(inventoryLabel);
         infoPanel.add(productValueLabel);
+        infoPanel.add(taxLabel);
 
         // Separator
         JSeparator separator = new JSeparator();
@@ -78,6 +80,10 @@ public class StatsPanel extends JPanel {
 
     public void setProductValueLabel(double value){
         productValueLabel.setText("PRODUCT VALUE: " + value);
+    }
+
+    public void setTexLabel(double value){
+        taxLabel.setText("DAILY QUOTA: " + value);
     }
 
     public void updateFloorPanel(Floor f) {
