@@ -9,7 +9,6 @@ import org.cup.engine.core.nodes.components.defaults.SpriteRenderer;
 import javax.sound.sampled.Clip;
 
 import org.cup.assets.PathHelper;
-import org.cup.assets.scenes.MainScene;
 import org.cup.engine.Vector;
 
 public class TaxText extends GameNode {
