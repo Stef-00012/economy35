@@ -11,14 +11,16 @@ import org.cup.assets.logic.Economy;
 import org.cup.engine.Vector;
 import org.cup.engine.core.managers.GameManager;
 import org.cup.engine.core.nodes.components.Renderer;
+import org.cup.engine.core.nodes.components.defaults.Animation;
+import org.cup.engine.core.nodes.components.defaults.Animator;
 import org.cup.engine.core.nodes.components.defaults.SpriteRenderer;
 import org.cup.engine.core.nodes.components.defaults.Transform;
 
 // the damaged room on the first floor 
 class UpgradeRoom extends Floor {
-    SpriteRenderer sr;
-    CollisionBox collisionBox;
-    
+    private Animator animator;
+    private CollisionBox collisionBox;
+
     static BoostController boostController;
 
     // UI
@@ -27,24 +29,32 @@ class UpgradeRoom extends Floor {
     private GameButton boostButton;
 
     // boosts
-    private int unlockCost = 400; 
-    private int boostCost = 90; 
+    private int unlockCost = 400;
+    private int boostCost = 90;
 
-    public UpgradeRoom(){
+    public UpgradeRoom() {
         transform.setScale(Vector.ONE);
         transform.setPosition(new Vector(116, GameManager.game.getHeight() - 59 - Building.ROOM_HEIGHT));
 
         // Create and add the sprite renderer to the room.
         Transform rendererTransform = new Transform();
         rendererTransform.setScale(new Vector(Building.ROOM_WIDTH, Building.ROOM_HEIGHT));
-        sr = new SpriteRenderer(PathHelper.getSpritePath("\\building\\rooms\\room-empty.png"), rendererTransform, 1);
-        sr.setPivot(Renderer.BOTTOM_LEFT_PIVOT);
-        addChild(sr);
+
+        Animation locked = new Animation(
+                new String[] { PathHelper.getSpritePath("\\building\\rooms\\room-empty.png") }, false);
+        Animation idle = new Animation(PathHelper.getFilePaths(PathHelper.sprites + "\\building\\rooms\\boost-room"));
+
+        animator = new Animator(rendererTransform, 1);
+        animator.setPivot(Renderer.BOTTOM_LEFT_PIVOT);
+        addChild(animator);
         rendererTransform.setParentTransform(transform);
 
-        //new Vector(0, -rendererTransform.getScale().y)
+        animator.addAnimation("locked", locked);
+        animator.addAnimation("idle", idle);
+
+        // new Vector(0, -rendererTransform.getScale().y)
         Vector scale = rendererTransform.getScale();
-        collisionBox = new CollisionBox(new Vector(scale.x / 2, -scale.y/2), rendererTransform.getScale());
+        collisionBox = new CollisionBox(new Vector(scale.x / 2, -scale.y / 2), rendererTransform.getScale());
         collisionBox.transform.setParentTransform(transform);
 
         // Add the tube
@@ -62,12 +72,10 @@ class UpgradeRoom extends Floor {
         boostController = new BoostController(this);
         addChild(boostController);
 
-
         // UI
         initUI();
-        
-    }
 
+    }
 
     /**
      * Initializes the UI elements for the room,
@@ -75,16 +83,15 @@ class UpgradeRoom extends Floor {
      */
     private void initUI() {
         buttonsPanel = new JPanel();
-        
+
         // Set up the layout for the buttons panel.
         buttonsPanel.setLayout(new GridLayout(1, 1, 10, 0));
 
         boostButton = new GameButton(
-            "<html><center>" + "BOOST EMPLOYEES" + "<br>" + "($" + boostCost + ")" + "</center></html>");
+                "<html><center>" + "BOOST EMPLOYEES" + "<br>" + "($" + boostCost + ")" + "</center></html>");
         unlockButton = new GameButton(
-            "<html><center>" + "UNLOCK" + "<br>" + "($"+unlockCost+")" + "</center></html>");
+                "<html><center>" + "UNLOCK" + "<br>" + "($" + unlockCost + ")" + "</center></html>");
         buttonsPanel.add(unlockButton);
-
 
         // Update the upgrade machine button with the correct cost and benefits.
         // updateMachineUpgradeBtn();
@@ -94,40 +101,37 @@ class UpgradeRoom extends Floor {
         boostButton.addActionListener(e -> boostEmployees());
     }
 
-    
     public void onUpdate() {
         // Update UI
         unlockButton.setEnabled(Economy.getBalance() >= unlockCost);
         boostButton.setEnabled(Economy.getBalance() >= boostCost);
     }
 
-    private void unlockUpgradeRoom(){
+    private void unlockUpgradeRoom() {
         Economy.spendMoney(unlockCost);
         buttonsPanel.remove(unlockButton);
         buttonsPanel.add(boostButton);
 
-        sr.setSprite(PathHelper.getSpritePath("\\building\\rooms\\room-background-decorated.png"));
+        animator.play("idle");
     }
-  
-    private void boostEmployees(){
-        if (Economy.getBalance() >= boostCost){
+
+    private void boostEmployees() {
+        if (Economy.getBalance() >= boostCost) {
             Economy.spendMoney(boostCost);
             boostController.enableEmployeeBoostUpgrade();
         }
     }
 
-
-    public JPanel getUI(){
+    public JPanel getUI() {
         return buttonsPanel;
     };
 
-    public CollisionBox getCollisionBox(){
+    public CollisionBox getCollisionBox() {
         return collisionBox;
     }
 
-    public static BoostController getBoostController(){
+    public static BoostController getBoostController() {
         return boostController;
     }
 
 }
-

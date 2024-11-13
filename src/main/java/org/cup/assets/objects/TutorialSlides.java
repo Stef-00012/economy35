@@ -10,6 +10,8 @@ import org.cup.engine.core.nodes.GameNode;
 import org.cup.engine.core.nodes.Scene;
 import org.cup.engine.core.nodes.components.Renderer;
 import org.cup.engine.core.nodes.components.defaults.SpriteRenderer;
+
+import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -45,6 +47,7 @@ public class TutorialSlides extends GameNode implements KeyListener {
     private int currentSlide;
 
     private GameLabel textLabel;
+    GameLabel continueLabel = new GameLabel("<html><center>PRESS SPACE TO CONTINUE...</html></center>");
 
     public TutorialSlides() {
         transform.setScale(GameManager.game.getWindowDimentions().multiply(0.4));
@@ -52,11 +55,16 @@ public class TutorialSlides extends GameNode implements KeyListener {
                 GameManager.game.getWindowDimentions().divide(2).add(new Vector(0, -transform.getScale().y)));
 
         textLabel = new GameLabel("<html><center>TEST</html></center>");
+        textLabel.setForeground(Color.WHITE);
         // Set the alignment to center horizontally and vertically
         textLabel.setHorizontalAlignment(JLabel.CENTER);
         textLabel.setVerticalAlignment(JLabel.CENTER);
         textLabel.setBounds(transform.getPosition().getX() - transform.getScale().getX() / 2,
-                transform.getPosition().getY() + transform.getScale().getY(), transform.getScale().getX(), 100);
+                transform.getPosition().getY() + transform.getScale().getY() + 40, transform.getScale().getX(), 100);
+
+        continueLabel.setBounds(GameManager.game.getWidth() - 540, GameManager.game.getHeight() - 120, 500, 110);
+        continueLabel.setHorizontalAlignment(JLabel.RIGHT);
+        continueLabel.setForeground(Color.WHITE);
 
         sr = new SpriteRenderer(slides[0].image, transform, 1);
         sr.setPivot(Renderer.TOP_PIVOT);
@@ -68,6 +76,7 @@ public class TutorialSlides extends GameNode implements KeyListener {
     @Override
     public void init() {
         GameManager.game.addUIElement(textLabel);
+        GameManager.game.addUIElement(continueLabel);
         SoundManager.playClip(MainScene.getTaxesMusic());
     }
 
@@ -106,6 +115,7 @@ public class TutorialSlides extends GameNode implements KeyListener {
     @Override
     public void onDisable() {
         GameManager.game.removeUIElement(textLabel);
+        GameManager.game.removeUIElement(continueLabel);
         GameManager.game.removeKeyListener(this);
     }
 }
