@@ -11,7 +11,6 @@ import org.cup.engine.core.nodes.components.defaults.Animation;
 import org.cup.engine.core.nodes.components.defaults.Animator;
 import org.cup.engine.core.nodes.components.defaults.Transform;
 import org.cup.assets.logic.CustomerThread;
-import org.cup.assets.logic.Economy;
 
 public class Customer extends GameNode {
     private Animator animator = new Animator(transform, 3);

@@ -1,6 +1,6 @@
 package org.cup;
 
-import org.cup.assets.scenes.MainScene;
+import org.cup.assets.scenes.Tutorial;
 import org.cup.engine.core.Game;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
@@ -11,7 +11,7 @@ public class Main {
             + "\\src\\main\\java\\org\\cup\\logo.png";
         Game game = new Game("Graphics Playground", 1280, 720, logo, 1f, false);
 
-        MainScene main = new MainScene();
-        game.addScene(main);
+        Tutorial tutorial = new Tutorial();
+        game.addScene(tutorial);
     }
 }

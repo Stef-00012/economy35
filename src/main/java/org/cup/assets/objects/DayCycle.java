@@ -64,6 +64,11 @@ public class DayCycle extends GameNode {
         addChild(animator);
         animator.setPivot(Renderer.TOP_LEFT_PIVOT);
 
+        
+    }
+
+    @Override
+    public void init() {
         // UI
         timeLabel = new GameLabel("Time: 0h");
         timeLabel.setFontSize(20);
