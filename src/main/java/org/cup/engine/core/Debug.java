@@ -68,6 +68,6 @@ public class Debug {
      * @param text The informational message to log.
      */
     public static void info(Object text) {
-        //System.out.println(ANSI_CYAN + "[INFO]\t" + text.toString() + ANSI_RESET);
+        System.out.println(ANSI_CYAN + "[INFO]\t" + text.toString() + ANSI_RESET);
     }
 }
