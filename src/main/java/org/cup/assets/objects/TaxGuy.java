@@ -122,7 +122,7 @@ public class TaxGuy extends GameNode {
                 walkOutState();
             } else {
                 addChild(new GameOverText());
-                Thread.sleep(4000);
+                Thread.sleep(20000);
                 System.exit(0);
             }
         } catch (InterruptedException e) {
