@@ -43,6 +43,8 @@ public class TaxGuy extends GameNode {
         animator.addAnimation("idle", idle);
         animator.addAnimation("walk", walk);
 
+        transform.setPosition(outPosition);
+
         disable();
     }
 
@@ -68,9 +70,11 @@ public class TaxGuy extends GameNode {
                 idleState();
 
                 new Thread(() -> {
-                    Debug.warn("NEW THREAD: TAX GUY");
-
                     takeTaxes();
+
+                    // Increase Taxes
+                    double currentTax = Economy.getTax();
+                    Economy.setTax(currentTax + Math.floor(currentTax / 2));
                 }).start();
             }
             return;

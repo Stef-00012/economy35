@@ -113,11 +113,13 @@ public class StatsPanel extends JPanel {
         balanceLabel.setForeground(Color.BLACK);
         inventoryLabel.setForeground(Color.BLACK);
         productValueLabel.setForeground(Color.BLACK);
+        taxLabel.setForeground(Color.BLACK);
     }
 
     public void nightMode() {
         balanceLabel.setForeground(Color.WHITE);
         inventoryLabel.setForeground(Color.WHITE);
         productValueLabel.setForeground(Color.WHITE);
+        taxLabel.setForeground(Color.WHITE);
     }
 }

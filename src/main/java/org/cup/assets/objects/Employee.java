@@ -11,6 +11,7 @@ import org.cup.engine.core.nodes.components.defaults.Animator;
 public class Employee extends GameNode {
     private Animator animator = new Animator(transform, 2);
     private float speed = 100;
+    private float additionalSpeed = 75;
 
     // State Machine
     public static final int IDLE = 0;
@@ -72,7 +73,7 @@ public class Employee extends GameNode {
         }
 
         Vector pos = transform.getPosition();
-        double step = speed * GameManager.getDeltaTime();
+        double step = (speed + (UpgradeRoom.getBoostController().isEmployeeBoostActive() ? additionalSpeed : 0)) * GameManager.getDeltaTime();
 
         if (status == TAKE_RESOURCE) {
             if(!roomMachine.hasResource()){

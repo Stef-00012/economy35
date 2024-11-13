@@ -20,6 +20,8 @@ import org.cup.engine.core.nodes.components.defaults.Animation;
 import org.cup.engine.core.nodes.components.defaults.Animator;
 
 public class DayCycle extends GameNode {
+    private static int currentHour;
+
     public interface DayListener {
         void onDayEnd();
         void onDayResume();
@@ -28,7 +30,7 @@ public class DayCycle extends GameNode {
     private ArrayList<DayListener> listeners = new ArrayList<>();
 
     private double minutesInRealLife = 1; // One minute irl
-    private double minutesInGame = 480; // One minute irl = 60 min in game (480 is usually ok)
+    private double minutesInGame = 480 * 10; // One minute irl = 60 min in game (480 is usually ok)
     private double timeInMinutesGame = 0; // Keeps track of in-game minutes
 
     // TaxTime music
@@ -83,7 +85,7 @@ public class DayCycle extends GameNode {
         timeInMinutesGame = timeInMinutesGame % (24 * 60);
 
         // Calculate the in-game hour
-        int currentHour = (int) (timeInMinutesGame / 60);
+        currentHour = (int) (timeInMinutesGame / 60);
 
         timeLabel.setText("Time: " + currentHour + "h");
 
@@ -107,10 +109,6 @@ public class DayCycle extends GameNode {
                 return;
             taxGuyCutscene = true;
             notifyDayEndListeners();
-
-            // Increase Taxes
-            double currentTax = Economy.getTax();
-            Economy.setTax(currentHour + Math.floor(currentTax / 2));
 
             new Thread(() -> {
                 // Start cutscene
@@ -151,6 +149,10 @@ public class DayCycle extends GameNode {
         for (int i = 0; i < listeners.size(); i++) {
             listeners.get(i).onDayResume();
         }
+    }
+
+    public int getCurrentHour(){
+        return currentHour;
     }
 
 }
