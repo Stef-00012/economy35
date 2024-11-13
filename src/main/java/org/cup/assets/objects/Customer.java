@@ -1,5 +1,7 @@
 package org.cup.assets.objects;
 
+import java.util.Random;
+
 import org.cup.assets.PathHelper;
 import org.cup.engine.Vector;
 import org.cup.engine.core.managers.GameManager;
@@ -27,18 +29,34 @@ public class Customer extends GameNode {
 
     private Transform seller;
 
+    private boolean isFancy;
+
+    private Random randomGen = new Random();
+
     public Customer() {
+        isFancy = false;
+
         String spritesFolder = PathHelper.sprites + "customer\\";
 
         Animation walk = new Animation(PathHelper.getFilePaths(spritesFolder + "walk"));
         Animation walkPackage = new Animation(PathHelper.getFilePaths(spritesFolder + "walk-package"));
 
+        Animation walkFancy = new Animation(PathHelper.getFilePaths(spritesFolder + "walk-fancy"));
+        Animation walkPackageFancy = new Animation(PathHelper.getFilePaths(spritesFolder + "walk-package-fancy"));
+
         walk.setLoopType(Animation.PING_PONG_LOOP);
-        walkPackage.setLoopType(Animation.PING_PONG_LOOP); 
+        walkPackage.setLoopType(Animation.PING_PONG_LOOP);
+
+        walkFancy.setLoopType(Animation.PING_PONG_LOOP);
+        walkPackageFancy.setLoopType(Animation.PING_PONG_LOOP);
 
         animator.addAnimation("idle", new Animation(PathHelper.getFilePaths(spritesFolder + "idle")));
         animator.addAnimation("walk", walk);
         animator.addAnimation("walk-package", walkPackage);
+
+        animator.addAnimation("walk-fancy", walkFancy);
+        animator.addAnimation("walk-package-fancy", walkPackageFancy);
+        animator.addAnimation("idle-fancy", new Animation(PathHelper.getFilePaths(spritesFolder + "idle-fancy")));
 
         animator.setPivot(Renderer.BOTTOM_PIVOT);
 
@@ -56,7 +74,10 @@ public class Customer extends GameNode {
     public void onEnable() {
         transform.setPosition(GameManager.game.getWindowDimentions().add(new Vector(10, -15)));
         animator.setLayer(2);
+        isFancy = randomGen.nextInt(100) < 15;
+
         takeResource();
+
 
         seller = Building.get().getMarket().transform;
     }
@@ -77,9 +98,9 @@ public class Customer extends GameNode {
 
             if (status == TAKE_RESOURCE) {
                 if (pos.x <= waitingPos) {
-                    animator.play("idle");
+                    playAnimation("idle");
                     status = WAITING_FOR_RESOURCE;
-                    thread.takePackage(1);
+                    thread.takePackage(isFancy ? 5 : 1);
                 }
                 return;
             }
@@ -101,7 +122,7 @@ public class Customer extends GameNode {
         Building.get().getMarket().joinQueue(this);
 
         status = TAKE_RESOURCE;
-        animator.play("walk");
+        playAnimation("walk");
     }
 
     public void goAway() {
@@ -113,9 +134,9 @@ public class Customer extends GameNode {
             e.printStackTrace();
         }
         status = GO_AWAY;
-        animator.play("walk-package");
+        playAnimation("walk-package"); 
         animator.setLayer(4);
-        //transform.setPosition(transform.getPosition().subtract(Vector.DOWN.multiply(15)));
+        // transform.setPosition(transform.getPosition().subtract(Vector.DOWN.multiply(15)));
 
         Economy.setBalance(Economy.getBalance() + Economy.getProductValue()); // update UI counters
         Building.get().getMarket().moveQueue(positionInQueue);
@@ -128,5 +149,9 @@ public class Customer extends GameNode {
 
     public void setPositionInQueue(int value) {
         positionInQueue = value;
+    }
+
+    private void playAnimation(String status){
+        animator.play(status + (isFancy ? "-fancy" : ""));
     }
 }

@@ -7,6 +7,7 @@ import javax.sound.sampled.Clip;
 
 import org.cup.assets.PathHelper;
 import org.cup.assets.UI.GameLabel;
+import org.cup.assets.logic.Economy;
 import org.cup.assets.objects.Elevator.ElevatorListener;
 import org.cup.assets.scenes.MainScene;
 import org.cup.engine.Utils;
@@ -107,8 +108,11 @@ public class DayCycle extends GameNode {
             taxGuyCutscene = true;
             notifyDayEndListeners();
 
+            // Increase Taxes
+            double currentTax = Economy.getTax();
+            Economy.setTax(currentHour + Math.floor(currentTax / 2));
+
             new Thread(() -> {
-                Debug.warn("NEW THREAD: DAY NIGHT");
                 // Start cutscene
                 MainScene.taxText.enable();
                 MainScene.taxText.show();

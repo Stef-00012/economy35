@@ -77,6 +77,7 @@ public class MainScene extends Scene {
         addChild(taxText);
         taxGuy.disable();
         taxText.disable();
+        addToScrollTransform(taxGuy.transform);
 
         // Start Background Music
         mainTheme.start();

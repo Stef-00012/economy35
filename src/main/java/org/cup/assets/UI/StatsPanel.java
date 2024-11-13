@@ -24,15 +24,15 @@ public class StatsPanel extends JPanel {
 
     private JPanel floorPanel;
 
-    public StatsPanel(){
+    public StatsPanel() {
         final int PANEL_WIDTH = GameManager.game.getWidth() / 2 - 100;
-        final int PANEL_HEIGHT = (GameManager.game.getHeight() - 39) * 2 / 5;
+        final int PANEL_HEIGHT = (int) (((float) GameManager.game.getHeight() - 39) * 1 / 2);
 
         setOpaque(false);
 
         // Set the absolute position
         setBounds(GameManager.game.getWidth() - PANEL_WIDTH - 40, 20, PANEL_WIDTH, PANEL_HEIGHT);
-        
+
         // Main panel with padding
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS)); // Add elements Vertically
 
@@ -43,7 +43,7 @@ public class StatsPanel extends JPanel {
 
         balanceLabel = new GameLabel("BALANCE: " + 0);
         balanceLabel.setIcon(scaleIcon(PathHelper.icons + "coin.png", 20, 20));
-        
+
         inventoryLabel = new GameLabel("INVENTORY CAPACITY: " + 0 + "/?");
         inventoryLabel.setIcon(scaleIcon(PathHelper.icons + "box.png", 20, 20));
 
@@ -70,19 +70,19 @@ public class StatsPanel extends JPanel {
         this.add(Box.createRigidArea(new Dimension(0, 20))); // Space
     }
 
-    public void setBalanceLabel(double balance){
+    public void setBalanceLabel(double balance) {
         balanceLabel.setText("BALANCE: " + balance);
     }
 
-    public void setInventoryLabel(Inventory inventory){
+    public void setInventoryLabel(Inventory inventory) {
         inventoryLabel.setText("INVENTORY CAPACITY: " + inventory.getResourceCount() + "-" + inventory.getCapacity());
     }
 
-    public void setProductValueLabel(double value){
+    public void setProductValueLabel(double value) {
         productValueLabel.setText("PRODUCT VALUE: " + value);
     }
 
-    public void setTexLabel(double value){
+    public void setTexLabel(double value) {
         taxLabel.setText("DAILY QUOTA: " + value);
     }
 
@@ -91,7 +91,7 @@ public class StatsPanel extends JPanel {
             if (floorPanel != null) {
                 remove(floorPanel);
             }
-            
+
             JPanel newPanel = f.getUI();
             if (newPanel != null) {
                 floorPanel = newPanel;
@@ -109,13 +109,13 @@ public class StatsPanel extends JPanel {
         return new ImageIcon(scaledImage);
     }
 
-    public void dayMode(){
+    public void dayMode() {
         balanceLabel.setForeground(Color.BLACK);
         inventoryLabel.setForeground(Color.BLACK);
         productValueLabel.setForeground(Color.BLACK);
     }
 
-    public void nightMode(){
+    public void nightMode() {
         balanceLabel.setForeground(Color.WHITE);
         inventoryLabel.setForeground(Color.WHITE);
         productValueLabel.setForeground(Color.WHITE);

@@ -36,7 +36,7 @@ public class TaxGuy extends GameNode {
         animator.setPivot(Renderer.BOTTOM_PIVOT);
         Animation idle = new Animation(PathHelper.getFilePaths(PathHelper.sprites + "tax-guy\\idle"));
         Animation walk = new Animation(PathHelper.getFilePaths(PathHelper.sprites + "tax-guy\\walk"));
-        idle.setLoopType(Animation.PING_PONG_LOOP);
+        idle.setLoopType(Animation.NORMAL_LOOP);
 
         addChild(animator);
 
