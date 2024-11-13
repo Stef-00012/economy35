@@ -71,8 +71,8 @@ public class CollidersManager extends GameNode {
                 // Check if c1 and c2 are actually colliding
                 if (Vector.distance(c1.transform.getPosition(), c2.transform.getPosition()) < c1.getRadius()
                         + c2.getRadius()) {
-                    c1.notifyColliders();
-                    c2.notifyColliders();
+                    c1.notifyColliders(c2);
+                    c2.notifyColliders(c1);
                 }
             }
         }

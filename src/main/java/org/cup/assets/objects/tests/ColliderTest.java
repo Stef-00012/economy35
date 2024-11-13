@@ -32,17 +32,17 @@ public class ColliderTest extends GameNode {
         collider.addListener(new CircleCollider.CollisionListener() {
 
             @Override
-            public void onCollisionStay() {
+            public void onCollisionStay(CircleCollider other) {
                 
             }
 
             @Override
-            public void onCollisionEnter() {
+            public void onCollisionEnter(CircleCollider other) {
                 sr.setSprite(colliderSprite);
             }
 
             @Override
-            public void onCollisionExit() {
+            public void onCollisionExit(CircleCollider other) {
                 sr.setSprite(normalSprite);
             }
             

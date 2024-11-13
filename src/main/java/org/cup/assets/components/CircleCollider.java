@@ -1,6 +1,9 @@
 package org.cup.assets.components;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
+
 import org.cup.assets.CollidersManager;
 import org.cup.engine.core.Debug;
 import org.cup.engine.core.nodes.GameNode;
@@ -17,18 +20,18 @@ public class CircleCollider extends GameNode {
      */
     public interface CollisionListener {
         /** Called when a collision is first detected. */
-        void onCollisionEnter();
+        void onCollisionEnter(CircleCollider other);
 
         /** Called continuously while the collision persists. */
-        void onCollisionStay();
+        void onCollisionStay(CircleCollider other);
 
         /** Called when the collision ends. */
-        void onCollisionExit();
+        void onCollisionExit(CircleCollider other);
     }
 
     private ArrayList<CollisionListener> listeners;
-    private boolean isColliding = false;
-    private boolean wasColliding = false;
+    private Set<CircleCollider> currentCollisions = new HashSet<>();
+    private Set<CircleCollider> previousCollisions = new HashSet<>();
 
     /**
      * Creates a new CircleCollider instance and initializes its listener list.
@@ -70,29 +73,42 @@ public class CircleCollider extends GameNode {
      * Marks this collider as currently colliding. This method is intended to be
      * called by an external collision detection system.
      */
-    public void notifyColliders() {
-        isColliding = true;
+    public void notifyColliders(CircleCollider c) {
+        currentCollisions.add(c);
     }
 
     /**
-     * Updates the collision state and notifies listeners about state changes.
-     * Triggers the appropriate callback on listeners based on whether a collision
-     * has started, is ongoing, or has ended.
+     * Updates collision state and notifies listeners of state changes.
      */
     public void updateCollisionState() {
-        for (CollisionListener listener : listeners) {
-            if (isColliding) {
-                if (!wasColliding) {
-                    listener.onCollisionEnter();
-                    wasColliding = true;
+        // Check for new collisions (Enter)
+        for (CircleCollider collider : currentCollisions) {
+            if (!previousCollisions.contains(collider)) {
+                for (CollisionListener listener : listeners) {
+                    listener.onCollisionEnter(collider);
                 }
-                listener.onCollisionStay();
-            } else if (wasColliding) {
-                listener.onCollisionExit();
-                wasColliding = false;
+            } else {
+                for (CollisionListener listener : listeners) {
+                    listener.onCollisionStay(collider);
+                }
             }
         }
-        isColliding = false;
+
+        // Check for ended collisions (Exit)
+        for (CircleCollider collider : previousCollisions) {
+            if (!currentCollisions.contains(collider)) {
+                for (CollisionListener listener : listeners) {
+                    listener.onCollisionExit(collider);
+                }
+            }
+        }
+
+        // Update previousCollisions for the next frame
+        previousCollisions.clear();
+        previousCollisions.addAll(currentCollisions);
+
+        // Clear currentCollisions for the next frame
+        currentCollisions.clear();
     }
 
     /**
