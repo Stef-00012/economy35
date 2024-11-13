@@ -11,7 +11,7 @@ public class BoostController extends GameNode {
     private int customerBoost = 0;
     private int previousHour = 0;
 
-    private Particle[] employeeBoostParticles = new Particle[25]; 
+    private Particle[] employeeBoostParticles = new Particle[24]; 
 
     private UpgradeRoom upgradeRoom;
 
