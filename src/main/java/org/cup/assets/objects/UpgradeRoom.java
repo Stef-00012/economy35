@@ -59,7 +59,7 @@ class UpgradeRoom extends Floor {
         buttonsPanel = new JPanel();
         GameButton unlockButton = new GameButton(
             "<html><center>" + "UNLOCK" + "<br>" + "(???)" + "</center></html>");
-        
+        buttonsPanel.add(unlockButton);
     }
 
     public JPanel getUI(){
