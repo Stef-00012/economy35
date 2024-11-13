@@ -42,16 +42,16 @@ public class StatsPanel extends JPanel {
         infoPanel.setLayout(new GridLayout(4, 1, 5, 5));
 
         balanceLabel = new GameLabel("BALANCE: " + 0);
-        balanceLabel.setIcon(scaleIcon(PathHelper.icons + "coin.png", 20, 20));
+        balanceLabel.setIcon(scaleIcon(PathHelper.icons + "money.png", 40, 40));
 
         inventoryLabel = new GameLabel("INVENTORY CAPACITY: " + 0 + "/?");
-        inventoryLabel.setIcon(scaleIcon(PathHelper.icons + "box.png", 20, 20));
+        inventoryLabel.setIcon(scaleIcon(PathHelper.icons + "box.png", 40, 40));
 
         productValueLabel = new GameLabel("PRODUCT VALUE: " + 1);
-        productValueLabel.setIcon(scaleIcon(PathHelper.icons + "diamond.png", 20, 20));
+        productValueLabel.setIcon(scaleIcon(PathHelper.icons + "market.png", 40, 40));
 
         taxLabel = new GameLabel("DAILY QUOTA: " + 1);
-        taxLabel.setIcon(scaleIcon(PathHelper.icons + "diamond.png", 20, 20));
+        taxLabel.setIcon(scaleIcon(PathHelper.icons + "tax.png", 40, 40));
 
         infoPanel.add(balanceLabel);
         infoPanel.add(inventoryLabel);
