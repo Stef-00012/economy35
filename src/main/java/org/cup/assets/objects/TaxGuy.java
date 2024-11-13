@@ -70,8 +70,6 @@ public class TaxGuy extends GameNode {
                 idleState();
 
                 new Thread(() -> {
-                    Debug.warn("NEW THREAD: TAX GUY");
-
                     takeTaxes();
                 }).start();
             }
@@ -108,8 +106,6 @@ public class TaxGuy extends GameNode {
         state = OUT;
         disable();
         MainScene.resumeDayNightCycle();
-        SoundManager.volume(MainScene.getMusic(), 1);
-        SoundManager.playClip(MainScene.getMusic());
     }
 
     private void takeTaxes() {

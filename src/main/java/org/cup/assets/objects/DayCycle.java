@@ -3,7 +3,6 @@ package org.cup.assets.objects;
 import java.awt.Color;
 import java.util.ArrayList;
 
-
 import org.cup.assets.PathHelper;
 import org.cup.assets.UI.GameLabel;
 import org.cup.assets.logic.Economy;
@@ -11,6 +10,7 @@ import org.cup.assets.scenes.MainScene;
 import org.cup.engine.Utils;
 import org.cup.engine.core.Debug;
 import org.cup.engine.core.managers.GameManager;
+import org.cup.engine.core.managers.sound.SoundManager;
 import org.cup.engine.core.nodes.GameNode;
 import org.cup.engine.core.nodes.components.Renderer;
 import org.cup.engine.core.nodes.components.defaults.Animation;
@@ -19,13 +19,14 @@ import org.cup.engine.core.nodes.components.defaults.Animator;
 public class DayCycle extends GameNode {
     public interface DayListener {
         void onDayEnd();
+
         void onDayResume();
     }
 
     private ArrayList<DayListener> listeners = new ArrayList<>();
 
     private double minutesInRealLife = 1; // One minute irl
-    private double minutesInGame = 10000; // One minute irl = 60 min in game (480 is usually ok)
+    private double minutesInGame = 480 * 5; // One minute irl = 60 min in game (480 is usually ok)
     private double timeInMinutesGame = 0; // Keeps track of in-game minutes
 
     // TaxTime music
@@ -38,13 +39,15 @@ public class DayCycle extends GameNode {
     private boolean taxGuyCutscene;
     private boolean isFirstDay;
 
+    private boolean isPlayingTaxMusic;
+
     public DayCycle() {
         transform.setScale(GameManager.game.getWindowDimentions());
 
-        timeInMinutesGame = 4000;
         isNight = false;
         taxGuyCutscene = false;
         isFirstDay = true;
+        isPlayingTaxMusic = false;
 
         // Animator
         String[] sprites = PathHelper.getFilePaths(PathHelper.sprites + "day-night-cycle\\");
@@ -98,6 +101,12 @@ public class DayCycle extends GameNode {
             isNight = false;
         }
 
+        if (!isPlayingTaxMusic && currentHour == 22) {
+            SoundManager.stopClip(MainScene.getMusic());
+
+            isPlayingTaxMusic = true;
+        }
+
         if (!taxGuyCutscene && currentHour == 0) {
             if (isFirstDay)
                 return;
@@ -112,7 +121,21 @@ public class DayCycle extends GameNode {
                 // Start cutscene
                 MainScene.taxText.enable();
                 MainScene.taxText.show();
-                
+
+                try {
+                    Thread.sleep(5000);
+                } catch (InterruptedException e) {
+                    Debug.err(e.getMessage());
+                }
+
+                SoundManager.setVolume(MainScene.getTaxesMusic(), 1);
+                SoundManager.playClip(MainScene.getTaxesMusic());
+
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    Debug.err(e.getMessage());
+                }
 
                 try {
                     Thread.sleep(5000);
@@ -130,6 +153,10 @@ public class DayCycle extends GameNode {
     public void exitCutscene() {
         timeInMinutesGame += 60;
         taxGuyCutscene = false;
+        isPlayingTaxMusic = false;
+        SoundManager.stopClip(MainScene.getTaxesMusic());
+        SoundManager.setVolume(MainScene.getMusic(), 1);
+        SoundManager.playClip(MainScene.getMusic());
         notifyDayResumeListeners();
     }
 

@@ -47,12 +47,10 @@ public class TaxText extends GameNode {
 
         disable();
     }
-//TODO add sound
     public void show(){
         transform.setPosition(leftPos);
         state = LEFT_STATE;
         SoundManager.playClip(taxAlarm);
-        SoundManager.stopClip(MainScene.getMusic());
         centerState();
     }
 
@@ -70,8 +68,6 @@ public class TaxText extends GameNode {
             if (state == CENTER_STATE) {
                 state = TMP;
                 new Thread(() -> {
-                    Debug.warn("NEW THREAD: TAXT TEXT");
-
                     try {
                         Thread.sleep(5000);
                     } catch (InterruptedException e) {
