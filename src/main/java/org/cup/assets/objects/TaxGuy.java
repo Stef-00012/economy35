@@ -108,6 +108,7 @@ public class TaxGuy extends GameNode {
         state = OUT;
         disable();
         MainScene.resumeDayNightCycle();
+        SoundManager.volume(MainScene.getMusic(), 1);
         SoundManager.playClip(MainScene.getMusic());
     }
 
