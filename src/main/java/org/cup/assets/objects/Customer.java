@@ -138,7 +138,6 @@ public class Customer extends GameNode {
         animator.setLayer(4);
         // transform.setPosition(transform.getPosition().subtract(Vector.DOWN.multiply(15)));
 
-        Economy.setBalance(Economy.getBalance() + Economy.getProductValue()); // update UI counters
         Building.get().getMarket().moveQueue(positionInQueue);
     }
 

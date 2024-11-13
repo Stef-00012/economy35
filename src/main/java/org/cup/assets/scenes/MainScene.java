@@ -3,6 +3,7 @@ package org.cup.assets.scenes;
 import org.cup.assets.PathHelper;
 import org.cup.assets.UI.StatsPanel;
 import org.cup.assets.logic.Economy;
+import org.cup.assets.managers.CollisionManager;
 import org.cup.assets.objects.Building;
 import org.cup.assets.objects.CustomerSpawner;
 import org.cup.assets.objects.DayCycle;
@@ -54,6 +55,7 @@ public class MainScene extends Scene {
 
         // Day-Night Cycle
         addChild(dayCycle);
+        addChild(new CollisionManager()); 
 
         addChild(building);
         building.addRoom();

@@ -103,6 +103,8 @@ public class Inventory extends Floor {
                 Debug.engineLogErr(e.getMessage());
             }
         }
+        Economy.setBalance(Economy.getBalance() + Economy.getProductValue() * n); // update UI counters
+
         buffer -= n; // Decrement the inventory buffer
         updateInventoryStatsUI(); // Update UI to reflect new inventory count
         notifyAll(); // Notify any waiting threads

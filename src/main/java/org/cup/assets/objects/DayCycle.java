@@ -17,6 +17,8 @@ import org.cup.engine.core.nodes.components.defaults.Animation;
 import org.cup.engine.core.nodes.components.defaults.Animator;
 
 public class DayCycle extends GameNode {
+    private static int currentHour;
+
     public interface DayListener {
         void onDayEnd();
 
@@ -82,7 +84,7 @@ public class DayCycle extends GameNode {
         timeInMinutesGame = timeInMinutesGame % (24 * 60);
 
         // Calculate the in-game hour
-        int currentHour = (int) (timeInMinutesGame / 60);
+        currentHour = (int) (timeInMinutesGame / 60);
 
         timeLabel.setText("Time: " + currentHour + "h");
 
@@ -112,10 +114,6 @@ public class DayCycle extends GameNode {
                 return;
             taxGuyCutscene = true;
             notifyDayEndListeners();
-
-            // Increase Taxes
-            double currentTax = Economy.getTax();
-            Economy.setTax(currentHour + Math.floor(currentTax / 2));
 
             new Thread(() -> {
                 // Start cutscene
@@ -174,6 +172,10 @@ public class DayCycle extends GameNode {
         for (int i = 0; i < listeners.size(); i++) {
             listeners.get(i).onDayResume();
         }
+    }
+
+    public int getCurrentHour(){
+        return currentHour;
     }
 
 }

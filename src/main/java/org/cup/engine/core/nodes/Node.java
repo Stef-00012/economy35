@@ -101,7 +101,7 @@ public abstract class Node {
     public void disable() {
         onDisable();
         for (int i = 0; i < childNodes.size(); i++) {
-            childNodes.get(i).onDisable();
+            childNodes.get(i).disable();
         }
         active = false;
     }

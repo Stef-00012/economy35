@@ -13,6 +13,7 @@ public class Building extends GameNode {
     private static Building instance;
 
     // Core building components
+    private UpgradeRoom upgradeRoom;
     private Inventory inventory;
     private Elevator elevator;
     private Market market;
@@ -30,13 +31,17 @@ public class Building extends GameNode {
         }
 
         instance = this;
+        upgradeRoom = new UpgradeRoom();
         inventory = new Inventory(3);
         elevator = new Elevator();
         market = new Market();
         floors = new ArrayList<>();
 
         floors.add(inventory);
-
+        floors.add(upgradeRoom);
+        addChild(upgradeRoom); // Adds the upgrade room as a child node
+        
+        
         floorUnderConstruction = new NewFloor(ROOM_WIDTH, ROOM_HEIGHT, 1);
         floors.add(floorUnderConstruction);
         addChild(floorUnderConstruction);
@@ -61,6 +66,7 @@ public class Building extends GameNode {
 
         // Sets the parent transform for inventory and market to match Building's
         // transform
+        upgradeRoom.transform.setParentTransform(transform);
         inventory.transform.setParentTransform(transform);
         market.transform.setParentTransform(transform);
     }
