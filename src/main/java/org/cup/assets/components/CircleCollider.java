@@ -120,4 +120,20 @@ public class CircleCollider extends GameNode {
     public double getRadius() {
         return transform.getScale().getX() / 2;
     }
+
+    public double getRightBound(){
+        return transform.getPosition().x + getRadius();
+    }
+
+    public double getLeftBound(){
+        return transform.getPosition().x - getRadius();
+    }
+
+    public double getTopBound(){
+        return transform.getPosition().y - getRadius();
+    }
+
+    public double getBottomBound(){
+        return transform.getPosition().y + getRadius();
+    }
 }

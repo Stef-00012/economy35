@@ -11,7 +11,7 @@ import java.awt.*;
  * Square that scales based on the sine function
  */
 public class Rectangle extends GameNode {
-    protected SquareRenderer sr; // The square renderer
+    public SquareRenderer sr; // The square renderer
 
     private int width;
     private int height;
