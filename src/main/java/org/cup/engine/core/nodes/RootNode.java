@@ -53,7 +53,7 @@ public class RootNode extends Node implements Runnable {
             _update();
         }).start();
 
-        new Timer(50, e -> {
+        new Timer(30, e -> {
             SwingUtilities.invokeLater(() -> graphicsManager.updateGraphics());
         }).start();
     }
