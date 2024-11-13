@@ -3,17 +3,14 @@ package org.cup.assets.objects;
 import java.awt.Color;
 import java.util.ArrayList;
 
-import javax.sound.sampled.Clip;
 
 import org.cup.assets.PathHelper;
 import org.cup.assets.UI.GameLabel;
 import org.cup.assets.logic.Economy;
-import org.cup.assets.objects.Elevator.ElevatorListener;
 import org.cup.assets.scenes.MainScene;
 import org.cup.engine.Utils;
 import org.cup.engine.core.Debug;
 import org.cup.engine.core.managers.GameManager;
-import org.cup.engine.core.managers.sound.SoundManager;
 import org.cup.engine.core.nodes.GameNode;
 import org.cup.engine.core.nodes.components.Renderer;
 import org.cup.engine.core.nodes.components.defaults.Animation;
@@ -32,7 +29,6 @@ public class DayCycle extends GameNode {
     private double timeInMinutesGame = 0; // Keeps track of in-game minutes
 
     // TaxTime music
-    private Clip taxAlarm = SoundManager.createClip(PathHelper.music + "TaxTime.wav", false, 0.5);
 
     Animator animator = new Animator(transform, -10);
 
@@ -45,7 +41,7 @@ public class DayCycle extends GameNode {
     public DayCycle() {
         transform.setScale(GameManager.game.getWindowDimentions());
 
-        timeInMinutesGame = 0;
+        timeInMinutesGame = 4000;
         isNight = false;
         taxGuyCutscene = false;
         isFirstDay = true;
@@ -116,7 +112,7 @@ public class DayCycle extends GameNode {
                 // Start cutscene
                 MainScene.taxText.enable();
                 MainScene.taxText.show();
-                SoundManager.playClip(taxAlarm);
+                
 
                 try {
                     Thread.sleep(5000);

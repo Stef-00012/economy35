@@ -36,7 +36,7 @@ public class MainScene extends Scene {
     
     private Rectangle floor;
 
-    private Clip mainTheme;
+    private static Clip mainTheme;
 
     public MainScene(){
         scrollableTransform = new Transform();
@@ -117,5 +117,9 @@ public class MainScene extends Scene {
 
     public static void resumeDayNightCycle(){
         dayCycle.exitCutscene();
+    }
+
+    public static Clip getMusic(){
+        return mainTheme;
     }
 }
