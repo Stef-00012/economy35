@@ -2,9 +2,14 @@ package org.cup.assets.objects;
 
 import org.cup.engine.core.Debug;
 import org.cup.engine.core.managers.GameManager;
+import org.cup.engine.core.managers.sound.SoundManager;
 import org.cup.engine.core.nodes.GameNode;
 import org.cup.engine.core.nodes.components.defaults.SpriteRenderer;
+
+import javax.sound.sampled.Clip;
+
 import org.cup.assets.PathHelper;
+import org.cup.assets.scenes.MainScene;
 import org.cup.engine.Vector;
 
 public class TaxText extends GameNode {
@@ -25,6 +30,8 @@ public class TaxText extends GameNode {
 
     private Vector targetPos;
 
+    private Clip taxAlarm = SoundManager.createClip(PathHelper.music + "TaxTime.wav", false, 1);
+
     public TaxText() {
         transform.setScale(new Vector(1280, 720).divide(2));
 
@@ -40,10 +47,10 @@ public class TaxText extends GameNode {
 
         disable();
     }
-
     public void show(){
         transform.setPosition(leftPos);
         state = LEFT_STATE;
+        SoundManager.playClip(taxAlarm);
         centerState();
     }
 
@@ -61,8 +68,6 @@ public class TaxText extends GameNode {
             if (state == CENTER_STATE) {
                 state = TMP;
                 new Thread(() -> {
-                    Debug.warn("NEW THREAD: TAXT TEXT");
-
                     try {
                         Thread.sleep(5000);
                     } catch (InterruptedException e) {

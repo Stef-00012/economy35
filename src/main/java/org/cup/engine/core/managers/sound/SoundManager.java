@@ -28,11 +28,19 @@ public class SoundManager {
             return null;
         }
 
+        setVolume(clip, volume);
+
         // Set loop if required
         if (loop) {
             clip.loop(Clip.LOOP_CONTINUOUSLY);
         }
 
+        clip.stop();
+
+        return clip;
+    }
+
+    public static void setVolume(Clip clip, double volume){
         // Set volume
         FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
         if (volume > 0 && volume <= 1) {
@@ -44,8 +52,6 @@ public class SoundManager {
         } else {
             gainControl.setValue(gainControl.getMinimum());
         }
-
-        return clip;
     }
 
     public static Clip createClip(String filePath) {
@@ -59,5 +65,18 @@ public class SoundManager {
     public static void playClip(Clip c) {
         c.setMicrosecondPosition(0);
         c.start();
+    }
+
+    public static void stopClip(Clip c){
+        new Thread(()-> {
+            for(float i = 1; i > 0; i -= 0.1){
+                try {
+                    setVolume(c, i);
+                    Thread.sleep(200);
+                } catch (InterruptedException e) {}
+            }
+            c.stop();
+
+        }).start();
     }
 }
