@@ -7,7 +7,6 @@ import javax.sound.sampled.Clip;
 
 import org.cup.assets.PathHelper;
 import org.cup.assets.UI.GameLabel;
-import org.cup.assets.objects.Elevator.ElevatorListener;
 import org.cup.assets.scenes.MainScene;
 import org.cup.engine.Utils;
 import org.cup.engine.core.Debug;
