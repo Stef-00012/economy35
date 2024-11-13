@@ -26,7 +26,7 @@ public class Particle extends GameNode {
         this.nextFrameVelocity = velocity;
         this.mass = mass;
 
-        sr = new SpriteRenderer(sprite, transform, 10);
+        sr = new SpriteRenderer(sprite, transform, 4);
         collider = new CircleCollider();
         collider.transform.setParentTransform(transform);
 

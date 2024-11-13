@@ -5,7 +5,6 @@ import java.util.Random;
 import org.cup.assets.PathHelper;
 import org.cup.assets.scenes.MainScene;
 import org.cup.engine.Vector;
-import org.cup.engine.core.managers.GameManager;
 import org.cup.engine.core.nodes.GameNode;
 
 public class BoostController extends GameNode {
