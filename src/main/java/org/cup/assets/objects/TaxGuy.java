@@ -1,11 +1,13 @@
 package org.cup.assets.objects;
 
+import org.cup.Main;
 import org.cup.assets.PathHelper;
 import org.cup.assets.logic.Economy;
 import org.cup.assets.scenes.MainScene;
 import org.cup.engine.Vector;
 import org.cup.engine.core.Debug;
 import org.cup.engine.core.managers.GameManager;
+import org.cup.engine.core.managers.sound.SoundManager;
 import org.cup.engine.core.nodes.GameNode;
 import org.cup.engine.core.nodes.components.Renderer;
 import org.cup.engine.core.nodes.components.defaults.Animation;
@@ -50,7 +52,7 @@ public class TaxGuy extends GameNode {
 
     public void show() {
         transform.setPosition(outPosition);
-
+        
         walkInState();
 
         if (transform.getScale().x < 0) {
