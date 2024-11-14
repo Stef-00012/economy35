@@ -1,2 +1,2 @@
-rootProject.name = "java-game"
+rootProject.name = "economy35"
 
