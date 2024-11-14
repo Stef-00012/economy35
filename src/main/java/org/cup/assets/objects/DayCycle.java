@@ -28,7 +28,7 @@ public class DayCycle extends GameNode {
     private ArrayList<DayListener> listeners = new ArrayList<>();
 
     private double minutesInRealLife = 1; // One minute irl
-    private double minutesInGame = 480 * 10; // One minute irl = 60 min in game (480 is usually ok)
+    private double minutesInGame = 480 * 2; // One minute irl = 60 min in game (480 is usually ok)
     private double timeInMinutesGame = 0; // Keeps track of in-game minutes
 
     // TaxTime music
