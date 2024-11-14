@@ -30,17 +30,19 @@ public class TutorialSlides extends GameNode implements KeyListener {
         }
     }
 
-    private String slidesPath = PathHelper.sprites + "\\tutorial\\";
+    private String slidesPath = PathHelper.sprites + "\\tutorial\\Slides-";
 
     private Slide[] slides = new Slide[] {
             new Slide(slidesPath + "1.png", "Welcome, new entrepreneur, to “economy 35”, your new company"),
             new Slide(slidesPath + "2.png", "Your goal here is to sell as much products as possible"),
             new Slide(slidesPath + "3.png", "With the money earned you'll be able to upgrade your company"),
-            new Slide(slidesPath + "4.png", "This will help you increase your income and make your company bigger"),
-            new Slide(slidesPath + "5.png", "Of course, you'll have to keep an eye on your company's stat"),
-            new Slide(slidesPath + "6.png", "I believe you'll be a great entrepreneur"),
-            new Slide(slidesPath + "7.png", "Oh, and remember to save some money for..."),
-            new Slide(slidesPath + "8.png", "TAXES… good luck")
+            new Slide(slidesPath + "4.png", "To do so, you can move the elevator by using arrow keys or W/S"),
+            new Slide(slidesPath + "4.png", "Each floor with have different upgrades, choose the appropriate one"),
+            new Slide(slidesPath + "5.png", "This will help you increase your income and make your company bigger"),
+            new Slide(slidesPath + "6.png", "Of course, you'll have to keep an eye on your company's stat"),
+            new Slide(slidesPath + "7.png", "I believe you'll be a great entrepreneur"),
+            new Slide(slidesPath + "8.png", "Oh, and remember to save some money for..."),
+            new Slide(slidesPath + "9.png", "TAXES... good luck")
     };
 
     private SpriteRenderer sr;
@@ -69,6 +71,8 @@ public class TutorialSlides extends GameNode implements KeyListener {
         sr = new SpriteRenderer(slides[0].image, transform, 1);
         sr.setPivot(Renderer.TOP_PIVOT);
         addChild(sr);
+
+        loadSlide(slides[0]);
 
         GameManager.game.addKeyListener(this);
     }
