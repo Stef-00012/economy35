@@ -33,7 +33,7 @@ public class TutorialSlides extends GameNode implements KeyListener {
     private String slidesPath = PathHelper.sprites + "\\tutorial\\Slides-";
 
     private Slide[] slides = new Slide[] {
-            new Slide(slidesPath + "1.png", "Welcome, new entrepreneur, to “economy 35”, your new company"),
+            new Slide(slidesPath + "1.png", "Welcome, new entrepreneur, to \"economy 35\", your new company"),
             new Slide(slidesPath + "2.png", "Your goal here is to sell as much products as possible"),
             new Slide(slidesPath + "3.png", "With the money earned you'll be able to upgrade your company"),
             new Slide(slidesPath + "4.png", "To do so, you can move the elevator by using arrow keys or W/S"),
