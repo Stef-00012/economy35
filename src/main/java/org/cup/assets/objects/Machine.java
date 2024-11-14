@@ -97,7 +97,6 @@ public class Machine extends GameNode {
      * @param level the level of the machine
      */
     private void addAnimations(int level){
-        Debug.log(level);
         String spritesFolder = PathHelper.sprites + "machine\\" + level + "\\";
 
         // Animation for failure (when resource creation fails)
