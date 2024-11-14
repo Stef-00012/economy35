@@ -1,5 +1,7 @@
 package org.cup.engine;
 
+import org.cup.engine.core.Debug;
+
 public final class Vector {
     public final double x;
     public final double y;
@@ -186,7 +188,8 @@ public final class Vector {
     public Vector normalize() {
         double length = this.len();
         if (length == 0) {
-            throw new IllegalArgumentException("Cannot normalize a zero vector.");
+            Debug.warn("CANNOT NORMALIZE A ZERO VECTOR");
+            return Vector.ZERO;
         }
         return new Vector(this.x / length, this.y / length);
     }

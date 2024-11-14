@@ -22,7 +22,9 @@ public class Market extends GameNode {
 
     private int[] productValues = {
         10, // Level 1
-        20  // Level 2
+        20, // Level 2
+        30, // Level 3
+        40, // Level 4
     };
 
     private int level;
@@ -92,7 +94,7 @@ public class Market extends GameNode {
     }
 
     public void playSellAnimation() {
-        animator.play("sell-" + level);
+        animator.play("sell-" + (level >= 2 ? 1 : 0));
         SoundManager.playClip(cashOut);
     }
 

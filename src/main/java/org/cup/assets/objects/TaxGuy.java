@@ -121,7 +121,9 @@ public class TaxGuy extends GameNode {
                 Thread.sleep(1000);
                 walkOutState();
             } else {
-                // Failed to pay taxes
+                addChild(new GameOverText());
+                Thread.sleep(20000);
+                System.exit(0);
             }
         } catch (InterruptedException e) {
             Debug.err(e.getMessage());

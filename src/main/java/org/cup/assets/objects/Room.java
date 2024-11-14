@@ -226,6 +226,7 @@ public class Room extends Floor implements ElevatorListener {
     private void hireEmployee() {
         if (Economy.getBalance() >= newEmployeeCost) {
             addEmployee();
+            Economy.spendMoney(newEmployeeCost);
             if (nEmployees >= 3) {
                 hireEmployeeBtn.setText("<html><center>MAX EMPLOYEES REACHED</center></html>");
             }
