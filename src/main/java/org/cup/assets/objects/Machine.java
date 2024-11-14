@@ -4,6 +4,7 @@ import org.cup.assets.PathHelper;
 import org.cup.assets.UI.GameLabel;
 import org.cup.assets.logic.Economy;
 import org.cup.engine.Vector;
+import org.cup.engine.core.Debug;
 import org.cup.engine.core.managers.GameManager;
 import org.cup.engine.core.managers.sound.SoundManager;
 import org.cup.engine.core.nodes.GameNode;
@@ -12,7 +13,6 @@ import org.cup.engine.core.nodes.components.defaults.Animation;
 import org.cup.engine.core.nodes.components.defaults.Animator;
 
 import java.awt.Color;
-import java.awt.Rectangle;
 import java.util.HashMap;
 import java.util.Random;
 
@@ -75,8 +75,6 @@ public class Machine extends GameNode {
         addChild(animator);
         animator.setPivot(Renderer.BOTTOM_LEFT_PIVOT);
 
-        addAnimationsToAnimator();
-
         transform.setScale(new Vector(150));
         transform.setPosition(new Vector(0, -5));
 
@@ -84,29 +82,46 @@ public class Machine extends GameNode {
         updateLabelBounds();
         statsLabel.setFontSize(8);
         statsLabel.setForeground(Color.WHITE);
+
+        addAnimationsToAnimator();
     }
 
     private void addAnimationsToAnimator() {
-        String spritesFolder = PathHelper.sprites + "machine\\1\\";
+        for(int i = 1; i <= 6; i++){
+            addAnimations(i);
+        }
+    }
+
+    /**
+     * Adds animations for a specific machine level
+     * @param level the level of the machine
+     */
+    private void addAnimations(int level){
+        Debug.log(level);
+        String spritesFolder = PathHelper.sprites + "machine\\" + level + "\\";
 
         // Animation for failure (when resource creation fails)
         Animation failAnimation = new Animation(PathHelper.getFilePaths(spritesFolder + "fail"), false);
         failAnimation.addLastFrameListener(() -> {
-            animator.play("loading"); // Transition to loading animation after failure
+            playAnimation("loading"); // Transition to loading animation after failure
         });
 
         // Animation for successful resource creation
         Animation packageOutAnimation = new Animation(PathHelper.getFilePaths(spritesFolder + "success\\package-out"),
                 false);
         packageOutAnimation.addLastFrameListener(() -> {
-            animator.play("success-idle"); // Transition to idle after package-out animation
+            playAnimation("success-idle"); // Transition to idle after package-out animation
         });
 
         // Add animations to the animator
-        animator.addAnimation("fail", failAnimation);
-        animator.addAnimation("loading", new Animation(PathHelper.getFilePaths(spritesFolder + "loading")));
-        animator.addAnimation("success-package-out", packageOutAnimation);
-        animator.addAnimation("success-idle", new Animation(PathHelper.getFilePaths(spritesFolder + "success\\idle")));
+        animator.addAnimation("fail-" + level, failAnimation);
+        animator.addAnimation("loading-" + level, new Animation(PathHelper.getFilePaths(spritesFolder + "loading")));
+        animator.addAnimation("success-package-out-" + level, packageOutAnimation);
+        animator.addAnimation("success-idle-" + level, new Animation(PathHelper.getFilePaths(spritesFolder + "success\\idle")));
+    }
+
+    private void playAnimation(String animation){
+        animator.play(animation + "-" + currentLevel);
     }
 
     @Override
@@ -127,12 +142,12 @@ public class Machine extends GameNode {
     }
 
     public void error() {
-        animator.play("fail");
+        playAnimation("fail");
         SoundManager.playClip(errorSfx);
     }
 
     public void success() {
-        animator.play("success-package-out");
+        playAnimation("success-package-out");
         hasProducedResource = true;
         SoundManager.playClip(successSfx);
     }
@@ -166,7 +181,7 @@ public class Machine extends GameNode {
      * loading state
      */
     public void takeResource() {
-        animator.play("loading");
+        playAnimation("loading");
         hasProducedResource = false;
         lastAttempt = System.currentTimeMillis(); // Reset the last attempt time
     }
