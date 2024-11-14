@@ -5,7 +5,6 @@ import java.util.ArrayList;
 
 import org.cup.assets.PathHelper;
 import org.cup.assets.UI.GameLabel;
-import org.cup.assets.logic.Economy;
 import org.cup.assets.scenes.MainScene;
 import org.cup.engine.Utils;
 import org.cup.engine.core.Debug;

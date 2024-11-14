@@ -84,6 +84,7 @@ public class TaxText extends GameNode {
         targetPos = centerPos;
     }
 
+    @SuppressWarnings("unused")
     private void leftState() {
         state = LEFT_STATE;
         targetPos = leftPos;
