@@ -4,6 +4,8 @@
 
 It was developed in Java without using any external libraries beyond those integrated into the language.
 
+You can download the game here: https://cupflow-studios.itch.io/economy35
+
 ## Game Description
 
 The game features a strategic gameplay loop with the following elements:
