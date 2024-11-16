@@ -96,4 +96,17 @@ For more details, consult the Javadoc documentation or the [engine-docs.md](./en
 
 ## Contributions
 
-**Development Team:** This project was created as a team-based school exercise. For inquiries or contributions, feel free to open an issue or contact the developers via the repository or Discord server. Refer to the license for guidelines on modifying the game.
+**Development Team:** This project was created as a team-based school exercise. For inquiries or contributions, feel free to open an issue or contact the developers via the repository or [Discord server](https://discord.gg/y65xHCFWE8). Refer to the license for guidelines on modifying the game. Thanks to [SO_Snake](https://www.youtube.com/@SO_Snake) for providing music for this game.
+
+## Licensing
+
+This repository is licensed under multiple licenses:
+- **Code**: GNU General Public License v3 (see [LICENSE.md](LICENSE.md)).
+- **Art Assets**: Creative Commons Attribution-ShareAlike 4.0 (see [art-license.md](src\main\java\org\cup\assets\sprites\art-license.md)).
+- **Sound and Music**: Third-party assets with separate licenses (see [audio-license.md](src\main\java\org\cup\assets\audio\audio-license.md)).
+
+### Summary of License Terms
+1. You can modify and redistribute the code, provided you release it under GPL v3.
+2. You can use, adapt, and redistribute the art assets, provided you give credit and use the same CC BY-SA 4.0 license.
+3. Sound and music files may have additional restrictions. Please refer to [audio-license.md](src\main\java\org\cup\assets\audio\audio-license.md).
+---
